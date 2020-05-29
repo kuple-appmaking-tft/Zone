@@ -15,3 +15,4 @@ public class CommonboardActivity extends AppCompatActivity {
     }
 }
 /////////테스트
+///없어져야할것
