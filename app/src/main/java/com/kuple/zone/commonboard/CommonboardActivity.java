@@ -14,5 +14,3 @@ public class CommonboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_commonboard);
     }
 }
-/////////테스트
-///없어져야할것
