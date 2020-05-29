@@ -14,4 +14,7 @@ public class CommonboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_commonboard);
     }
 }
-//////////
+//////////////
+///////////////
+///////////////
+////////////
