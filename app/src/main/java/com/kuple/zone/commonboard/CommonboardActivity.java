@@ -15,3 +15,4 @@ public class CommonboardActivity extends AppCompatActivity {
     }
 }
 //양성열
+/////////
