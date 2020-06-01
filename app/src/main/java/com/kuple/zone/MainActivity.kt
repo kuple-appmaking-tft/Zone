@@ -13,13 +13,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         when (p0.itemId) {
             R.id.action_home -> {
                 var detailViewFragment = DetailViewFragment()
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_content, detailViewFragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, detailViewFragment)
+                        .commit()
                 return true
             }
             R.id.action_board -> {
-                var gridFragment = GridFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, gridFragment)
+                var boardFragment = BoardFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, boardFragment)
                         .commit()
                 return true
             }
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         .commit()
                 return true
             }
-            R.id.action_favorite_alarm -> {
+            R.id.action_alarm -> {
                 var alarmFragment = AlarmFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, alarmFragment)
                         .commit()
