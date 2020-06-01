@@ -1,4 +1,4 @@
-package com.kuple.zone.photoboard;
+package com.kuple.zone.board;
 
 import androidx.appcompat.app.AppCompatActivity;
 

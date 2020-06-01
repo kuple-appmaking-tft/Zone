@@ -52,7 +52,8 @@
             android:text="신규 회원가입"
             android:id="@+id/textViewSignin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"/>
 
         <TextView
             android:text="비밀번호가 기억나지 않습니까?"
@@ -60,7 +61,9 @@
             android:layout_marginLeft="16dp"
             android:id="@+id/textViewFindpassword"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite" />
+            android:background="@color/colorWhite" />
 
     </LinearLayout>
 

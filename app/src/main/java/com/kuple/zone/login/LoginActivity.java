@@ -10,9 +10,7 @@ import android.widget.Button;
 import com.kuple.zone.MainActivity;
 import com.kuple.zone.R;
 
-
 public class LoginActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +21,5 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         });
-
     }
 }
