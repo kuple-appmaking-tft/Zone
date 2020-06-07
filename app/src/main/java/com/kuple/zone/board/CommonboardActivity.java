@@ -1,4 +1,4 @@
-package com.kuple.zone.commonboard;
+package com.kuple.zone.board;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -1,4 +1,4 @@
-package com.kuple.zone;
+package com.kuple.zone.navigation;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -16,10 +16,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.kuple.zone.R;
 import com.kuple.zone.login.LoginActivity;
 
-public class MypageActivity extends AppCompatActivity implements View.OnClickListener{
-    private static final String TAG = "MypageActivity";
+public class UserFragment extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "UserFragment";
 
     //firebase auth object
     private FirebaseAuth firebaseAuth;
@@ -34,7 +35,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mypage);
+        setContentView(R.layout.fragment_user);
 
         initializeViewGroup();
 
@@ -76,7 +77,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
         }
         //회원탈퇴를 클릭하면 회원정보를 삭제한다. 삭제전에 컨펌창을 하나 띄워야 겠다.
         if(view == textivewDelete) {
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MypageActivity.this);
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(UserFragment.this);
             alert_confirm.setMessage("정말 계정을 삭제 할까요?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -85,7 +86,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(MypageActivity.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(UserFragment.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
                                             finish();
                                             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                         }
@@ -96,7 +97,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
             alert_confirm.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Toast.makeText(MypageActivity.this, "취소", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserFragment.this, "취소", Toast.LENGTH_LONG).show();
                 }
             });
             alert_confirm.show();
