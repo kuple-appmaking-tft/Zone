@@ -6,7 +6,5 @@ public class UserModel {
     public String userPassword;
     public String phoneNumber;
     public String nickname;
-    public String created_at;
-    public String updated_at;
 }
 

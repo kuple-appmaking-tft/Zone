@@ -28,5 +28,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PhotoboardActivity.class));
             }
         });
+
+        findViewById(R.id.main_mypage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MypageActivity.class));
+            }
+        });
     }
 }

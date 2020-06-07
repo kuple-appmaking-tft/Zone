@@ -23,4 +23,16 @@
         android:text="일반게시판"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_PhotoBoard" />
+
+    <Button
+        android:id="@+id/main_mypage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="마이페이지"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_CommonBoard" />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
