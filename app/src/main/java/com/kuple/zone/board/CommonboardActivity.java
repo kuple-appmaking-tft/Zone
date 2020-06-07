@@ -1,4 +1,4 @@
-package com.kuple.zone.board;
+package com.kuple.zone.commonboard;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,4 +14,3 @@ public class CommonboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_commonboard);
     }
 }
-//park

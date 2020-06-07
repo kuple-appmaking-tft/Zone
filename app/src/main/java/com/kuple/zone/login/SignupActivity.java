@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +14,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kuple.zone.MainActivity;
-import com.kuple.zone.login.LogoutActivity;
 import com.kuple.zone.R;
 import com.kuple.zone.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "SignupActivity";
     // Views
     EditText editTextEmail;
     EditText editTextPassword;
@@ -37,6 +44,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     // Firebase 정의
     FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser ;
+    FirebaseFirestore firebaseStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +54,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         //initializig firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseStore = FirebaseFirestore.getInstance();
+
 
         if(firebaseAuth.getCurrentUser() != null){
             //이미 로그인 되었다면 이 액티비티를 종료함
             finish();
             //그리고 profile 액티비티를 연다.
-            startActivity(new Intent(getApplicationContext(), LogoutActivity.class)); //추가해 줄 ProfileActivity
+            startActivity(new Intent(getApplicationContext(), MainActivity.class)); //추가해 줄 ProfileActivity
         }
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -93,34 +104,66 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
-        //email과 password가 제대로 입력되어 있다면 계속 진행된다.
-        progressDialog.setMessage("등록중입니다. 기다려 주세요...");
-        progressDialog.show();
+        signupFunc(email, password);
 
+
+    }
+
+    public void signupFunc(String email, String password){
         //creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        UserModel userModel = new UserModel();
-                        userModel.userEmail = editTextEmail.getText().toString().trim();
-                        userModel.userPassword = editTextPassword.getText().toString().trim();
-                        userModel.phoneNumber = editTextPhone.getText().toString().trim();
-                        userModel.nickname = editTextNickname.getText().toString().trim();
-
-                        String uid = task.getResult().getUser().getUid();
-                        FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel);
-
                         if(task.isSuccessful()){
+                            UserModel userModel = new UserModel();
+                            userModel.userEmail = editTextEmail.getText().toString();
+                            userModel.userPassword = editTextPassword.getText().toString();
+                            userModel.phoneNumber = editTextPhone.getText().toString();
+                            userModel.nickname = editTextNickname.getText().toString();
+
+                            firebaseStore.collection("users")
+                                    .add(userModel)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error adding document", e);
+                                        }
+                                    });
+                            // 이메일 인증 확인 메일을 전송합니다.
+                            sendEmail();
 
                             finish();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), EmailCheckActivity.class));
+
                         } else {
                             //에러발생시
                             textviewMessage.setText("회원가입에 실패했습니다. \n\n - 이미 등록된 이메일  \n - 암호 최소 6자리 이상");
                             Toast.makeText(SignupActivity.this, "등록 에러!", Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
+                    }
+                });
+    }
+
+    public void sendEmail(){
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        firebaseUser.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignupActivity.this, "이메일 인증 메일을 전송했습니다. \n가입한 이메일에서 확인해주세요!", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(SignupActivity.this, "인증 메일 전송에 실패했습니다. \n쿠플존에 문의해주세요!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }

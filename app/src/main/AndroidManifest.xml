@@ -9,15 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".login.EmailCheckActivity"></activity>
+        <activity android:name=".MypageActivity" />
+        <activity android:name=".photoboard.PhotoboardActivity" />
+        <activity android:name=".commonboard.CommonboardActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".board.PhotoboardActivity" />
-        <activity android:name=".board.CommonboardActivity" />
+        <activity android:name=".login.FindActivity" />
         <activity android:name=".login.SignupActivity" />
-        <activity android:name=".login.LogoutActivity" />
-        <activity android:name=".login.FindActivity"/>
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
