@@ -16,7 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kuple.zone.MainActivity;
-import com.kuple.zone.MypageActivity;
+import com.kuple.zone.navigation.UserFragment;
 import com.kuple.zone.R;
 
 public class EmailCheckActivity extends AppCompatActivity implements View.OnClickListener{

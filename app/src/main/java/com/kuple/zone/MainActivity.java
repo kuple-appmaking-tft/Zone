@@ -1,39 +1,68 @@
 package com.kuple.zone;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.view.MenuItem;
 import android.view.View;
 
-import com.kuple.zone.commonboard.CommonboardActivity;
-import com.kuple.zone.photoboard.PhotoboardActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.auth.User;
+import com.kuple.zone.navigation.*;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FragmentManager fragmentManager;
+    private BoardFragment fragmentBoard;
+    private AlarmFragment fragmentAlarm;
+    private DetailViewFragment fragmentHome;
+    private TimetableFragment fragmentTimetable;
+    private UserFragment fragmentUser;
+    private FragmentTransaction transaction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.main_CommonBoard).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CommonboardActivity.class));
-            }
-        });
-        findViewById(R.id.main_PhotoBoard).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, PhotoboardActivity.class));
-            }
-        });
+        fragmentManager = getSupportFragmentManager();
 
-        findViewById(R.id.main_mypage).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MypageActivity.class));
-            }
-        });
+        fragmentBoard = new BoardFragment();
+        fragmentAlarm = new AlarmFragment();
+        fragmentHome = new DetailViewFragment();
+        fragmentUser = new UserFragment();
+        fragmentTimetable = new TimetableFragment();
+
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_content, fragmentHome).commitAllowingStateLoss();
+    }
+
+    public void clickHandler(View view) {
+        transaction = fragmentManager.beginTransaction();
+
+        switch (view.getId()) {
+            case R.id.action_home:
+                transaction.replace(R.id.main_content, fragmentHome).commitAllowingStateLoss();
+                break;
+            case R.id.action_board:
+                transaction.replace(R.id.main_content, fragmentBoard).commitAllowingStateLoss();
+                break;
+            case R.id.action_alarm:
+                transaction.replace(R.id.main_content, fragmentAlarm).commitAllowingStateLoss();
+                break;
+            case R.id.action_account:
+                transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
+                break;
+            case R.id.action_timetable:
+                transaction.replace(R.id.main_content, fragmentTimetable).commitAllowingStateLoss();
+                break;
+        }
     }
 }
