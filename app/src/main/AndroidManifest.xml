@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".login.EmailCheckActivity"></activity>
-        <activity android:name=".MypageActivity" />
-        <activity android:name=".photoboard.PhotoboardActivity" />
-        <activity android:name=".commonboard.CommonboardActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login.FindActivity" />
         <activity android:name=".login.SignupActivity" />

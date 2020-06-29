@@ -18,50 +18,61 @@ import com.google.firebase.firestore.auth.User;
 import com.kuple.zone.navigation.*;
 
 public class MainActivity extends AppCompatActivity {
-    // FrameLayout에 각 메뉴의 Fragment를 바꿔 줌
-    private FragmentManager fragmentManager = getSupportFragmentManager();
-    // 4개의 메뉴에 들어갈 Fragment들
-    private DetailViewFragment menu1Fragment = new DetailViewFragment();
-    private BoardFragment menu2Fragment = new BoardFragment();
-    private TimetableFragment menu3Fragment = new TimetableFragment();
-    private AlarmFragment menu4Fragment = new AlarmFragment();
+
+    private FragmentManager fragmentManager;
+    private BoardFragment fragmentBoard;
+    private AlarmFragment fragmentAlarm;
+    private DetailViewFragment fragmentHome;
+    private TimetableFragment fragmentTimetable;
+    private UserFragment fragmentUser;
+    private FragmentTransaction transaction;
+    private BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        // 첫 화면 지정
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_content, menu1Fragment).commitAllowingStateLoss();
+        fragmentManager = getSupportFragmentManager();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        fragmentBoard = new BoardFragment();
+        fragmentAlarm = new AlarmFragment();
+        fragmentHome = new DetailViewFragment();
+        fragmentUser = new UserFragment();
+        fragmentTimetable = new TimetableFragment();
 
-        // bottomNavigationView의 아이템이 선택될 때 호출될 리스너 등록
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_content, fragmentHome).commitAllowingStateLoss();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                switch (item.getItemId()) {
-                    case R.id.action_home: {
-                        transaction.replace(R.id.main_content, menu1Fragment).commitAllowingStateLoss();
-                        break;
-                    }
-                    case R.id.action_board: {
-                        transaction.replace(R.id.main_content, menu2Fragment).commitAllowingStateLoss();
-                        break;
-                    }
-                    case R.id.action_timetable: {
-                        transaction.replace(R.id.main_content, menu3Fragment).commitAllowingStateLoss();
-                        break;
-                    }
-                    case R.id.action_alarm: {
-                        transaction.replace(R.id.main_content, menu4Fragment).commitAllowingStateLoss();
-                        break;
-                    }
-                }
-
+                clickHandler(item.getItemId());
                 return true;
             }
         });
+
+    }
+
+    public void clickHandler(int num) {
+        transaction = fragmentManager.beginTransaction();
+
+        switch (num) {
+            case R.id.action_home:
+                transaction.replace(R.id.main_content, fragmentHome).commitAllowingStateLoss();
+                break;
+            case R.id.action_board:
+                transaction.replace(R.id.main_content, fragmentBoard).commitAllowingStateLoss();
+                break;
+            case R.id.action_alarm:
+                transaction.replace(R.id.main_content, fragmentAlarm).commitAllowingStateLoss();
+                break;
+            case R.id.action_account:
+                transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
+                break;
+            case R.id.action_timetable:
+                transaction.replace(R.id.main_content, fragmentTimetable).commitAllowingStateLoss();
+                break;
+        }
     }
 }
