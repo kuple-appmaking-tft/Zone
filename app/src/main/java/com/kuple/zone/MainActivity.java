@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.main_content, fragmentAlarm).commitAllowingStateLoss();
                 break;
             case R.id.action_account:
-                transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
+               // transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
                 break;
             case R.id.action_timetable:
                 transaction.replace(R.id.main_content, fragmentTimetable).commitAllowingStateLoss();
