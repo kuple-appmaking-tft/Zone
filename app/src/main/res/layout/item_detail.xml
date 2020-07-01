@@ -14,7 +14,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_margin="7.5dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/User" />
 
         <TextView
                 android:id="@+id/detailviewitem_profile_textview"
@@ -39,13 +39,13 @@
                 android:id="@+id/detailviewitem_favorite_imageview"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_favorite_border" />
+                android:src="@drawable/Like" />
 
         <ImageView
                 android:id="@+id/detailviewitem_comment_imageview"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_chat_black" />
+                android:src="@drawable/Share" />
     </LinearLayout>
 
     <TextView
@@ -55,12 +55,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="like 0" />
+
     <TextView
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:id="@+id/detailviewitem_explain_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Explain content" />
+        android:id="@+id/detailviewitem_explain_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Explain content" />
 
 </LinearLayout>
