@@ -14,7 +14,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_margin="7.5dp"
-                android:src="@drawable/User" />
+                android:src="@drawable/user" />
 
         <TextView
                 android:id="@+id/detailviewitem_profile_textview"
@@ -39,13 +39,13 @@
                 android:id="@+id/detailviewitem_favorite_imageview"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/Like" />
+                android:src="@drawable/circle_like" />
 
         <ImageView
                 android:id="@+id/detailviewitem_comment_imageview"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/Share" />
+                android:src="@drawable/circle_star" />
     </LinearLayout>
 
     <TextView
