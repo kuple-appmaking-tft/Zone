@@ -18,7 +18,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/kuple" />
+                android:src="@drawable/common_google_signin_btn_icon_dark" />
         </com.google.android.material.circularreveal.CircularRevealRelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
