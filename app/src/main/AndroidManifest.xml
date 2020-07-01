@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kuple.zone">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -9,10 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login.EmailCheckActivity"></activity>
+        <activity android:name=".board.WriteActivity"></activity>
+        <activity android:name=".login.EmailCheckActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login.FindActivity" />
         <activity android:name=".login.SignupActivity" />
+        <activity android:name=".board.CommonboardActivity" />
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

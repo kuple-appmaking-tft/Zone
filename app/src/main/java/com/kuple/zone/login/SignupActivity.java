@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 import com.kuple.zone.MainActivity;
 import com.kuple.zone.R;
 import com.kuple.zone.model.UserModel;
@@ -122,23 +123,32 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                             userModel.phoneNumber = editTextPhone.getText().toString();
                             userModel.nickname = editTextNickname.getText().toString();
 
-                            firebaseStore.collection("users")
-                                    .add(userModel)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error adding document", e);
-                                        }
-                                    });
+
+//                            firebaseStore.collection("users")
+//                                    .add(userModel)
+//                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                        @Override
+//                                        public void onSuccess(DocumentReference documentReference) {
+//                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                                        }
+//                                    })
+//                                    .addOnFailureListener(new OnFailureListener() {
+//                                        @Override
+//                                        public void onFailure(@NonNull Exception e) {
+//                                            Log.w(TAG, "Error adding document", e);
+//                                        }
+//                                    });
+//
+                            firebaseStore.collection("users").document(userModel.userEmail)
+                                    .set(userModel).
+                                    addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(getApplicationContext(),"로그인성공",Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             // 이메일 인증 확인 메일을 전송합니다.
                             sendEmail();
-
                             finish();
                             startActivity(new Intent(getApplicationContext(), EmailCheckActivity.class));
 

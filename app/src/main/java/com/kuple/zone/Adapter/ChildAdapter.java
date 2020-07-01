@@ -25,6 +25,13 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
         this.mChildList=mTitleList;
         this.mContext=mContext;
     }
+    public interface OnItemClickListener{
+        void onitemClick(View v,int pos);
+    }
+    private static OnItemClickListener mListener=null;
+    public void setOnIemlClickListner(ChildAdapter.OnItemClickListener listner){
+        mListener=listner;
+    }
 
     @NonNull
     @Override
@@ -42,6 +49,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
                 Toast.makeText(mContext,"구독하기",Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
@@ -56,6 +64,20 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
             super(itemView);
             textView=itemView.findViewById(R.id.child_title);
             imageView=itemView.findViewById(R.id.child_image);
+
+            itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
+                @Override
+                public void onClick(View v) {//들어가는 기능 detail로
+                    int pos=getAdapterPosition();
+                    if(pos!=RecyclerView.NO_POSITION){
+                        if(mListener!=null){
+                            mListener.onitemClick(v,pos);
+                        }
+                    }
+                }
+            });
+
         }
+
     }
 }

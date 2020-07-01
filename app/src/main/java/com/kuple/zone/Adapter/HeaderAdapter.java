@@ -1,6 +1,8 @@
 package com.kuple.zone.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kuple.zone.R;
+import com.kuple.zone.board.CommonboardActivity;
 import com.kuple.zone.model.HeaderModel;
 
 import java.util.ArrayList;
@@ -23,10 +26,11 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
 
     private List<String> mTitleList;
     private Context mContext;
-
-    public HeaderAdapter(List<String> mTitleList, Context mContext) {
+    private Activity mActivity;
+    public HeaderAdapter(List<String> mTitleList, Context mContext, Activity mActivity) {
         this.mTitleList = mTitleList;
         this.mContext = mContext;
+        this.mActivity=mActivity;
     }
 
     @NonNull
@@ -43,16 +47,25 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 switch (position) {
                     case 0:
-                        List<String> list0=new ArrayList<>();
+                        final List<String> list0=new ArrayList<>();
                         if(holder.flag==0){
                             list0.add("쿠플광장");
                             list0.add("고민상담");
                             list0.add("쑥덕쑥덕");
                             list0.add("졸업생 게시판");
-                            holder.recyclerView.setAdapter(new ChildAdapter(list0,mContext));
+                            ChildAdapter childAdapter0=new ChildAdapter(list0,mContext);
+                            childAdapter0.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
+                                @Override
+                                public void onitemClick(View v, int pos) {
+                                    Intent intent=new Intent(mActivity, CommonboardActivity.class);
+                                    intent.putExtra("BoardName",list0.get(pos));
+                                    mActivity.startActivity(intent);
+                                }
+                            });
+                            holder.recyclerView.setAdapter(childAdapter0);
+
                             holder.imageView.setImageResource(R.drawable.minusarrow);
                             holder.flag=1;
                         }else{
@@ -115,6 +128,8 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                 }
             }
         });
+
+
     }
 
     @Override
@@ -133,6 +148,8 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
             recyclerView = itemView.findViewById(R.id.header_recyclerview);
             textView = itemView.findViewById(R.id.header_title);
             imageView = itemView.findViewById(R.id.header_btn_expand_toggle);
+
+
 
         }
     }

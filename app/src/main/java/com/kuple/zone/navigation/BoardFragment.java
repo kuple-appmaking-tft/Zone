@@ -18,6 +18,7 @@ import java.util.List;
 public class BoardFragment extends Fragment {
     private RecyclerView recyclerview;
 
+
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_board, container, false);
 
@@ -29,8 +30,8 @@ public class BoardFragment extends Fragment {
         data.add("학업정보");
         data.add("생활정보");
         data.add("교내단체게시판");
-
-        recyclerview.setAdapter(new HeaderAdapter(data,getContext()));
+        HeaderAdapter headerAdapter=new HeaderAdapter(data,getContext(),getActivity());
+        recyclerview.setAdapter(headerAdapter);
 
 
 //

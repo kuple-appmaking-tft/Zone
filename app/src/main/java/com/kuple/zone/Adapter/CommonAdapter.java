@@ -1,0 +1,177 @@
+package com.kuple.zone.Adapter;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Base64;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.kuple.zone.Inteface.OnItemClick;
+import com.kuple.zone.R;
+import com.kuple.zone.model.BoardInfo;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.kuple.zone.model.SliderItem;
+import com.kuple.zone.model.UserModel;
+import com.smarteist.autoimageslider.SliderView;
+
+import java.net.URI;
+import java.net.URL;
+import java.util.Date;
+import java.util.List;
+
+public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewHolder> {
+    private List<BoardInfo> mBoardInfo;
+    private Context mContext;
+    private FirebaseUser mFirebaseUser;//현재 사용중인 앱의 주인의 정보 .getCurrent 까지 된정보
+    private OnItemClick mCallback;
+    private int count = 0;
+    private SliderAdapterExample mSliderAdapterExample;
+
+
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+
+
+    public CommonAdapter(List<BoardInfo> mBoardInfo, Context mContext, FirebaseUser mFirebaseUser, OnItemClick listener) {
+        this.mBoardInfo = mBoardInfo;
+        this.mContext = mContext;
+        this.mFirebaseUser = mFirebaseUser;
+        this.mCallback = listener;
+        mSliderAdapterExample = new SliderAdapterExample(mContext);
+    }
+
+
+    ///////////////////////////클릭리스너
+    public interface OnItemClickListener {
+        void onitemClick(View v, int pos);
+    }
+
+    private OnItemClickListener mListener = null;
+
+    public void setOnIemlClickListner(OnItemClickListener listner) {
+        this.mListener = listner;
+    }
+    ////////////////////////////////
+
+
+    @NonNull
+    @Override
+    public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new BoardViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_commonbaord, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final BoardViewHolder holder, final int position) {
+
+        final BoardInfo boardInfo = mBoardInfo.get(position);
+        holder.mTitleTextView.setText(boardInfo.getTitle());
+        //댓글수 가져오기
+        String replycount=String.valueOf(boardInfo.getReplycount())+"\n"+"댓글";
+        holder.mReplycount.setText(replycount);
+        //올린시간 가져오기
+        String date = boardInfo.getDate().toString();
+        String date1 = date.substring(11, 16);
+        String date2=date.substring(11,13);//시간부분
+        final String finaldate=date1;
+        String dateTime2 = new Date().toString();
+        String dateTime = dateTime2.substring(4, 10);
+        Log.d("date1", dateTime);
+        //n표시
+        if (date.substring(4, 10).equals(dateTime)) {
+            //holder.mN.setVisibility(View.VISIBLE);
+        }
+        //작성자
+        String writer = boardInfo.getUid();
+        mStore.collection("users").document(writer).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                UserModel fm = documentSnapshot.toObject(UserModel.class);
+                assert fm != null;
+                try {
+                    holder.mSubinfo.setText(fm.nickname+" "+finaldate+" "+boardInfo.getViewcount());
+                    //holder.mSubinfo.setText("테스트");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        //이미지그려주기
+        Glide.with(holder.imageView).load(boardInfo.getmDownloadURIList().get(0)).into(holder.imageView);
+
+
+
+
+    }
+    public static Bitmap StringToBitmap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+}
+
+    @Override
+    public int getItemCount() {
+        return mBoardInfo.size();
+    }
+
+    class BoardViewHolder extends RecyclerView.ViewHolder {
+        private TextView mTitleTextView;
+        private TextView mSubinfo;
+        private TextView mReplycount;
+        private ImageView imageView;
+
+
+
+        public BoardViewHolder(View itemView) {
+            super(itemView);
+            mTitleTextView = itemView.findViewById(R.id.normal_item_title);
+            mSubinfo=itemView.findViewById(R.id.normal_name_date_viewcont);
+            imageView=itemView.findViewById(R.id.normal_Imageview);
+
+
+           // mContentTextView = itemView.findViewById(R.id.item_contents);
+            //mImageView_menu = itemView.findViewById(R.id.item_ImageView_menu);
+            //mLikeButton=itemView.findViewById(R.id.item_likeButton_likeButton);
+            //mLikecount = itemView.findViewById(R.id.item_likecount);
+            //mViewcount = itemView.findViewById(R.id.item_viewcount_textView);
+            mReplycount = itemView.findViewById(R.id.normal_reply);
+            //mCreatedAt = itemView.findViewById(R.id.item_board_createdat);
+            //mN = itemView.findViewById(R.id.item_board_n);
+            //mWriter = itemView.findViewById(R.id.item_board_writer);
+           // mWriterLevle = itemView.findViewById(R.id.item_board_writerLevel);
+
+            itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
+                @Override
+                public void onClick(View v) {//들어가는 기능 detail로
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onitemClick(v, pos);
+                        }
+                    }
+                }
+            });
+
+        }
+    }
+
+}
