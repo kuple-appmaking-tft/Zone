@@ -39,6 +39,7 @@ public class FindActivity extends AppCompatActivity implements View.OnClickListe
         buttonFind.setOnClickListener(this);
 
     }
+    //test
 
     @Override
     public void onClick(View view) {

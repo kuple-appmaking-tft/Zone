@@ -3,26 +3,26 @@
     <item
             android:id="@+id/action_home"
             android:enabled="true"
-            android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="@string/home" />
+            android:icon="@drawable/Home"
+            android:title="피드" />
     <item
-            android:id="@+id/action_search"
+            android:id="@+id/action_board"
             android:enabled="true"
-            android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="@string/search" />
+            android:icon="@drawable/List"
+            android:title="보드" />
     <item
-            android:id="@+id/action_add_photo"
+            android:id="@+id/action_timetable"
             android:enabled="true"
-            android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="Photo" />
+            android:icon="@drawable/Timetable"
+            android:title="시간표" />
     <item
-            android:id="@+id/action_favorite_alarm"
+            android:id="@+id/action_alarm"
             android:enabled="true"
-            android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="@string/favorite" />
+        android:icon="@drawable/Notification"
+            android:title="알림" />
     <item
             android:id="@+id/action_account"
             android:enabled="true"
-            android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="@string/account" />
+            android:icon="@drawable/User"
+            android:title="마이페이지" />
 </menu>
