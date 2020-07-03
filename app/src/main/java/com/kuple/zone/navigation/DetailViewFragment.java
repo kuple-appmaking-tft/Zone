@@ -15,4 +15,5 @@ public class DetailViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         return view;
     }
+    //update branches
 }
