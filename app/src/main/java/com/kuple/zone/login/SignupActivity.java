@@ -56,7 +56,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStore = FirebaseFirestore.getInstance();
 
-
         if(firebaseAuth.getCurrentUser() != null){
             //이미 로그인 되었다면 이 액티비티를 종료함
             finish();
@@ -105,51 +104,70 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         signupFunc(email, password);
-
-
     }
 
-    public void signupFunc(String email, String password){
+    public void signupFunc(final String email, final String password){
+
         //creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if(task.isSuccessful()){
+                            loginProcess(email, password);
+                        } else {
+                            //에러발생시
+                            textviewMessage.setText("회원가입에 실패했습6니다. \n\n - 이미 등록된 이메일  \n - 암호 최소 6자리 이상");
+                            Toast.makeText(SignupActivity.this, "등록 에러!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        progressDialog.dismiss();
+                    }
+                });
+    }
+
+    public void loginProcess(final String email, final String password){
+
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()) {
+
+                            firebaseUser = firebaseAuth.getCurrentUser();
+
                             UserModel userModel = new UserModel();
-                            userModel.userEmail = editTextEmail.getText().toString();
-                            userModel.userPassword = editTextPassword.getText().toString();
-                            userModel.phoneNumber = editTextPhone.getText().toString();
-                            userModel.nickname = editTextNickname.getText().toString();
+                            userModel.setUserEmail(editTextEmail.getText().toString());
+                            userModel.setUserPassword(editTextPassword.getText().toString());
+                            userModel.setPhoneNumber(editTextPhone.getText().toString());
+                            userModel.setNickname(editTextNickname.getText().toString());
 
                             firebaseStore.collection("users")
-                                    .add(userModel)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    .document(firebaseUser.getUid())
+                                    .set(userModel)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        public void onSuccess(Void aVoid) {
+                                            // 이메일 인증 확인 메일을 전송합니다.
+                                            sendEmail();
+
+                                            finish();
+                                            startActivity(new Intent(getApplicationContext(), EmailCheckActivity.class));
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error adding document", e);
+
                                         }
                                     });
-                            // 이메일 인증 확인 메일을 전송합니다.
-                            sendEmail();
-
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), EmailCheckActivity.class));
-
                         } else {
-                            //에러발생시
-                            textviewMessage.setText("회원가입에 실패했습니다. \n\n - 이미 등록된 이메일  \n - 암호 최소 6자리 이상");
-                            Toast.makeText(SignupActivity.this, "등록 에러!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
                         }
-                        progressDialog.dismiss();
                     }
                 });
+
     }
 
     public void sendEmail(){
