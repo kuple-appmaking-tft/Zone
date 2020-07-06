@@ -98,9 +98,10 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
                     mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
                         @Override
                         public void onitemClick(View v, int pos) {
-//                            Intent intent=new Intent(CommonboardActivity.this, DetailActivity.class);
-//                            intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
-//                            startActivity(intent);
+                            Intent intent=new Intent(CommonboardActivity.this, DetailActivity.class);
+                            intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
+                            intent.putExtra("BoardName",mBoardName);
+                            startActivity(intent);
                         }
                     });
                     mRecyclerView.setAdapter(mBoardAdapter);

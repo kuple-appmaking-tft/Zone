@@ -18,6 +18,32 @@ public class BoardInfo {
     private int viewcount;
     private int replycount;
     private ArrayList<String> mDownloadURIList;
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    @Override
+    public String toString() {
+        return "BoardInfo{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", uid='" + uid + '\'' +
+                ", documentId='" + documentId + '\'' +
+                ", deleted_at='" + deleted_at + '\'' +
+                ", date=" + date +
+                ", uidList=" + uidList +
+                ", viewcount=" + viewcount +
+                ", replycount=" + replycount +
+                ", mDownloadURIList=" + mDownloadURIList +
+                ", nickname='" + nickname + '\'' +
+                '}';
+    }
 
     public BoardInfo(String title, String content, String uid, String documentId, Date date, String deleted_at, List<String> uidList, int viewcount, int replycount, ArrayList<String> mDownloadURIList) {
         this.title = title;
@@ -38,22 +64,6 @@ public class BoardInfo {
 
     public void setmDownloadURIList(ArrayList<String> mDownloadURIList) {
         this.mDownloadURIList = mDownloadURIList;
-    }
-
-    @Override
-    public String toString() {
-        return "BoardInfo{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", uid='" + uid + '\'' +
-                ", documentId='" + documentId + '\'' +
-                ", deleted_at='" + deleted_at + '\'' +
-                ", date=" + date +
-                ", uidList=" + uidList +
-                ", viewcount=" + viewcount +
-                ", replycount=" + replycount +
-                ", mDownloadURIList=" + mDownloadURIList +
-                '}';
     }
 
     public int getReplycount() {

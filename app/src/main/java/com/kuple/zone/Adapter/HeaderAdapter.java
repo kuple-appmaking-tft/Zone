@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kuple.zone.R;
 import com.kuple.zone.board.CommonboardActivity;
+import com.kuple.zone.board.PhotoboardActivity;
 import com.kuple.zone.model.HeaderModel;
 
 import java.util.ArrayList;
@@ -84,14 +85,23 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                         break;
                     case 2:
                         //학업정보
-                        List<String> list2=new ArrayList<>();
+                        final List<String> list2=new ArrayList<>();
                         if(holder.flag==0){
                             list2.add("강의평가");
                             list2.add("합격수기");
                             list2.add("취업광장");
                             list2.add("스터디게시판");
                             list2.add("꿀팁게시판");
-                            holder.recyclerView.setAdapter(new ChildAdapter(list2,mContext));
+                            ChildAdapter childAdapter2=new ChildAdapter(list2,mContext);
+                            childAdapter2.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
+                                @Override
+                                public void onitemClick(View v, int pos) {
+                                    Intent intent=new Intent(mActivity, PhotoboardActivity.class);
+                                    intent.putExtra("BoardName",list2.get(pos));
+                                    mActivity.startActivity(intent);
+                                }
+                            });
+                            holder.recyclerView.setAdapter(childAdapter2);
                             holder.imageView.setImageResource(R.drawable.minusarrow);
                             holder.flag=1;
                         }else{

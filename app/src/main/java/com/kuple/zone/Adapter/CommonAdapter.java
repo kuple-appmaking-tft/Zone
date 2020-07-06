@@ -146,18 +146,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
             mTitleTextView = itemView.findViewById(R.id.normal_item_title);
             mSubinfo=itemView.findViewById(R.id.normal_name_date_viewcont);
             imageView=itemView.findViewById(R.id.normal_Imageview);
-
-
-           // mContentTextView = itemView.findViewById(R.id.item_contents);
-            //mImageView_menu = itemView.findViewById(R.id.item_ImageView_menu);
-            //mLikeButton=itemView.findViewById(R.id.item_likeButton_likeButton);
-            //mLikecount = itemView.findViewById(R.id.item_likecount);
-            //mViewcount = itemView.findViewById(R.id.item_viewcount_textView);
             mReplycount = itemView.findViewById(R.id.normal_reply);
-            //mCreatedAt = itemView.findViewById(R.id.item_board_createdat);
-            //mN = itemView.findViewById(R.id.item_board_n);
-            //mWriter = itemView.findViewById(R.id.item_board_writer);
-           // mWriterLevle = itemView.findViewById(R.id.item_board_writerLevel);
 
             itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
                 @Override
