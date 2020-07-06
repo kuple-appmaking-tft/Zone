@@ -34,6 +34,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     // Views
     EditText editTextEmail;
     EditText editTextPassword;
+    EditText editTextPasswordCheck;
     EditText editTextPhone;
     EditText editTextNickname;
     Button buttonSignup;
@@ -65,6 +66,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        editTextPasswordCheck = (EditText) findViewById(R.id.editTextPasswordCheck);
         editTextPhone = (EditText) findViewById(R.id.editTextPhone);
         editTextNickname  = (EditText) findViewById(R.id.editTextNickname);
         textviewSingin= (TextView) findViewById(R.id.textViewSignin);;
@@ -77,29 +79,45 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         textviewSingin.setOnClickListener(this);
     }
 
+    //button click event
+    @Override
+    public void onClick(View view) {
+        if(view == buttonSignup) {
+            //TODO
+            registerUser();
+        }
+
+        if(view == textviewSingin) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class)); //추가해 줄 로그인 액티비티
+        }
+    }
+
     //Firebse creating a new user
     private void registerUser(){
         //사용자가 입력하는 email, password를 가져온다.
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        String passwordCheck = editTextPasswordCheck.getText().toString().trim();
         String phoneNumber = editTextPhone.getText().toString().trim();
+
         String nickname = editTextNickname.getText().toString().trim();
 
         //email과 password가 비었는지 아닌지를 체크 한다.
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(TextUtils.isEmpty(phoneNumber)){
-            Toast.makeText(this, "휴대폰 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "이메일을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(nickname)){
             Toast.makeText(this, "닉네임을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(this, "비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(passwordCheck)){
+            Toast.makeText(this, "비밀번호 확인을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -113,7 +131,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
                         if(task.isSuccessful()){
                             loginProcess(email, password);
                         } else {
@@ -186,17 +203,4 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 });
     }
 
-    //button click event
-    @Override
-    public void onClick(View view) {
-        if(view == buttonSignup) {
-            //TODO
-            registerUser();
-        }
-
-        if(view == textviewSingin) {
-            //TODO
-            startActivity(new Intent(this, LoginActivity.class)); //추가해 줄 로그인 액티비티
-        }
-    }
 }
