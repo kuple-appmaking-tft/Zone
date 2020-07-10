@@ -39,7 +39,9 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:spinnerMode="dropdown"
+            >
 
             </Spinner>
 
@@ -51,6 +53,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp">
 
+
+
              </Spinner>
             <!--검색어 -->
              <Spinner
@@ -61,7 +65,7 @@
                 android:layout_marginLeft="10dp">
 
             </Spinner>
-
+            
             <!--과목 정렬_우선순위 -->
             <Spinner
                 android:id="@+id/search_range"
@@ -89,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp">
+
 
             </Spinner>
 
