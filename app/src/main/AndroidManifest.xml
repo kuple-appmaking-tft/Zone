@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".timetable.TimeTablePlusActivity"></activity>
+        <activity android:name=".login.MypageActivity"></activity>
+        <activity android:name=".timetable.TimeTablePlusActivity" />
         <activity android:name=".login.EmailCheckActivity" />
         <activity android:name=".MypageActivity" />
         <activity android:name=".photoboard.PhotoboardActivity" />

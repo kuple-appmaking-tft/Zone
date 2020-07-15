@@ -14,7 +14,7 @@
         android:id="@+id/child_image"
         android:layout_width="20sp"
         android:layout_height="20sp"
-        android:src="@drawable/ic_favorite"/>
+        android:src="@drawable/circle_like"/>
     <TextView
         android:id="@+id/child_title"
         android:textColor="#045CB1"
