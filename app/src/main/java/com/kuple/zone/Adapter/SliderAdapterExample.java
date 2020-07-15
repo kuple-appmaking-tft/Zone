@@ -11,7 +11,6 @@ import com.kuple.zone.R;
 import com.kuple.zone.model.SliderItem;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

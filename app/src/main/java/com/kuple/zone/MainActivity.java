@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private AlarmFragment fragmentAlarm;
     private DetailViewFragment fragmentHome;
     private TimetableFragment fragmentTimetable;
-    private UserFragment fragmentUser;
+    private MypageActivity fragmentUser;
     private FragmentTransaction transaction;
     private BottomNavigationView bottomNavigationView;
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentBoard = new BoardFragment();
         fragmentAlarm = new AlarmFragment();
         fragmentHome = new DetailViewFragment();
-        fragmentUser = new UserFragment();
+        fragmentUser = new MypageActivity();
         fragmentTimetable = new TimetableFragment();
 
         transaction = fragmentManager.beginTransaction();
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.main_content, fragmentAlarm).commitAllowingStateLoss();
                 break;
             case R.id.action_account:
-               // transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
+                transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
                 break;
             case R.id.action_timetable:
                 transaction.replace(R.id.main_content, fragmentTimetable).commitAllowingStateLoss();

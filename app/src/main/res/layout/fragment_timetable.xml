@@ -41,5 +41,4 @@
         android:layout_height="wrap_content"
         app:header_title="@array/default_header_title" />
 
-
 </LinearLayout>

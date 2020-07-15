@@ -1,8 +1,4 @@
-<<<<<<< HEAD:app/src/main/java/com/kuple/zone/navigation/UserFragment.java
 package com.kuple.zone.navigation;
-=======
-package com.kuple.zone.login;
->>>>>>> origin/seo:app/src/main/java/com/kuple/zone/login/MypageActivity.java
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -11,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,29 +15,18 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-<<<<<<< HEAD:app/src/main/java/com/kuple/zone/navigation/UserFragment.java
-import com.kuple.zone.R;
-import com.kuple.zone.login.LoginActivity;
-=======
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 import com.kuple.zone.R;
-import com.google.firebase.database.FirebaseDatabase;
+import com.kuple.zone.login.LoginActivity;
 import com.kuple.zone.model.UserModel;
->>>>>>> origin/seo:app/src/main/java/com/kuple/zone/login/MypageActivity.java
 
-public class UserFragment extends AppCompatActivity implements View.OnClickListener{
-    private static final String TAG = "UserFragment";
+public class MypageActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "MypageActivity";
 
     //firebase auth object
     private FirebaseAuth firebaseAuth;
@@ -69,7 +53,7 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_user);
+        setContentView(R.layout.activity_mypage);
 
         initializeViewGroup();
 
@@ -135,7 +119,7 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
         // Admin에서 회원의 DB 정보를 삭제해야 합니다.
         // 회원 가입 후 바로 유저의 삭제는 이루어지지 않습니다. (로그인 내역이 있어야 합니다)
         if(view == textivewDelete) {
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(UserFragment.this);
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MypageActivity.this);
             alert_confirm.setMessage("정말 계정을 삭제 할까요?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -144,7 +128,7 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(UserFragment.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(MypageActivity.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
                                             finish();
                                             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                         }
@@ -152,16 +136,6 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
                         }
                     }
             );
-<<<<<<< HEAD:app/src/main/java/com/kuple/zone/navigation/UserFragment.java
-            alert_confirm.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Toast.makeText(UserFragment.this, "취소", Toast.LENGTH_LONG).show();
-                }
-            });
-            alert_confirm.show();
-=======
->>>>>>> origin/seo:app/src/main/java/com/kuple/zone/login/MypageActivity.java
         }
     }
 }

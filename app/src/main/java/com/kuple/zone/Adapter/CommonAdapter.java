@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,20 +16,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.kuple.zone.Inteface.OnItemClick;
-import com.kuple.zone.R;
-import com.kuple.zone.model.BoardInfo;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.kuple.zone.model.SliderItem;
+import com.kuple.zone.Inteface.OnItemClick;
+import com.kuple.zone.R;
+import com.kuple.zone.model.BoardInfo;
 import com.kuple.zone.model.UserModel;
-import com.smarteist.autoimageslider.SliderView;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 

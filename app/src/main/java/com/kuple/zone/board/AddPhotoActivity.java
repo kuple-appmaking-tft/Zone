@@ -1,4 +1,4 @@
-package com.kuple.zone;
+package com.kuple.zone.board;
 
 public class AddPhotoActivity {
 }
