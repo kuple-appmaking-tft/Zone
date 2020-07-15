@@ -79,9 +79,36 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
 
 //                        Toast.makeText(mContext, "0번째클릭", Toast.LENGTH_SHORT).show();
                         break;
-                    case 1:
-                        //쿠플웹진
-                        //holder.recyclerView.setAdapter(new ChildAdapter(list,mContext));
+                    case 1://쿠플웹진
+                        final List<String> list1=new ArrayList<>();
+                        if(holder.flag==0){
+                            list1.add("쿠플툰");
+                            list1.add("먹쿠먹쿠");
+                            ChildAdapter childAdapter1=new ChildAdapter(list1,mContext);
+                            childAdapter1.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
+                                @Override
+                                public void onitemClick(View v, int pos) {
+                                    if(pos==0){
+                                        Intent intent=new Intent(mActivity, CommonboardActivity.class);
+                                        intent.putExtra("BoardName",list1.get(pos));
+                                        mActivity.startActivity(intent);
+                                    }else if(pos==1){
+                                        Intent intent=new Intent(mActivity, PhotoboardActivity.class);
+                                        intent.putExtra("BoardName",list1.get(pos));
+                                        mActivity.startActivity(intent);
+                                    }
+                                }
+                            });
+                            holder.recyclerView.setAdapter(new ChildAdapter(list1,mContext));
+                            holder.imageView.setImageResource(R.drawable.minusarrow);
+                            holder.flag=1;
+                        }else{
+                            list1.clear();
+                            holder.recyclerView.setAdapter(new ChildAdapter(list1,mContext));;
+                            holder.imageView.setImageResource(R.drawable.plusarrow);
+                            holder.flag=0;
+                        }
+
                         break;
                     case 2:
                         //학업정보
@@ -96,7 +123,7 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                             childAdapter2.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
                                 @Override
                                 public void onitemClick(View v, int pos) {
-                                    Intent intent=new Intent(mActivity, PhotoboardActivity.class);
+                                    Intent intent=new Intent(mActivity, CommonboardActivity.class);
                                     intent.putExtra("BoardName",list2.get(pos));
                                     mActivity.startActivity(intent);
                                 }
@@ -113,6 +140,39 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                         break;
                     case 3:
                         //생활정보
+                        final List<String> list3=new ArrayList<>();
+                        final List<String> list3_2=new ArrayList<>();
+                        if(holder.flag==0){
+                            list3.add("부동산");//사진
+                            list3.add("구인구직");//일반
+                            list3.add("중고거래");//사진
+                            list3.add("분실물신고");//사진
+                            ChildAdapter childAdapter3=new ChildAdapter(list3,mContext);
+                            childAdapter3.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
+                                @Override
+                                public void onitemClick(View v, int pos) {
+                                    if (pos==1){
+                                        Intent intent=new Intent(mActivity, CommonboardActivity.class);
+                                        intent.putExtra("BoardName",list3.get(pos));
+                                        mActivity.startActivity(intent);
+                                    }else{
+                                        Intent intent=new Intent(mActivity, PhotoboardActivity.class);
+                                        intent.putExtra("BoardName",list3.get(pos));
+                                        mActivity.startActivity(intent);
+                                    }
+
+                                }
+                            });
+                            holder.recyclerView.setAdapter(new ChildAdapter(list3,mContext));;
+
+                            holder.imageView.setImageResource(R.drawable.minusarrow);
+                            holder.flag=1;
+                        }else{
+                            list3.clear();
+                            holder.recyclerView.setAdapter(new InSchoolChildAdapter(list3,mContext));;
+                            holder.imageView.setImageResource(R.drawable.plusarrow);
+                            holder.flag=0;
+                        }
                         break;
                     case 4:
                         //교내단체게시판

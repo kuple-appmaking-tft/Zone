@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".board.CorpActivity">
+
+    <ImageView
+        android:id="@+id/corp_backImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="15dp"
+        android:src="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="@+id/corp_kuple"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/corp_kuple"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/kuple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="15dp"/>
+
+    <ImageView
+        android:id="@+id/corp_corpImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/corp_kuple" />
+
+    <TextView
+        android:id="@+id/corp_communityname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="게시판이름위치"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/corp_corpImageView"
+        android:layout_margin="15dp"/>
+
+    <TextView
+        android:id="@+id/corp_corpname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_marginStart="20dp"
+        android:text="단체명입력위치"
+        app:layout_constraintStart_toEndOf="@+id/corp_communityname"
+        app:layout_constraintTop_toTopOf="@+id/corp_communityname" />
+
+    <ImageView
+        android:id="@+id/corp_serch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:src="@drawable/serch"
+        app:layout_constraintBottom_toBottomOf="@+id/corp_communityname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/corp_communityname" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/corp_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/corp_corpname" />
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/corp_write_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_create_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
