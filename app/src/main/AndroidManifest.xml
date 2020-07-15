@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kuple.zone">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,9 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".board.WriteActivity"></activity>
-        <activity android:name=".board.DetailActivity"></activity>
-        <activity android:name=".board.PhotoboardActivity"></activity>
+        <activity android:name=".board.CorpActivity"></activity>
+        <activity android:name=".board.WriteActivity" />
+        <activity android:name=".board.DetailActivity" />
+        <activity android:name=".board.PhotoboardActivity" />
         <activity android:name=".login.EmailCheckActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login.FindActivity" />
@@ -25,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".FirebaseCloudMessage.MyFirebaseMessagingService"
             android:exported="false">
