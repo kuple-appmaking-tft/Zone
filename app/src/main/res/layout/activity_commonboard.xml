@@ -37,7 +37,6 @@
             android:id="@+id/normal_home_constraint0"
             android:layout_width="35dp"
             android:layout_height="35dp"
-
             android:src="@drawable/ic_home"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
