@@ -7,22 +7,37 @@
     android:orientation="vertical"
     tools:context=".login.SignupActivity">
 
+
     <TextView
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textSize="23dp"
-        android:textColor="@color/colorAccent"
-        android:text="회원가입" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="100dp"
+        android:text="필수 정보"
+        android:textColor="#971c3c"
+        android:textSize="20dp"/>
 
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
-        android:hint="Enter email"
+        android:layout_marginTop="20dp"
+        android:background="#eeebe7"
+        android:textSize="20dp"
+        android:hint="이메일"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/editTextNickname"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:background="#eeebe7"
+        android:hint="닉네임"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -30,27 +45,45 @@
         android:layout_width="250dp"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Enter password"
+        android:background="#eeebe7"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:hint="비밀번호"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/editTextPasswordCheck"
+        android:layout_width="250dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#eeebe7"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호 확인"
         android:inputType="textPassword" />
 
 
-    <EditText
-        android:id="@+id/editTextNickname"
+    <TextView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
-        android:hint="Nickname"
-        android:inputType="textEmailAddress" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:text="부가 정보"
+        android:textColor="#971c3c"
+        android:textSize="20dp"/>
+
 
     <EditText
         android:id="@+id/editTextPhone"
         android:layout_width="250dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:background="#eeebe7"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Phone Number" />
+        android:hint="휴대폰 번호" />
+
 
     <Button
         android:id="@+id/buttonSignup"

@@ -36,10 +36,9 @@ public class FindActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        buttonFind.setOnClickListener(this);
 
+        buttonFind.setOnClickListener(this);
     }
-    //test
 
     @Override
     public void onClick(View view) {

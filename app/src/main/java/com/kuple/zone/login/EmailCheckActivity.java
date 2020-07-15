@@ -1,22 +1,20 @@
 package com.kuple.zone.login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kuple.zone.MainActivity;
-import com.kuple.zone.navigation.UserFragment;
 import com.kuple.zone.R;
 
 public class EmailCheckActivity extends AppCompatActivity implements View.OnClickListener{
@@ -43,20 +41,35 @@ public class EmailCheckActivity extends AppCompatActivity implements View.OnClic
         emailCheckLogout.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view == emailCheckLogout){
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+
+        if(view == buttonAuthCheck) {
+            firebaseAuthCheck();
+        }
+
+        if(view == textviewResend){
+            sendEmail();
+        }
+    }
+
     // 유저의 이메일 인증 유무를 확인합니다.
     public void firebaseAuthCheck(){
-
         firebaseAuth.getInstance().getCurrentUser().reload();
         firebaseUser = firebaseAuth.getInstance().getCurrentUser();
-        // 이미 로그인이 된 경우
-        if(firebaseUser != null){
-            // 회원가입시 이메일 인증을 받지 않은경우
-            if(firebaseUser.isEmailVerified() == false){
-                Toast.makeText(EmailCheckActivity.this, "메일 인증이 이루어지지 않았습니다. \n다시 한번 확인해주세요!", Toast.LENGTH_SHORT).show();
-            }else{
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            }
+
+        // 회원가입시 이메일 인증을 받은 경우
+        if(firebaseUser.isEmailVerified() == true){
+            Toast.makeText(EmailCheckActivity.this, "인증 되었습니다", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }else{
+            Toast.makeText(EmailCheckActivity.this, "메일 인증이 이루어지지 않았습니다. \n다시 한번 확인해주세요!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -74,20 +87,4 @@ public class EmailCheckActivity extends AppCompatActivity implements View.OnClic
                 });
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view == emailCheckLogout){
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        }
-
-        if(view == buttonAuthCheck) {
-            firebaseAuthCheck();
-        }
-
-        if(view == textviewResend){
-            sendEmail();
-        }
-    }
 }
