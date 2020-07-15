@@ -1,4 +1,4 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
@@ -6,6 +6,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
+        applicationId "com.kuple.zone"
         minSdkVersion 28
         targetSdkVersion 29
         versionCode 1
