@@ -1,66 +1,78 @@
 package com.kuple.zone;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.view.MenuItem;
 import android.view.View;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.kuple.zone.commonboard.CommonboardActivity;
-import com.kuple.zone.login.EmailCheckActivity;
-import com.kuple.zone.login.MypageActivity;
-import com.kuple.zone.photoboard.PhotoboardActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.auth.User;
+import com.kuple.zone.navigation.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    // 파이어베이스 객체 선언
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
+    private FragmentManager fragmentManager;
+    private BoardFragment fragmentBoard;
+    private AlarmFragment fragmentAlarm;
+    private DetailViewFragment fragmentHome;
+    private TimetableFragment fragmentTimetable;
+    private UserFragment fragmentUser;
+    private FragmentTransaction transaction;
+    private BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 파이어베이스 초기화
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+        fragmentManager = getSupportFragmentManager();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        fragmentBoard = new BoardFragment();
+        fragmentAlarm = new AlarmFragment();
+        fragmentHome = new DetailViewFragment();
+        fragmentUser = new UserFragment();
+        fragmentTimetable = new TimetableFragment();
 
-
-
-        findViewById(R.id.main_CommonBoard).setOnClickListener(new View.OnClickListener() {
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_content, fragmentHome).commitAllowingStateLoss();
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CommonboardActivity.class));
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                clickHandler(item.getItemId());
+                return true;
             }
         });
-        findViewById(R.id.main_PhotoBoard).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, PhotoboardActivity.class));
-            }
-        });
 
-        findViewById(R.id.main_mypage).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MypageActivity.class));
-            }
-        });
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+    public void clickHandler(int num) {
+        transaction = fragmentManager.beginTransaction();
 
-        firebaseUser = firebaseAuth.getCurrentUser();
-
-        // 이미 로그인이 된 경우
-        if(firebaseUser == null){
-            // 로그인이 안된 경우 이 액티비티를 종료합니다.
-            finish();
+        switch (num) {
+            case R.id.action_home:
+                transaction.replace(R.id.main_content, fragmentHome).commitAllowingStateLoss();
+                break;
+            case R.id.action_board:
+                transaction.replace(R.id.main_content, fragmentBoard).commitAllowingStateLoss();
+                break;
+            case R.id.action_alarm:
+                transaction.replace(R.id.main_content, fragmentAlarm).commitAllowingStateLoss();
+                break;
+            case R.id.action_account:
+               // transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
+                break;
+            case R.id.action_timetable:
+                transaction.replace(R.id.main_content, fragmentTimetable).commitAllowingStateLoss();
+                break;
         }
     }
 }
