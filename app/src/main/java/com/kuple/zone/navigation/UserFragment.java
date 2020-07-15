@@ -1,9 +1,5 @@
 package com.kuple.zone.navigation;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,8 +25,8 @@ import com.kuple.zone.R;
 import com.kuple.zone.login.LoginActivity;
 import com.kuple.zone.model.UserModel;
 
-public class MypageActivity extends AppCompatActivity implements View.OnClickListener{
-    private static final String TAG = "MypageActivity";
+public class UserFragment extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "UserFragment";
 
     //firebase auth object
     private FirebaseAuth firebaseAuth;
@@ -53,7 +53,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mypage);
+        setContentView(R.layout.fragment_user);
 
         initializeViewGroup();
 
@@ -85,7 +85,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 UserModel userModel = documentSnapshot.toObject(UserModel.class);
                 if (userModel == null) {
-                    Toast.makeText(MypageActivity.this, "유저 정보를 가져오지 못했습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserFragment.this, "유저 정보를 가져오지 못했습니다.", Toast.LENGTH_LONG).show();
                 } else {
                     textviewId.setText("아이디: "+userModel.getUserEmail());
                     textviewName.setText("이름: "+userModel.getNickname());
@@ -119,7 +119,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
         // Admin에서 회원의 DB 정보를 삭제해야 합니다.
         // 회원 가입 후 바로 유저의 삭제는 이루어지지 않습니다. (로그인 내역이 있어야 합니다)
         if(view == textivewDelete) {
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MypageActivity.this);
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(UserFragment.this);
             alert_confirm.setMessage("정말 계정을 삭제 할까요?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -128,7 +128,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(MypageActivity.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(UserFragment.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
                                             finish();
                                             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                         }

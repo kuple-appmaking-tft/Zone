@@ -362,35 +362,33 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.remove_superficially:
-                        //Toast.makeText(mContext, "무슨수정이냐 그냥 쳐 삭제해라", Toast.LENGTH_LONG).show();
-                        // mBoardInfo.remove(position);
-                        return true;
-                    case R.id.remove_firebase:
-                        Date date=new Date();
-                        if(mReplyList.get(position).getUid().equals(mFirebaseUser.getUid())){
-                            documentReference_reply.collection("reply").document(mReplyList.get(position).getDocumentId())
-                                    .update("deleted_at",date.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(mContext, "파이어베이스 deleted_at 현재신간으로 업데이트", Toast.LENGTH_LONG).show();
-                                    mCallback.onClick("실시간 댓글 삭제");//삭제하면 콜백함수로 양성열 보내짐.//이 어댑터에서 보낼 정보는 이렇게쓰면댐
-                                    documentReference_reply.update("replycount", FieldValue.increment(-1));//댓글수 1증가.
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(mContext, "파이어베이스 deleted_at 업데이트실패", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }else{
-                            Toast.makeText(mContext, "너가 올린 댓글이 아니다", Toast.LENGTH_LONG).show();
-                        }
-                        return true;
-                    default:
-                        return false;
+                int itemId = item.getItemId();
+                if (itemId == R.id.remove_superficially) {//Toast.makeText(mContext, "무슨수정이냐 그냥 쳐 삭제해라", Toast.LENGTH_LONG).show();
+                    // mBoardInfo.remove(position);
+                    return true;
+                } else if (itemId == R.id.remove_firebase) {
+                    Date date = new Date();
+                    if (mReplyList.get(position).getUid().equals(mFirebaseUser.getUid())) {
+                        documentReference_reply.collection("reply").document(mReplyList.get(position).getDocumentId())
+                                .update("deleted_at", date.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(mContext, "파이어베이스 deleted_at 현재신간으로 업데이트", Toast.LENGTH_LONG).show();
+                                mCallback.onClick("실시간 댓글 삭제");//삭제하면 콜백함수로 양성열 보내짐.//이 어댑터에서 보낼 정보는 이렇게쓰면댐
+                                documentReference_reply.update("replycount", FieldValue.increment(-1));//댓글수 1증가.
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(mContext, "파이어베이스 deleted_at 업데이트실패", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(mContext, "너가 올린 댓글이 아니다", Toast.LENGTH_LONG).show();
+                    }
+                    return true;
                 }
+                return false;
             }
         });
         MenuInflater inflater = popup.getMenuInflater();

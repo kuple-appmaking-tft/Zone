@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".navigation.MypageActivity">
+    tools:context=".navigation.UserFragment">
 
     <Button
         android:id="@+id/buttonLogout"
@@ -27,7 +27,7 @@
 
             <ImageView
                 android:id="@+id/imageviewImage"
-                android:src="@drawable/ic_forum_black_24dp"
+                android:src="@drawable/user"
                 android:layout_gravity="center"
                 android:layout_width="100dp"
                 android:layout_height="100dp" />

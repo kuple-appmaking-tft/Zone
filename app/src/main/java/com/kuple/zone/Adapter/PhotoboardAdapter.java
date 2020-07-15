@@ -195,32 +195,31 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.remove_superficially:
-                        Toast.makeText(mContext,"무슨수정이냐 그냥 쳐 삭제해라",Toast.LENGTH_LONG).show();
-                        return true;
-                    case R.id.remove_firebase:
-                        mStore.collection("Testing").document(documentId)
-                                .delete()
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(mContext,"데이터베이스에서 삭제됨.새로고침안해도댐",Toast.LENGTH_LONG).show();
-                                        Intent intent1 =new Intent(v.getContext(), MainActivity.class);
-                                        intent1.putExtra("Refresh","success");
-                                        mContext.startActivity(intent1);
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.remove_superficially) {
+                    Toast.makeText(mContext, "무슨수정이냐 그냥 쳐 삭제해라", Toast.LENGTH_LONG).show();
+                    return true;
+                } else if (itemId == R.id.remove_firebase) {
+                    mStore.collection("Testing").document(documentId)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(mContext, "데이터베이스에서 삭제됨.새로고침안해도댐", Toast.LENGTH_LONG).show();
+                                    Intent intent1 = new Intent(v.getContext(), MainActivity.class);
+                                    intent1.putExtra("Refresh", "success");
+                                    mContext.startActivity(intent1);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
 
-                                    }
-                                });
-                        return true;
-                    default:
-                        return false;
+                                }
+                            });
+                    return true;
                 }
+                return false;
             }
         });
         MenuInflater inflater = popup.getMenuInflater();

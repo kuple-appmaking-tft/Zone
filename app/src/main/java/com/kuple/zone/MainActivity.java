@@ -1,21 +1,19 @@
 package com.kuple.zone;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.view.MenuItem;
-import android.view.View;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.auth.User;
-import com.kuple.zone.navigation.*;
+import com.kuple.zone.navigation.AlarmFragment;
+import com.kuple.zone.navigation.BoardFragment;
+import com.kuple.zone.navigation.DetailViewFragment;
+import com.kuple.zone.navigation.TimetableFragment;
+import com.kuple.zone.navigation.UserFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private AlarmFragment fragmentAlarm;
     private DetailViewFragment fragmentHome;
     private TimetableFragment fragmentTimetable;
-    private MypageActivity fragmentUser;
+    private UserFragment fragmentUser;
     private FragmentTransaction transaction;
     private BottomNavigationView bottomNavigationView;
 
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentBoard = new BoardFragment();
         fragmentAlarm = new AlarmFragment();
         fragmentHome = new DetailViewFragment();
-        fragmentUser = new MypageActivity();
+        fragmentUser = new UserFragment();
         fragmentTimetable = new TimetableFragment();
 
         transaction = fragmentManager.beginTransaction();
@@ -57,22 +55,16 @@ public class MainActivity extends AppCompatActivity {
     public void clickHandler(int num) {
         transaction = fragmentManager.beginTransaction();
 
-        switch (num) {
-            case R.id.action_home:
-                transaction.replace(R.id.main_content, fragmentHome).commitAllowingStateLoss();
-                break;
-            case R.id.action_board:
-                transaction.replace(R.id.main_content, fragmentBoard).commitAllowingStateLoss();
-                break;
-            case R.id.action_alarm:
-                transaction.replace(R.id.main_content, fragmentAlarm).commitAllowingStateLoss();
-                break;
-            case R.id.action_account:
-                transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
-                break;
-            case R.id.action_timetable:
-                transaction.replace(R.id.main_content, fragmentTimetable).commitAllowingStateLoss();
-                break;
+        if (num == R.id.action_home) {
+            transaction.replace(R.id.main_content, fragmentHome).commitAllowingStateLoss();
+        } else if (num == R.id.action_board) {
+            transaction.replace(R.id.main_content, fragmentBoard).commitAllowingStateLoss();
+        } else if (num == R.id.action_alarm) {
+            transaction.replace(R.id.main_content, fragmentAlarm).commitAllowingStateLoss();
+        } else if (num == R.id.action_account) {
+            //transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
+        } else if (num == R.id.action_timetable) {
+            transaction.replace(R.id.main_content, fragmentTimetable).commitAllowingStateLoss();
         }
     }
 }

@@ -4,7 +4,7 @@ public class UserModel {
     private String userEmail;
     private String userPassword;
     private String phoneNumber;
-    private String nickname;
+    public String nickname;
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
