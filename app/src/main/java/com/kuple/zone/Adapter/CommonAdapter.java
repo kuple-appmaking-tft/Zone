@@ -113,6 +113,8 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
         //이미지그려주기
         if(boardInfo.getmDownloadURIList().size()!=0){
             Glide.with(holder.imageView).load(boardInfo.getmDownloadURIList().get(0)).into(holder.imageView);
+        }else{
+            holder.imageView.setVisibility(View.INVISIBLE);
         }
 
 
