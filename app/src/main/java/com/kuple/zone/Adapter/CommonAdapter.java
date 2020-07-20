@@ -97,7 +97,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
                 UserModel fm = documentSnapshot.toObject(UserModel.class);
                 assert fm != null;
                 try {
-                    holder.mSubinfo.setText(fm.nickname+" "+finaldate+" "+boardInfo.getViewcount());
+                    holder.mSubinfo.setText(fm.nickname+" "+finaldate+" ");
                     //holder.mSubinfo.setText("테스트");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -105,7 +105,10 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
             }
         });
         //이미지그려주기
-        Glide.with(holder.imageView).load(boardInfo.getmDownloadURIList().get(0)).into(holder.imageView);
+        if(boardInfo.getmDownloadURIList().size()!=0){
+            Glide.with(holder.imageView).load(boardInfo.getmDownloadURIList().get(0)).into(holder.imageView);
+        }
+
 
 
 
