@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.google.android.gms.common.internal.service.Common;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -32,7 +31,7 @@ import com.kuple.zone.model.BoardInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerchActivity extends AppCompatActivity implements OnItemClick {
+public class SearchActivity extends AppCompatActivity implements OnItemClick {
     private List<BoardInfo> mBoardList;
     private final FirebaseUser firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
     private TextInputEditText mTextInputEditText;
@@ -45,11 +44,11 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_serch);
+        setContentView(R.layout.activity_search);
         loadingbar=new ProgressDialog(this);
         mRecyclerView=findViewById(R.id.serch_RecyclerView);
         mTextInputEditText=findViewById(R.id.serch_TextInputEditText);
-        mTextInputLayout=findViewById(R.id.serch_TextInputLayout);
+        mTextInputLayout=findViewById(R.id.search_TextInputLayout);
         mTextInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +87,7 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
                     if(mBoardList.size()==0){//찾는 데이터가 없을떄
                         Toast.makeText(getApplicationContext(),"데이터가없습니다",Toast.LENGTH_SHORT).show();
                     }
-                    mBoardAdapter=new CommonAdapter(mBoardList,SerchActivity.this, firebaseUser,SerchActivity.this);
+                    mBoardAdapter=new CommonAdapter(mBoardList, SearchActivity.this, firebaseUser, SearchActivity.this);
                     mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
                         @Override
                         public void onitemClick(View v, int pos) {

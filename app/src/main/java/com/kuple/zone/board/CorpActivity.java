@@ -60,7 +60,7 @@ public class CorpActivity extends AppCompatActivity implements OnItemClick {
         mSerchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(CorpActivity.this, SerchActivity.class);
+                Intent intent=new Intent(CorpActivity.this, SearchActivity.class);
                 startActivity(intent);
             }
         });
