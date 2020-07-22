@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -38,6 +39,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
     private final FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
     private RecyclerView mRecyclerView;
     private String mBoardName;
+    private ImageView mSerch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,15 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
                 Intent intent=new Intent(CommonboardActivity.this, WriteActivity.class);
                 intent.putExtra("BoardName",mBoardName);
                 startActivityForResult(intent,99);
+            }
+        });
+        mSerch=findViewById(R.id.normal_serch);
+        mSerch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CommonboardActivity.this, SerchActivity.class);
+                intent.putExtra("BoardName",mBoardName);
+                startActivity(intent);
             }
         });
 
@@ -94,7 +105,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
                             Log.d("양성열","삭제됬었음");
                         }
                     }
-                    mBoardAdapter = new CommonAdapter(mBoardList,CommonboardActivity.this,firebaseUser,CommonboardActivity.this);
+                    mBoardAdapter = new CommonAdapter(mBoardList,CommonboardActivity.this,firebaseUser,CommonboardActivity.this,mBoardName);
                     mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
                         @Override
                         public void onitemClick(View v, int pos) {

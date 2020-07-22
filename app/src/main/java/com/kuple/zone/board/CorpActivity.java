@@ -102,7 +102,7 @@ public class CorpActivity extends AppCompatActivity implements OnItemClick {
                             Log.d("양성열","삭제됬었음");
                         }
                     }
-                    mBoardAdapter = new CommonAdapter(mBoardList,CorpActivity.this,firebaseUser,CorpActivity.this);
+                    mBoardAdapter = new CommonAdapter(mBoardList,CorpActivity.this,firebaseUser,CorpActivity.this,mBoardName);
                     mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
                         @Override
                         public void onitemClick(View v, int pos) {

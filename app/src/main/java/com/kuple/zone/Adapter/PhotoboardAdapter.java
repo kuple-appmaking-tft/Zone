@@ -48,10 +48,10 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
         this.mListener=listner;
     }
 ////////////////////////////////
-    public PhotoboardAdapter(List<BoardInfo> mPostingInfoList, Context mContext, List<String> mDocumentIdList) {
+    public PhotoboardAdapter(List<BoardInfo> mPostingInfoList, Context mContext) {
         this.mContext = mContext;
         this.mPostingInfoList = mPostingInfoList;
-        this.mDocumentIdList=mDocumentIdList;
+
     }
     class MainViewHolder extends RecyclerView.ViewHolder{
         private TextView mTitleTextView;        //item_main의 객체를 불러옴...작은네모칸에 들어갈 얘들 선언
@@ -64,6 +64,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
         private ImageView mImageview;//매뉴클릭릭
         private ImageView mShareImageView;
         private ImageView mNewDateImageView;
+        private TextView mReplycount;
 
 
        public MainViewHolder(@NonNull View itemView) {
@@ -75,7 +76,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
             mImageview=itemView.findViewById(R.id.item_menudot_imageview);
             mLikeButton=itemView.findViewById(R.id.item_likeButton_likeButton);
             mLikeButton_count=itemView.findViewById(R.id.item_likeButton_textView);
-            mShareImageView=itemView.findViewById(R.id.item_share_imageview);
+            mShareImageView=itemView.findViewById(R.id.item_reply_imageview);
             mDateTextView=itemView.findViewById(R.id.item_date);
            mNewDateImageView=itemView.findViewById(R.id.item_dateN_ImageView);
             mImageSliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -85,6 +86,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
             mImageSliderView.setIndicatorUnselectedColor(Color.GRAY);
             mImageSliderView.setScrollTimeInSec(3);
             mImageSliderView.setAutoCycle(false);
+           mReplycount=itemView.findViewById(R.id.item_reply_count);
 
             //////클릭리스너
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +111,10 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {//class MainViewHolder의 holder <Board>형식의 data값을 참조.
         BoardInfo data = mPostingInfoList.get(position);
-        final String documentId = mDocumentIdList.get(position);
-
+        final String documentId = data.getDocumentId();
+        String replycount=String.valueOf(data.getReplycount());
+        holder.mReplycount.setText(replycount);
         holder.mTitleTextView.setText(data.getTitle());
-
         holder.mNameTextView.setText(data.getNickname());
         holder.mContentsTextView.setText(data.getContent());
         SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);

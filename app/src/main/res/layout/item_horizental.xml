@@ -5,14 +5,24 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/horizontal_imageview"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10sp"
+        android:src="@drawable/ic_reply_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/horizontal_textview"
-        android:textSize="30sp"
+        android:textSize="10sp"
         android:layout_margin="10sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_imageview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
