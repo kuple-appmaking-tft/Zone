@@ -2,6 +2,7 @@ package com.kuple.zone.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.kuple.zone.Inteface.OnItemClick;
 import com.kuple.zone.R;
+import com.kuple.zone.board.CommonboardActivity;
+import com.kuple.zone.board.SerchActivity;
 import com.kuple.zone.model.BoardInfo;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,17 +44,19 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
     private OnItemClick mCallback;
     private int count = 0;
     private SliderAdapterExample mSliderAdapterExample;
+    private String mBoardName;
 
 
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
 
-    public CommonAdapter(List<BoardInfo> mBoardInfo, Context mContext, FirebaseUser mFirebaseUser, OnItemClick listener) {
+    public CommonAdapter(List<BoardInfo> mBoardInfo, Context mContext, FirebaseUser mFirebaseUser, OnItemClick listener,String mBoardName) {
         this.mBoardInfo = mBoardInfo;
         this.mContext = mContext;
         this.mFirebaseUser = mFirebaseUser;
         this.mCallback = listener;
         mSliderAdapterExample = new SliderAdapterExample(mContext);
+        this.mBoardName=mBoardName;
     }
 
 
@@ -121,6 +126,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
 
 
 
+
     }
     public static Bitmap StringToBitmap(String encodedString) {
         try {
@@ -146,8 +152,10 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
 
 
 
+
         public BoardViewHolder(View itemView) {
             super(itemView);
+
             mTitleTextView = itemView.findViewById(R.id.normal_item_title);
             mSubinfo=itemView.findViewById(R.id.normal_name_date_viewcont);
             imageView=itemView.findViewById(R.id.normal_Imageview);

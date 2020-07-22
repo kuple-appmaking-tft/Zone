@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +34,7 @@ public class PhotoboardActivity extends AppCompatActivity {
     private List<String> mDocumentIdList;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String mBoardName;
+    private ImageView mSerch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class PhotoboardActivity extends AppCompatActivity {
             }
         });
 
+
         String getString=getIntent().getStringExtra("Refresh");
         try {//업로드 하자마자 자동 refresh
             if(getString.equals("success")){
@@ -68,6 +71,15 @@ public class PhotoboardActivity extends AppCompatActivity {
         }catch (Exception e){
 
         }
+        mSerch=findViewById(R.id.photo_serch);
+        mSerch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(PhotoboardActivity.this, SerchActivity.class);
+                intent.putExtra("BoardName",mBoardName);
+                startActivity(intent);
+            }
+        });
 
     }
     @Override
@@ -83,7 +95,7 @@ public class PhotoboardActivity extends AppCompatActivity {
     }
     public void retreive_Testing(final String mBoardName){
         mPostingInfoList=new ArrayList<>();
-        mDocumentIdList=new ArrayList<>();
+
         mStore.collection(mBoardName)
                 .orderBy("date", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -94,10 +106,9 @@ public class PhotoboardActivity extends AppCompatActivity {
                         //        for (QueryDocumentSnapshot document : task.getResult()) {
                         //Log.d("yangseongyeal",document.getId());
                         BoardInfo postingInfo = document.toObject(BoardInfo.class);
-                        mDocumentIdList.add(document.getId());
                         mPostingInfoList.add(postingInfo);
                     }
-                    mainAdapter = new PhotoboardAdapter(mPostingInfoList, PhotoboardActivity.this, mDocumentIdList);
+                    mainAdapter = new PhotoboardAdapter(mPostingInfoList, PhotoboardActivity.this);
                     mainAdapter.setOnIemlClickListner(new PhotoboardAdapter.OnItemClickListener() {//클릭됬을때
                         @Override
                         public void onitemClick(View v, int pos) {

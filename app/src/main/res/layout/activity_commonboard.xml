@@ -32,6 +32,7 @@
             app:layout_constraintEnd_toStartOf="@+id/normal_home_constraint0"
             app:layout_constraintStart_toEndOf="@+id/normal_menu_constraint0"
             app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
 
             android:id="@+id/normal_home_constraint0"
@@ -70,13 +71,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="공지"/>
+
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/normal_serch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/serch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView

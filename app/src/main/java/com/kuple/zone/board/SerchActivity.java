@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.Adapter.CommonAdapter;
+import com.kuple.zone.Adapter.PhotoboardAdapter;
 import com.kuple.zone.Inteface.OnItemClick;
 import com.kuple.zone.R;
 import com.kuple.zone.model.BoardInfo;
@@ -39,7 +40,9 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
     private TextInputLayout mTextInputLayout;
     private ProgressDialog loadingbar;
     private CommonAdapter mBoardAdapter;
+    private PhotoboardAdapter mPhotoAdapter;
     private RecyclerView mRecyclerView;
+    private String mBoardName;
 
 
     @Override
@@ -48,13 +51,14 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
         setContentView(R.layout.activity_serch);
         loadingbar=new ProgressDialog(this);
         mRecyclerView=findViewById(R.id.serch_RecyclerView);
+        mBoardName=getIntent().getStringExtra("BoardName");
         mTextInputEditText=findViewById(R.id.serch_TextInputEditText);
         mTextInputLayout=findViewById(R.id.serch_TextInputLayout);
         mTextInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String content=mTextInputEditText.getText().toString();
-                retriveSerch(content);
+                retriveSerch(content,mBoardName);
                 mTextInputEditText.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 assert imm != null;
@@ -62,16 +66,17 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
             }
         });
 
+
     }
 
-    private void retriveSerch(String content) {
+    private void retriveSerch(String content,final String mBoardName) {
         FirebaseFirestore mStore=FirebaseFirestore.getInstance();
         loadingbar.setTitle("Serching");
         loadingbar.setMessage("Serching");
         loadingbar.setCanceledOnTouchOutside(false);
         loadingbar.show();
         mBoardList=new ArrayList<>();
-        mStore.collection("Board")
+        mStore.collection(mBoardName)
                 .whereEqualTo("title",content)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -88,16 +93,33 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
                     if(mBoardList.size()==0){//찾는 데이터가 없을떄
                         Toast.makeText(getApplicationContext(),"데이터가없습니다",Toast.LENGTH_SHORT).show();
                     }
-                    mBoardAdapter=new CommonAdapter(mBoardList,SerchActivity.this, firebaseUser,SerchActivity.this);
-                    mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
-                        @Override
-                        public void onitemClick(View v, int pos) {
-                            Intent intent=new Intent(getApplicationContext(),DetailActivity.class);
-                            intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
-                            startActivity(intent);
-                        }
-                    });
-                    mRecyclerView.setAdapter(mBoardAdapter);
+                    if(mBoardName.equals("먹쿠먹쿠")){
+                        mPhotoAdapter=new PhotoboardAdapter(mBoardList,SerchActivity.this);
+                        mPhotoAdapter.setOnIemlClickListner(new PhotoboardAdapter.OnItemClickListener() {
+                            @Override
+                            public void onitemClick(View v, int pos) {
+                                Intent intent=new Intent(SerchActivity.this,DetailActivity.class);
+                                intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
+                                intent.putExtra("BoardName",mBoardName);
+                                startActivity(intent);
+                            }
+                        });
+                        mRecyclerView.setAdapter(mPhotoAdapter);
+                    }else{
+                        mBoardAdapter=new CommonAdapter(mBoardList,SerchActivity.this, firebaseUser,SerchActivity.this,mBoardName);
+                        mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
+                            @Override
+                            public void onitemClick(View v, int pos) {
+                                Intent intent=new Intent(SerchActivity.this,DetailActivity.class);
+                                intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
+                                intent.putExtra("BoardName",mBoardName);
+
+                                startActivity(intent);
+                            }
+                        });
+                        mRecyclerView.setAdapter(mBoardAdapter);
+                    }
+
 
                 }else{
                     Log.d("서치","데이터가 없다");

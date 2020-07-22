@@ -50,10 +50,10 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
         this.mListener=listner;
     }
 ////////////////////////////////
-    public PhotoboardAdapter(List<BoardInfo> mPostingInfoList, Context mContext, List<String> mDocumentIdList) {
+    public PhotoboardAdapter(List<BoardInfo> mPostingInfoList, Context mContext) {
         this.mContext = mContext;
         this.mPostingInfoList = mPostingInfoList;
-        this.mDocumentIdList=mDocumentIdList;
+
     }
     class MainViewHolder extends RecyclerView.ViewHolder{
         private TextView mTitleTextView;        //item_main의 객체를 불러옴...작은네모칸에 들어갈 얘들 선언
@@ -113,7 +113,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {//class MainViewHolder의 holder <Board>형식의 data값을 참조.
         BoardInfo data = mPostingInfoList.get(position);
-        final String documentId = mDocumentIdList.get(position);
+        final String documentId = data.getDocumentId();
         String replycount=String.valueOf(data.getReplycount());
         holder.mReplycount.setText(replycount);
         holder.mTitleTextView.setText(data.getTitle());
