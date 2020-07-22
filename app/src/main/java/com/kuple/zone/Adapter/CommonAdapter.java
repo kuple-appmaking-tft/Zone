@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.kuple.zone.Inteface.OnItemClick;
 import com.kuple.zone.R;
 import com.kuple.zone.board.CommonboardActivity;
-import com.kuple.zone.board.SerchActivity;
+import com.kuple.zone.board.SearchActivity;
 import com.kuple.zone.model.BoardInfo;
 
 import com.google.android.gms.tasks.OnSuccessListener;

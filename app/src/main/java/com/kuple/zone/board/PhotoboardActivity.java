@@ -75,7 +75,7 @@ public class PhotoboardActivity extends AppCompatActivity {
         mSerch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PhotoboardActivity.this, SerchActivity.class);
+                Intent intent=new Intent(PhotoboardActivity.this, SearchActivity.class);
                 intent.putExtra("BoardName",mBoardName);
                 startActivity(intent);
             }

@@ -33,7 +33,7 @@ import com.kuple.zone.model.BoardInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerchActivity extends AppCompatActivity implements OnItemClick {
+public class SearchActivity extends AppCompatActivity implements OnItemClick {
     private List<BoardInfo> mBoardList;
     private final FirebaseUser firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
     private TextInputEditText mTextInputEditText;
@@ -48,17 +48,17 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_serch);
+        setContentView(R.layout.activity_search);
         loadingbar=new ProgressDialog(this);
         mRecyclerView=findViewById(R.id.serch_RecyclerView);
         mBoardName=getIntent().getStringExtra("BoardName");
         mTextInputEditText=findViewById(R.id.serch_TextInputEditText);
-        mTextInputLayout=findViewById(R.id.serch_TextInputLayout);
+        mTextInputLayout=findViewById(R.id.search_TextInputLayout);
         mTextInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String content=mTextInputEditText.getText().toString();
-                retriveSerch(content,mBoardName);
+                retriveSearch(content,mBoardName);
                 mTextInputEditText.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 assert imm != null;
@@ -69,7 +69,7 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
 
     }
 
-    private void retriveSerch(String content,final String mBoardName) {
+    private void retriveSearch(String content,final String mBoardName) {
         FirebaseFirestore mStore=FirebaseFirestore.getInstance();
         loadingbar.setTitle("Serching");
         loadingbar.setMessage("Serching");
@@ -94,11 +94,11 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
                         Toast.makeText(getApplicationContext(),"데이터가없습니다",Toast.LENGTH_SHORT).show();
                     }
                     if(mBoardName.equals("먹쿠먹쿠")){
-                        mPhotoAdapter=new PhotoboardAdapter(mBoardList,SerchActivity.this);
+                        mPhotoAdapter=new PhotoboardAdapter(mBoardList,SearchActivity.this);
                         mPhotoAdapter.setOnIemlClickListner(new PhotoboardAdapter.OnItemClickListener() {
                             @Override
                             public void onitemClick(View v, int pos) {
-                                Intent intent=new Intent(SerchActivity.this,DetailActivity.class);
+                                Intent intent=new Intent(SearchActivity.this,DetailActivity.class);
                                 intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
                                 intent.putExtra("BoardName",mBoardName);
                                 startActivity(intent);
@@ -106,11 +106,11 @@ public class SerchActivity extends AppCompatActivity implements OnItemClick {
                         });
                         mRecyclerView.setAdapter(mPhotoAdapter);
                     }else{
-                        mBoardAdapter=new CommonAdapter(mBoardList,SerchActivity.this, firebaseUser,SerchActivity.this,mBoardName);
+                        mBoardAdapter=new CommonAdapter(mBoardList,SearchActivity.this, firebaseUser,SearchActivity.this,mBoardName);
                         mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
                             @Override
                             public void onitemClick(View v, int pos) {
-                                Intent intent=new Intent(SerchActivity.this,DetailActivity.class);
+                                Intent intent=new Intent(SearchActivity.this,DetailActivity.class);
                                 intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
                                 intent.putExtra("BoardName",mBoardName);
 

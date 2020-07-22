@@ -62,7 +62,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
         mSerch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(CommonboardActivity.this, SerchActivity.class);
+                Intent intent=new Intent(CommonboardActivity.this, SearchActivity.class);
                 intent.putExtra("BoardName",mBoardName);
                 startActivity(intent);
             }
