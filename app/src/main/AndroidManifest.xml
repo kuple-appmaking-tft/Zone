@@ -15,7 +15,7 @@
         <activity android:name=".board.WriteActivity" />
         <activity android:name=".board.DetailActivity" />
         <activity android:name=".board.PhotoboardActivity" />
-        <activity android:name=".board.SerchActivity" />
+        <activity android:name=".board.SearchActivity" />
         <activity android:name=".login.EmailCheckActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login.FindActivity" />

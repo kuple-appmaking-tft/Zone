@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.kuple.zone.Inteface.OnItemClick;
 import com.kuple.zone.R;
 
 import java.util.ArrayList;
@@ -22,6 +23,13 @@ public class HorizentalAdapter extends RecyclerView.Adapter<HorizentalAdapter.Vi
     public HorizentalAdapter(Context mContext, ArrayList<String> mTextList) {
         this.mContext = mContext;
         this.mTextList = mTextList;
+    }
+    public interface OnItemClickListener{
+        void onitemClick(View v,int pos);
+    }
+    private static ChildAdapter.OnItemClickListener mListener=null;
+    public void setOnIemlClickListner(ChildAdapter.OnItemClickListener listner){
+        mListener=listner;
     }
 
     @NonNull
@@ -49,11 +57,24 @@ public class HorizentalAdapter extends RecyclerView.Adapter<HorizentalAdapter.Vi
         return mTextList.size();
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView name;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.horizontal_textview);
+            itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
+                @Override
+                public void onClick(View v) {//들어가는 기능 detail로
+                    int pos=getAdapterPosition();
+                    if(pos!=RecyclerView.NO_POSITION){
+                        if(mListener!=null){
+                            mListener.onitemClick(v,pos);
+                        }
+                    }
+                }
+            });
         }
     }
 

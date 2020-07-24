@@ -1,10 +1,21 @@
 package com.kuple.zone.model;
 
+import java.util.ArrayList;
+
 public class UserModel {
     private String userEmail;
     private String userPassword;
     private String phoneNumber;
     public String nickname;
+    private ArrayList<String> favoritList;
+
+    public ArrayList<String> getFavoritList() {
+        return favoritList;
+    }
+
+    public void setFavorilist(ArrayList<String> favoritList) {
+        this.favoritList = favoritList;
+    }
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
@@ -37,5 +48,20 @@ public class UserModel {
     public String getNickname() {
         return nickname;
     }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "userEmail='" + userEmail + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", favorilist=" + favoritList +
+                '}';
+    }
+
+
+
+
 }
 
