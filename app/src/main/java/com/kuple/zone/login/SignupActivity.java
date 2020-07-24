@@ -133,6 +133,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.show();
                         if(task.isSuccessful()){
                             loginProcess(email, password);
                         } else {
