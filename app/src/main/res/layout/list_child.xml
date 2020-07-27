@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:paddingLeft="13dp"
     android:paddingStart="13dp"
@@ -10,11 +10,27 @@
     android:paddingBottom="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/child_image"
-        android:layout_width="20sp"
-        android:layout_height="20sp"
-        android:src="@drawable/circle_like"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/child_image"-->
+<!--        android:layout_width="20sp"-->
+<!--        android:layout_height="20sp"-->
+<!--        android:src="@drawable/circle_like"/>-->
+    <com.like.LikeButton
+        android:id="@+id/child_likeButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:anim_scale_factor="2"
+        app:circle_end_color="@color/colorAccent"
+        app:circle_start_color="@color/colorPrimary"
+        app:dots_primary_color="@color/colorAccent"
+        app:dots_secondary_color="@color/colorPrimary"
+        app:icon_size="25dp"
+        app:icon_type="heart"
+        app:is_enabled="true"
+        app:like_drawable="@drawable/thumb_on"
+        app:liked="false"
+        app:unlike_drawable="@drawable/thumb_off" />
+
     <TextView
         android:id="@+id/child_title"
         android:textColor="#045CB1"

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,14 +19,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.Adapter.ChildAdapter;
 import com.kuple.zone.Adapter.HeaderAdapter;
 import com.kuple.zone.Adapter.HorizentalAdapter;
 import com.kuple.zone.R;
 import com.kuple.zone.board.CommonboardActivity;
 import com.kuple.zone.model.HeaderModel;
+import com.kuple.zone.model.ReplyInfo;
 import com.kuple.zone.model.UserModel;
 
 import java.util.ArrayList;
@@ -56,16 +63,41 @@ public class BoardFragment extends Fragment {
         horizentalRecyclerView.setLayoutManager(layoutManager);
 
 
-        mStore.collection("users").document(firebaseUser.getUid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//        mStore.collection("users").document(firebaseUser.getUid())
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                final UserModel userModel=documentSnapshot.toObject(UserModel.class);
+//                assert userModel != null;
+//
+//                HorizentalAdapter adapter=new HorizentalAdapter(getContext(),userModel.getFavoritList());
+//                adapter.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
+//                    @Override
+//                    public void onitemClick(View v, int pos) {
+//                        Intent intent=new Intent(getContext(), CommonboardActivity.class);
+//                        intent.putExtra("BoardName",userModel.getFavoritList().get(pos));
+//                        startActivity(intent);
+//                    }
+//                });
+//                horizentalRecyclerView.setAdapter(adapter);
+//            }
+//        });
+        final DocumentReference docRef = mStore.collection("users").document(firebaseUser.getUid());
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                final UserModel userModel=documentSnapshot.toObject(UserModel.class);
-                assert userModel != null;
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("TAG", "Listen failed.", e);
+                    return;
+                }
 
-                HorizentalAdapter adapter=new HorizentalAdapter(getContext(),userModel.getFavoritList());
-                adapter.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d("TAG", "Current data: " + snapshot.getData());
+                    final UserModel userModel=snapshot.toObject(UserModel.class);
+                    HorizentalAdapter adapter=new HorizentalAdapter(getContext(),userModel.getFavoritList());
+                    adapter.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
                     @Override
                     public void onitemClick(View v, int pos) {
                         Intent intent=new Intent(getContext(), CommonboardActivity.class);
@@ -73,7 +105,10 @@ public class BoardFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
-                horizentalRecyclerView.setAdapter(adapter);
+                    horizentalRecyclerView.setAdapter(adapter);
+                } else {
+                    Log.d("TAG", "Current data: null");
+                }
             }
         });
 
