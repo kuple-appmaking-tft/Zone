@@ -8,19 +8,19 @@
     tools:context=".timetable.TimeTablePlusActivity">
 
 
-        <ScrollView
+    <ScrollView
 
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+
+        <com.github.tlaabs.timetableview.TimetableView
+            android:id="@+id/timetable"
             android:layout_width="match_parent"
-            android:layout_height="300dp">
-
-
-            <com.github.tlaabs.timetableview.TimetableView
-                android:id="@+id/timetable"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:orientation="vertical"
-                app:header_title="@array/default_header_title" />
-        </ScrollView>
+            android:layout_height="500dp"
+            android:orientation="vertical"
+            app:header_title="@array/default_header_title" />
+    </ScrollView>
 
 
     <HorizontalScrollView
@@ -41,23 +41,23 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:spinnerMode="dropdown"
-            >
+                >
 
             </Spinner>
 
             <!--전공 / 교양 검색 -->
             <Spinner
-            android:id="@+id/search_classes"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp">
+                android:id="@+id/search_classes"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp">
 
 
 
-             </Spinner>
+            </Spinner>
             <!--검색어 -->
-             <Spinner
+            <Spinner
                 android:id="@+id/search_condition"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                 android:layout_marginLeft="10dp">
 
             </Spinner>
-            
+
             <!--과목 정렬_우선순위 -->
             <Spinner
                 android:id="@+id/search_range"
@@ -115,12 +115,11 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/timetable_search"
-            android:scrollbars="horizontal" />
-
+            android:id="@+id/class_view"/>
     </LinearLayout>
 
 

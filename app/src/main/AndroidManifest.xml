@@ -21,8 +21,10 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".login.FindActivity" />
         <activity android:name=".login.SignupActivity" />
+        <activity android:name=".timetable.TimeTablePlusActivity"/>
         <activity android:name=".board.CommonboardActivity" />
         <activity android:name=".login.LoginActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
