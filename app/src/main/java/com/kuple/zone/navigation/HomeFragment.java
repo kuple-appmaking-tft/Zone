@@ -14,4 +14,5 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         return view;
     }
+    //피드 모델 구현 시작
 }
