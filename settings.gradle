@@ -1,3 +1,2 @@
-include ':timetableview'
+include ':app', ':timetableview'
 rootProject.name='zone'
-include ':app'

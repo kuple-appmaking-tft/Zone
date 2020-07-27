@@ -45,11 +45,6 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
     Spinner searchcampusSpinner;
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
