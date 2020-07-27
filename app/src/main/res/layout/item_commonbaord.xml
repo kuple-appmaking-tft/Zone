@@ -45,7 +45,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="15dp"
         android:src="@drawable/ic_more_vert_black_24dp"
-        app:layout_constraintEnd_toEndOf="@+id/normal_reply"
+        app:layout_constraintEnd_toStartOf="@+id/normal_reply"
         app:layout_constraintStart_toStartOf="@id/guideline3"
         app:layout_constraintTop_toTopOf="parent" />
 
