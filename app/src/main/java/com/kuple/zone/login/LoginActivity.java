@@ -46,13 +46,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         firebaseUser = firebaseAuth.getCurrentUser();
 
         // 이미 로그인이 된 경우
-        if(firebaseUser != null){
+        if (firebaseUser != null) {
             //이미 로그인 되었다면 이 액티비티를 종료함
             finish();
             // 회원가입시 이메일 인증을 받지 않은경우
-            if(firebaseUser.isEmailVerified() == false){
+            if (firebaseUser.isEmailVerified() == false) {
                 startActivity(new Intent(getApplicationContext(), EmailCheckActivity.class));
-            }else{
+            } else {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         }
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        textviewSingin= (TextView) findViewById(R.id.textViewSignin);
+        textviewSingin = (TextView) findViewById(R.id.textViewSignin);
         textviewMessage = (TextView) findViewById(R.id.textviewMessage);
         textviewFindPassword = (TextView) findViewById(R.id.textViewFindpassword);
         buttonSignin = (Button) findViewById(R.id.buttonSignup);
@@ -73,15 +73,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     //firebase userLogin method
-    private void userLogin(){
+    private void userLogin() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -95,11 +95,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             firebaseUser = firebaseAuth.getCurrentUser();
-                            if(firebaseUser.isEmailVerified() == false){
+                            if (firebaseUser.isEmailVerified() == false) {
                                 startActivity(new Intent(getApplicationContext(), EmailCheckActivity.class));
-                            }else{
+                            } else {
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             }
                             finish();
@@ -114,13 +114,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        if(view == buttonSignin) {
+        if (view == buttonSignin) {
             userLogin();
         }
-        if(view == textviewSingin) {
+        if (view == textviewSingin) {
             startActivity(new Intent(this, SignupActivity.class));
         }
-        if(view == textviewFindPassword) {
+        if (view == textviewFindPassword) {
             startActivity(new Intent(this, FindActivity.class));
         }
     }

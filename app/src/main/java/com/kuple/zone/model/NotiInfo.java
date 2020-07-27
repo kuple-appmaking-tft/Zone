@@ -11,12 +11,14 @@ public class NotiInfo {
     @ServerTimestamp
     private Date date;
 
-    public NotiInfo(){}
+    public NotiInfo() {
+    }
+
     public NotiInfo(String title, String content, String documentId, Date date) {
         this.title = title;
         this.content = content;
         this.documentId = documentId;
-        this.date=date;
+        this.date = date;
     }
 
     public Date getDate() {

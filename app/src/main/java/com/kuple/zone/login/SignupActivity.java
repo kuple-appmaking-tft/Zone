@@ -47,7 +47,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     // Firebase 정의
     FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser ;
+    FirebaseUser firebaseUser;
     FirebaseFirestore firebaseStore;
 
     @Override
@@ -59,7 +59,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStore = FirebaseFirestore.getInstance();
 
-        if(firebaseAuth.getCurrentUser() != null){
+        if (firebaseAuth.getCurrentUser() != null) {
             //이미 로그인 되었다면 이 액티비티를 종료함
             finish();
             //그리고 profile 액티비티를 연다.
@@ -70,8 +70,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextPasswordCheck = (EditText) findViewById(R.id.editTextPasswordCheck);
         editTextPhone = (EditText) findViewById(R.id.editTextPhone);
-        editTextNickname  = (EditText) findViewById(R.id.editTextNickname);
-        textviewSingin= (TextView) findViewById(R.id.textViewSignin);;
+        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
+        textviewSingin = (TextView) findViewById(R.id.textViewSignin);
+        ;
         textviewMessage = (TextView) findViewById(R.id.textviewMessage);
         buttonSignup = (Button) findViewById(R.id.buttonSignup);
         progressDialog = new ProgressDialog(this);
@@ -84,19 +85,19 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     //button click event
     @Override
     public void onClick(View view) {
-        if(view == buttonSignup) {
+        if (view == buttonSignup) {
             //TODO
             registerUser();
         }
 
-        if(view == textviewSingin) {
+        if (view == textviewSingin) {
             finish();
             startActivity(new Intent(this, LoginActivity.class)); //추가해 줄 로그인 액티비티
         }
     }
 
     //Firebse creating a new user
-    private void registerUser(){
+    private void registerUser() {
         //사용자가 입력하는 email, password를 가져온다.
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
@@ -106,19 +107,19 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         String nickname = editTextNickname.getText().toString().trim();
 
         //email과 password가 비었는지 아닌지를 체크 한다.
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "이메일을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(TextUtils.isEmpty(nickname)){
+        if (TextUtils.isEmpty(nickname)) {
             Toast.makeText(this, "닉네임을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(TextUtils.isEmpty(passwordCheck)){
+        if (TextUtils.isEmpty(passwordCheck)) {
             Toast.makeText(this, "비밀번호 확인을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -126,7 +127,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         signupFunc(email, password);
     }
 
-    public void signupFunc(final String email, final String password){
+    public void signupFunc(final String email, final String password) {
 
         //creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -134,7 +135,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.show();
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             loginProcess(email, password);
                         } else {
                             //에러발생시
@@ -147,13 +148,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 });
     }
 
-    public void loginProcess(final String email, final String password){
+    public void loginProcess(final String email, final String password) {
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
 
                             firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -162,7 +163,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                             userModel.setUserPassword(editTextPassword.getText().toString());
                             userModel.setPhoneNumber(editTextPhone.getText().toString());
                             userModel.setNickname(editTextNickname.getText().toString());
-                            userModel.setFavorilist(new ArrayList<String>());
+                            userModel.setFavoritList(new ArrayList<String>());
 
                             firebaseStore.collection("users")
                                     .document(firebaseUser.getUid())
@@ -191,7 +192,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    public void sendEmail(){
+    public void sendEmail() {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         firebaseUser.sendEmailVerification()
@@ -200,7 +201,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(SignupActivity.this, "이메일 인증 메일을 전송했습니다. \n가입한 이메일에서 확인해주세요!", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             Toast.makeText(SignupActivity.this, "인증 메일 전송에 실패했습니다. \n쿠플존에 문의해주세요!", Toast.LENGTH_SHORT).show();
                         }
                     }

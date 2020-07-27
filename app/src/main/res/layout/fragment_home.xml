@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:clickable="true"
-    tools:context="navigation.DetailViewFragment">
+    tools:context=".navigation.HomeFragment">
 
     <ScrollView
         android:id="@+id/feedHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:scrollbars="none">
 
         <RelativeLayout

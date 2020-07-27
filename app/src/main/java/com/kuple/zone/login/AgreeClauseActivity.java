@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.kuple.zone.R;
 
-public class AgreeClauseActivity extends AppCompatActivity implements View.OnClickListener{
+public class AgreeClauseActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button buttonAgree;
 
@@ -25,7 +25,7 @@ public class AgreeClauseActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-        if(view == buttonAgree){
+        if (view == buttonAgree) {
             finish();
             startActivity(new Intent(this, SignupActivity.class));
         }

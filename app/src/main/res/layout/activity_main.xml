@@ -28,8 +28,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/my_toolbar"
         android:background="@color/colorDivision"
-        android:orientation="horizontal">
-    </LinearLayout>
+        android:orientation="horizontal"></LinearLayout>
 
     <FrameLayout
         android:id="@+id/main_content"
@@ -38,8 +37,7 @@
         android:layout_above="@+id/nav_division"
         android:layout_below="@+id/toolbar_division"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="171dp">
-    </FrameLayout>
+        tools:layout_editor_absoluteY="171dp"></FrameLayout>
 
     <LinearLayout
         android:id="@+id/nav_division"
@@ -47,8 +45,7 @@
         android:layout_height="1dp"
         android:layout_above="@+id/bottom_navigation"
         android:background="@color/colorDivision"
-        android:orientation="horizontal">
-    </LinearLayout>
+        android:orientation="horizontal"></LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -58,10 +55,9 @@
         app:backgroundTint="@color/colorPrimary"
         app:itemIconTint="@color/colorGoogleSignIn"
         app:itemTextColor="@color/colorGoogleSignIn"
-        app:menu="@menu/bottom_navigation_main"
+        app:menu="@menu/menu_bottom_navigation"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="-59dp"
-        tools:layout_editor_absoluteY="675dp">
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        tools:layout_editor_absoluteY="675dp"></com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>

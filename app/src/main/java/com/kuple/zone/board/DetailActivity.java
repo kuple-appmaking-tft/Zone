@@ -108,14 +108,12 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
     private LikeButton mLikeButton;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //
         final String mDocumentId = getIntent().getStringExtra("DocumentId");//mDocumentId는 디테일 정보받아오기
-        final String mBoardName=getIntent().getStringExtra("BoardName");
+        final String mBoardName = getIntent().getStringExtra("BoardName");
         if (mDocumentId != null) {
             documentReference = mStore.collection(mBoardName).document(mDocumentId);
         }
@@ -123,7 +121,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         //
 
         setContentView(R.layout.activity_detail);
-        detail_ScrollView=findViewById(R.id.detail_ScrollView);
+        detail_ScrollView = findViewById(R.id.detail_ScrollView);
         mTitle = findViewById(R.id.detail_title);
         mContent = findViewById(R.id.detail_content);
         mRecyclerView = findViewById(R.id.detail_recyclerview);
@@ -318,13 +316,12 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-               boardInfo = documentSnapshot.toObject(BoardInfo.class);
+                boardInfo = documentSnapshot.toObject(BoardInfo.class);
                 if (boardInfo.getUidList().contains(mFirebaseUser.getUid())) {//이미 좋아요 누른사람은
                     mLikeButton.setLiked(true);
                 }
             }
         });
-
 
 
     }
@@ -354,7 +351,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 BoardInfo boardInfo = documentSnapshot.toObject(BoardInfo.class);
 
-               //스크롤뷰 위치지정
+                //스크롤뷰 위치지정
                 assert boardInfo != null;
                 mTitle.setText(boardInfo.getTitle());
                 mContent.setText(boardInfo.getContent());
@@ -408,7 +405,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                                 }
                             }
                             mReplyAdapter = new ReplyAdapter(list, documentReference, DetailActivity.this, DetailActivity.this
-                                    , mTextInputLayout, mTextInputLayout2, mEditText, mEditText2,detail_ScrollView);
+                                    , mTextInputLayout, mTextInputLayout2, mEditText, mEditText2, detail_ScrollView);
                             mRecyclerView.setAdapter(mReplyAdapter);
 
                             loadingbar.dismiss();
@@ -438,7 +435,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
 
                         }
                         mReplyAdapter = new ReplyAdapter(list, documentReference, DetailActivity.this, DetailActivity.this
-                                , mTextInputLayout, mTextInputLayout2, mEditText, mEditText2,detail_ScrollView);
+                                , mTextInputLayout, mTextInputLayout2, mEditText, mEditText2, detail_ScrollView);
                         mRecyclerView.setAdapter(mReplyAdapter);
 
                     }

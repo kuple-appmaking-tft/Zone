@@ -31,14 +31,14 @@ import com.like.LikeButton;
 import java.util.Date;
 import java.util.List;
 
-public class ReplytoreplyAdapter extends RecyclerView.Adapter<ReplytoreplyAdapter.ReplytoreplyAdapterViewHolder>   {
+public class ReplytoreplyAdapter extends RecyclerView.Adapter<ReplytoreplyAdapter.ReplytoreplyAdapterViewHolder> {
     private List<ReplyInfo> mReplyList;
     private Context mContext;
-    private FirebaseUser mFirebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private DocumentReference documentReference_replyInreply;
     private OnItemClick mCallback;
 
-    private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
 //    public BoardAdapter.OnItemClickListener mListener=null;
 //    public void setOnIemlClickListner(BoardAdapter.OnItemClickListener listner){
@@ -47,37 +47,35 @@ public class ReplytoreplyAdapter extends RecyclerView.Adapter<ReplytoreplyAdapte
 //        void onitemClick(View v, int pos);
 //    }
 
-    ReplytoreplyAdapter(List<ReplyInfo> mReplyList, Context mContext, DocumentReference documentReference_replyInreply, OnItemClick listener)
-    {
+    ReplytoreplyAdapter(List<ReplyInfo> mReplyList, Context mContext, DocumentReference documentReference_replyInreply, OnItemClick listener) {
         this.mReplyList = mReplyList;
-        this.mContext=mContext;
-        this.documentReference_replyInreply=documentReference_replyInreply;
-        this.mCallback=listener;
+        this.mContext = mContext;
+        this.documentReference_replyInreply = documentReference_replyInreply;
+        this.mCallback = listener;
     }
-    public ReplytoreplyAdapter(List<ReplyInfo> mReplyList, Context mContext, OnItemClick listener)
-    {
+
+    public ReplytoreplyAdapter(List<ReplyInfo> mReplyList, Context mContext, OnItemClick listener) {
         this.mReplyList = mReplyList;
-        this.mContext=mContext;
-        this.mCallback=listener;
+        this.mContext = mContext;
+        this.mCallback = listener;
     }
 
     @NonNull
     @Override
     public ReplytoreplyAdapter.ReplytoreplyAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ReplytoreplyAdapterViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_replyinreply,parent,false));
+        return new ReplytoreplyAdapterViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_replyinreply, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ReplytoreplyAdapter.ReplytoreplyAdapterViewHolder holder, final int position) {
-        final ReplyInfo replyInfo=mReplyList.get(position);
+        final ReplyInfo replyInfo = mReplyList.get(position);
         holder.mContent.setText(replyInfo.getContent());
         holder.mMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String documentId=replyInfo.getDocumentId();
-                show_menu(v,position);
+                String documentId = replyInfo.getDocumentId();
+                show_menu(v, position);
             }
-
 
 
         });
@@ -87,17 +85,17 @@ public class ReplytoreplyAdapter extends RecyclerView.Adapter<ReplytoreplyAdapte
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        UserModel fm=documentSnapshot.toObject(UserModel.class);
+                        UserModel fm = documentSnapshot.toObject(UserModel.class);
                         assert fm != null;
-                        String date=replyInfo.getDate().toString();
-                        String date1=date.substring(11,16);
-                        String date2=replyInfo.getDate().toString().substring(11,13);//시간부분
-                        int hour=(Integer.parseInt(date2)+9)%24;
+                        String date = replyInfo.getDate().toString();
+                        String date1 = date.substring(11, 16);
+                        String date2 = replyInfo.getDate().toString().substring(11, 13);//시간부분
+                        int hour = (Integer.parseInt(date2) + 9) % 24;
                         //String finaldate=String.valueOf(hour)+replyInfo.getDate().toString().substring(13,16);
-                        String finaldate=date1;
-                        Log.d("홈 댓글시간",finaldate);
+                        String finaldate = date1;
+                        Log.d("홈 댓글시간", finaldate);
                         //String str=fm.getUserNickName()+"("+fm.getNickname()+")\n"+finaldate;
-                        String str=fm.nickname;
+                        String str = fm.nickname;
                         holder.mNickname.setText(str);
                     }
                 });
@@ -116,25 +114,26 @@ public class ReplytoreplyAdapter extends RecyclerView.Adapter<ReplytoreplyAdapte
 
     class ReplytoreplyAdapterViewHolder extends RecyclerView.ViewHolder {
         private TextView mContent;
-        private ImageView mMenu,mN;
+        private ImageView mMenu, mN;
         private TextView mNickname;
         private LikeButton mLikebutton;
         private TextView mLikecount;
 
 
-       ReplytoreplyAdapterViewHolder(@NonNull View itemView) {
+        ReplytoreplyAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
-           mContent=itemView.findViewById(R.id.item_reply_content);
-           mMenu=itemView.findViewById(R.id.item_reply_menu_imageView);
-           mNickname=itemView.findViewById(R.id.item_nickname_level);
-           mLikebutton=itemView.findViewById(R.id.item_reply_likebutton);
-           mLikecount=itemView.findViewById(R.id.item_reply_likecount);
-           mN=itemView.findViewById(R.id.reply_new);
+            mContent = itemView.findViewById(R.id.item_reply_content);
+            mMenu = itemView.findViewById(R.id.item_reply_menu_imageView);
+            mNickname = itemView.findViewById(R.id.item_nickname_level);
+            mLikebutton = itemView.findViewById(R.id.item_reply_likebutton);
+            mLikecount = itemView.findViewById(R.id.item_reply_likecount);
+            mN = itemView.findViewById(R.id.reply_new);
 
         }
     }
+
     private void show_menu(View v, final int position) {
-        final FirebaseFirestore mStore=FirebaseFirestore.getInstance();
+        final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
         PopupMenu popup = new PopupMenu(mContext, v);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override

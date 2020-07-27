@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kuple.zone.R;
 
-public class LogoutActivity extends AppCompatActivity implements View.OnClickListener{
+public class LogoutActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "ProfileActivity";
 
     //firebase auth object
@@ -43,7 +43,7 @@ public class LogoutActivity extends AppCompatActivity implements View.OnClickLis
         //initializing firebase authentication object
         firebaseAuth = FirebaseAuth.getInstance();
         //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
-        if(firebaseAuth.getCurrentUser() == null) {
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
@@ -52,7 +52,7 @@ public class LogoutActivity extends AppCompatActivity implements View.OnClickLis
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         //textViewUserEmail의 내용을 변경해 준다.
-        textViewUserEmail.setText("반갑습니다.\n"+ user.getEmail()+"으로 로그인 하였습니다.");
+        textViewUserEmail.setText("반갑습니다.\n" + user.getEmail() + "으로 로그인 하였습니다.");
 
         //logout button event
         buttonLogout.setOnClickListener(this);
@@ -67,7 +67,7 @@ public class LogoutActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(new Intent(this, LoginActivity.class));
         }
         //회원탈퇴를 클릭하면 회원정보를 삭제한다. 삭제전에 컨펌창을 하나 띄워야 겠다.
-        if(view == textivewDelete) {
+        if (view == textivewDelete) {
             AlertDialog.Builder alert_confirm = new AlertDialog.Builder(LogoutActivity.this);
             alert_confirm.setMessage("정말 계정을 삭제 할까요?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override

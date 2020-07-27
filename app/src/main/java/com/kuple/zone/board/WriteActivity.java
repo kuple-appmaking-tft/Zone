@@ -67,14 +67,15 @@ public class WriteActivity extends AppCompatActivity {
     private String documentId;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentReference documentReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
-        String mBoardName=getIntent().getStringExtra("BoardName");
+        String mBoardName = getIntent().getStringExtra("BoardName");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         documentReference = db.collection(mBoardName).document();
-        documentId=documentReference.getId();
+        documentId = documentReference.getId();
         if (user != null) {
             // Name, email address, and profile photo Url
 //            String name = user.getDisplayName();
@@ -87,12 +88,12 @@ public class WriteActivity extends AppCompatActivity {
             uid = user.getUid();
             //Toast.makeText(this,uid,Toast.LENGTH_LONG).show();
         }
-        mTitle=findViewById(R.id.write_title_EditText);
-        mContents=findViewById(R.id.write_contents_EditText);
-        mTitleLayout=findViewById(R.id.write_textInputLayout_title);
+        mTitle = findViewById(R.id.write_title_EditText);
+        mContents = findViewById(R.id.write_contents_EditText);
+        mTitleLayout = findViewById(R.id.write_textInputLayout_title);
 
-        mContentsLayOut=findViewById(R.id.write_textInputLayout_contents);
-        loadingbar=new ProgressDialog(this);
+        mContentsLayOut = findViewById(R.id.write_textInputLayout_contents);
+        loadingbar = new ProgressDialog(this);
         findViewById(R.id.write_addphoto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,14 +101,14 @@ public class WriteActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"Select Picture"), RESULT_LOAD_IMAGE);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
             }
         });
 //이미지슬라이더
-        imageStringList=new ArrayList<>();//이거없으면안댐
-        imageUriList=new ArrayList<>();//이거없으면안댐
+        imageStringList = new ArrayList<>();//이거없으면안댐
+        imageUriList = new ArrayList<>();//이거없으면안댐
         sliderAdapterExample = new SliderAdapterExample(this);
-        SliderView sliderView=findViewById(R.id.write_sliderview);
+        SliderView sliderView = findViewById(R.id.write_sliderview);
         sliderView.setSliderAdapter(sliderAdapterExample);
         sliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -133,8 +134,8 @@ public class WriteActivity extends AppCompatActivity {
         documentReference.set(boardInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(),"업로드성공",Toast.LENGTH_LONG).show();
-                setResult( 99);//99보냄
+                Toast.makeText(getApplicationContext(), "업로드성공", Toast.LENGTH_LONG).show();
+                setResult(99);//99보냄
                 //FirebaseMessaging.getInstance().subscribeToTopic(documentId);//구독하기
                 loadingbar.dismiss();
                 finish();
@@ -151,7 +152,6 @@ public class WriteActivity extends AppCompatActivity {
     }
 
 
-
     private void uploadFile() {
         //업로드할 파일이 있으면 수행
         loadingbar.setTitle("Set profile image");
@@ -160,17 +160,17 @@ public class WriteActivity extends AppCompatActivity {
         loadingbar.show();
         mDownloadURI = new ArrayList<>();
         Date time = new Date();
-        if (mTitle.getText().toString().length() ==0||mContents.getText().toString().length() ==0){
+        if (mTitle.getText().toString().length() == 0 || mContents.getText().toString().length() == 0) {
             Toast.makeText(getApplicationContext(), "제목,내용을 입력하시오", Toast.LENGTH_LONG).show();
-        }else{
-            title=mTitle.getText().toString();
-            contents=mContents.getText().toString();
+        } else {
+            title = mTitle.getText().toString();
+            contents = mContents.getText().toString();
 
             mStorageRef = FirebaseStorage.getInstance().getReference("image");//loaction 설정
-            if(imageUriList.size()!=0){
+            if (imageUriList.size() != 0) {
                 for (int i = 0; i < imageUriList.size(); i++) {
                     Uri imageUri = imageUriList.get(i);
-                    final StorageReference imgref = mStorageRef.child(imageUri.getLastPathSegment()+time.toString()+uid.toString());//고유하게 저장하기위해서.
+                    final StorageReference imgref = mStorageRef.child(imageUri.getLastPathSegment() + time.toString() + uid.toString());//고유하게 저장하기위해서.
                     UploadTask uploadTask = imgref.putFile(imageUri);
                     Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                         @Override
@@ -187,22 +187,22 @@ public class WriteActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Uri downloadUri = task.getResult();
                                 mDownloadURI.add(downloadUri.toString());
-                                if(mDownloadURI.size()==imageUriList.size()){
-                                    String dynamiclink="test";
-                                    Date date=new Date();
-                                    BoardInfo boardInfo=new BoardInfo(
+                                if (mDownloadURI.size() == imageUriList.size()) {
+                                    String dynamiclink = "test";
+                                    Date date = new Date();
+                                    BoardInfo boardInfo = new BoardInfo(
                                             title
-                                            ,contents
-                                            ,uid
-                                            ,documentId
-                                            ,date
-                                            ,"0"
+                                            , contents
+                                            , uid
+                                            , documentId
+                                            , date
+                                            , "0"
                                             , Arrays.asList("")
-                                            ,0
-                                            ,0
-                                            ,mDownloadURI
+                                            , 0
+                                            , 0
+                                            , mDownloadURI
                                     );
-                                    Log.d("성공","성공");
+                                    Log.d("성공", "성공");
                                     uploadStore(boardInfo);
 
                                 }
@@ -211,18 +211,18 @@ public class WriteActivity extends AppCompatActivity {
                     });
 
                 }//for문끝  스토리지에 저장만함
-            }else {
-                BoardInfo boardInfo=new BoardInfo(
+            } else {
+                BoardInfo boardInfo = new BoardInfo(
                         title
-                        ,contents
-                        ,uid
-                        ,documentId
-                        ,new Date()
-                        ,"0"
-                        ,Arrays.asList("")
-                        ,0
-                        ,0
-                        ,mDownloadURI
+                        , contents
+                        , uid
+                        , documentId
+                        , new Date()
+                        , "0"
+                        , Arrays.asList("")
+                        , 0
+                        , 0
+                        , mDownloadURI
                 );
                 uploadStore(boardInfo);
 
@@ -235,11 +235,8 @@ public class WriteActivity extends AppCompatActivity {
     }
 
 
-
-
-
     @Override
-    protected void onDestroy(){      //액티비티가 종료될 때의 메서드
+    protected void onDestroy() {      //액티비티가 종료될 때의 메서드
         super.onDestroy();
 
 

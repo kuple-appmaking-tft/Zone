@@ -31,7 +31,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <!--캠퍼스 구분 -->
             <Spinner
@@ -40,8 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:spinnerMode="dropdown"
-                >
+                android:spinnerMode="dropdown">
 
             </Spinner>
 
@@ -52,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp">
-
 
 
             </Spinner>
@@ -98,12 +96,6 @@
             </Spinner>
 
 
-
-
-
-
-
-
         </LinearLayout>
 
     </HorizontalScrollView>
@@ -117,13 +109,10 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/class_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/class_view"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>

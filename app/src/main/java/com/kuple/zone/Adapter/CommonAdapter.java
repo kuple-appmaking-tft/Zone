@@ -50,13 +50,13 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
 
-    public CommonAdapter(List<BoardInfo> mBoardInfo, Context mContext, FirebaseUser mFirebaseUser, OnItemClick listener,String mBoardName) {
+    public CommonAdapter(List<BoardInfo> mBoardInfo, Context mContext, FirebaseUser mFirebaseUser, OnItemClick listener, String mBoardName) {
         this.mBoardInfo = mBoardInfo;
         this.mContext = mContext;
         this.mFirebaseUser = mFirebaseUser;
         this.mCallback = listener;
         mSliderAdapterExample = new SliderAdapterExample(mContext);
-        this.mBoardName=mBoardName;
+        this.mBoardName = mBoardName;
     }
 
 
@@ -85,13 +85,13 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
         final BoardInfo boardInfo = mBoardInfo.get(position);
         holder.mTitleTextView.setText(boardInfo.getTitle());
         //댓글수 가져오기
-        String replycount=String.valueOf(boardInfo.getReplycount())+"\n"+"댓글";
+        String replycount = String.valueOf(boardInfo.getReplycount()) + "\n" + "댓글";
         holder.mReplycount.setText(replycount);
         //올린시간 가져오기
         String date = boardInfo.getDate().toString();
         String date1 = date.substring(11, 16);
-        String date2=date.substring(11,13);//시간부분
-        final String finaldate=date1;
+        String date2 = date.substring(11, 13);//시간부분
+        final String finaldate = date1;
         String dateTime2 = new Date().toString();
         String dateTime = dateTime2.substring(4, 10);
         Log.d("date1", dateTime);
@@ -108,7 +108,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
                 UserModel fm = documentSnapshot.toObject(UserModel.class);
                 assert fm != null;
                 try {
-                    holder.mSubinfo.setText(fm.nickname+" "+finaldate+" ");
+                    holder.mSubinfo.setText(fm.nickname + " " + finaldate + " ");
                     //holder.mSubinfo.setText("테스트");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -116,18 +116,15 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
             }
         });
         //이미지그려주기
-        if(boardInfo.getmDownloadURIList().size()!=0){
+        if (boardInfo.getmDownloadURIList().size() != 0) {
             Glide.with(holder.imageView).load(boardInfo.getmDownloadURIList().get(0)).into(holder.imageView);
-        }else{
+        } else {
             holder.imageView.setVisibility(View.INVISIBLE);
         }
 
 
-
-
-
-
     }
+
     public static Bitmap StringToBitmap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
@@ -137,7 +134,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
             e.getMessage();
             return null;
         }
-}
+    }
 
     @Override
     public int getItemCount() {
@@ -151,14 +148,12 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
         private ImageView imageView;
 
 
-
-
         public BoardViewHolder(View itemView) {
             super(itemView);
 
             mTitleTextView = itemView.findViewById(R.id.normal_item_title);
-            mSubinfo=itemView.findViewById(R.id.normal_name_date_viewcont);
-            imageView=itemView.findViewById(R.id.normal_Imageview);
+            mSubinfo = itemView.findViewById(R.id.normal_name_date_viewcont);
+            imageView = itemView.findViewById(R.id.normal_Imageview);
             mReplycount = itemView.findViewById(R.id.normal_reply);
 
             itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때

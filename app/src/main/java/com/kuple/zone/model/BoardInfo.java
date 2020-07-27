@@ -54,8 +54,8 @@ public class BoardInfo {
         this.date = date;
         this.uidList = uidList;
         this.viewcount = viewcount;
-        this.replycount=replycount;
-        this.mDownloadURIList=mDownloadURIList;
+        this.replycount = replycount;
+        this.mDownloadURIList = mDownloadURIList;
     }
 
     public ArrayList<String> getmDownloadURIList() {
@@ -89,7 +89,7 @@ public class BoardInfo {
         this.documentId = documentId;
         this.deleted_at = deleted_at;
         this.date = date;
-        this.uidList=uidList;
+        this.uidList = uidList;
     }
 
     public List<String> getUidList() {
@@ -119,8 +119,6 @@ public class BoardInfo {
     public BoardInfo() {
 
     }
-
-
 
 
     public Date getDate() {

@@ -4,6 +4,7 @@ import java.util.List;
 
 public class HeaderModel {
     public String text;
+
     public HeaderModel() {
     }
 

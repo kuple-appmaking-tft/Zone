@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".navigation.TimetableFragment">
 
     <LinearLayout
@@ -14,24 +14,23 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-
         <Button
             android:id="@+id/btn_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Plus"/>
+            android:text="Plus" />
 
         <Button
             android:id="@+id/btn_5day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5Day"/>
+            android:text="5Day" />
 
         <Button
             android:id="@+id/btn_7day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7Day"/>
+            android:text="7Day" />
 
     </LinearLayout>
 

@@ -35,7 +35,7 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements OnItemClick {
     private List<BoardInfo> mBoardList;
-    private final FirebaseUser firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+    private final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private TextInputEditText mTextInputEditText;
     private TextInputLayout mTextInputLayout;
     private ProgressDialog loadingbar;
@@ -49,16 +49,16 @@ public class SearchActivity extends AppCompatActivity implements OnItemClick {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        loadingbar=new ProgressDialog(this);
-        mRecyclerView=findViewById(R.id.serch_RecyclerView);
-        mBoardName=getIntent().getStringExtra("BoardName");
-        mTextInputEditText=findViewById(R.id.serch_TextInputEditText);
-        mTextInputLayout=findViewById(R.id.search_TextInputLayout);
+        loadingbar = new ProgressDialog(this);
+        mRecyclerView = findViewById(R.id.serch_RecyclerView);
+        mBoardName = getIntent().getStringExtra("BoardName");
+        mTextInputEditText = findViewById(R.id.serch_TextInputEditText);
+        mTextInputLayout = findViewById(R.id.search_TextInputLayout);
         mTextInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String content=mTextInputEditText.getText().toString();
-                retriveSearch(content,mBoardName);
+                String content = mTextInputEditText.getText().toString();
+                retriveSearch(content, mBoardName);
                 mTextInputEditText.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 assert imm != null;
@@ -69,68 +69,68 @@ public class SearchActivity extends AppCompatActivity implements OnItemClick {
 
     }
 
-    private void retriveSearch(String content,final String mBoardName) {
-        FirebaseFirestore mStore=FirebaseFirestore.getInstance();
+    private void retriveSearch(String content, final String mBoardName) {
+        FirebaseFirestore mStore = FirebaseFirestore.getInstance();
         loadingbar.setTitle("Serching");
         loadingbar.setMessage("Serching");
         loadingbar.setCanceledOnTouchOutside(false);
         loadingbar.show();
-        mBoardList=new ArrayList<>();
+        mBoardList = new ArrayList<>();
         mStore.collection(mBoardName)
-                .whereEqualTo("title",content)
+                .whereEqualTo("title", content)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                if(task.getResult()!=null){
-                    for(QueryDocumentSnapshot data: task.getResult()){
-                        BoardInfo boardInfo=data.toObject(BoardInfo.class);
-                        Log.d("서치",boardInfo.getContent());
-                        mBoardList.add(boardInfo);
-                        Log.d("서치",String.valueOf(mBoardList.size()));
-                    }
-                    if(mBoardList.size()==0){//찾는 데이터가 없을떄
-                        Toast.makeText(getApplicationContext(),"데이터가없습니다",Toast.LENGTH_SHORT).show();
-                    }
-                    if(mBoardName.equals("먹쿠먹쿠")){
-                        mPhotoAdapter=new PhotoboardAdapter(mBoardList,SearchActivity.this);
-                        mPhotoAdapter.setOnIemlClickListner(new PhotoboardAdapter.OnItemClickListener() {
-                            @Override
-                            public void onitemClick(View v, int pos) {
-                                Intent intent=new Intent(SearchActivity.this,DetailActivity.class);
-                                intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
-                                intent.putExtra("BoardName",mBoardName);
-                                startActivity(intent);
+                        if (task.getResult() != null) {
+                            for (QueryDocumentSnapshot data : task.getResult()) {
+                                BoardInfo boardInfo = data.toObject(BoardInfo.class);
+                                Log.d("서치", boardInfo.getContent());
+                                mBoardList.add(boardInfo);
+                                Log.d("서치", String.valueOf(mBoardList.size()));
                             }
-                        });
-                        mRecyclerView.setAdapter(mPhotoAdapter);
-                    }else{
-                        mBoardAdapter=new CommonAdapter(mBoardList,SearchActivity.this, firebaseUser,SearchActivity.this,mBoardName);
-                        mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
-                            @Override
-                            public void onitemClick(View v, int pos) {
-                                Intent intent=new Intent(SearchActivity.this,DetailActivity.class);
-                                intent.putExtra("DocumentId",mBoardList.get(pos).getDocumentId());
-                                intent.putExtra("BoardName",mBoardName);
-
-                                startActivity(intent);
+                            if (mBoardList.size() == 0) {//찾는 데이터가 없을떄
+                                Toast.makeText(getApplicationContext(), "데이터가없습니다", Toast.LENGTH_SHORT).show();
                             }
-                        });
-                        mRecyclerView.setAdapter(mBoardAdapter);
+                            if (mBoardName.equals("먹쿠먹쿠")) {
+                                mPhotoAdapter = new PhotoboardAdapter(mBoardList, SearchActivity.this);
+                                mPhotoAdapter.setOnIemlClickListner(new PhotoboardAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onitemClick(View v, int pos) {
+                                        Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
+                                        intent.putExtra("DocumentId", mBoardList.get(pos).getDocumentId());
+                                        intent.putExtra("BoardName", mBoardName);
+                                        startActivity(intent);
+                                    }
+                                });
+                                mRecyclerView.setAdapter(mPhotoAdapter);
+                            } else {
+                                mBoardAdapter = new CommonAdapter(mBoardList, SearchActivity.this, firebaseUser, SearchActivity.this, mBoardName);
+                                mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
+                                    @Override
+                                    public void onitemClick(View v, int pos) {
+                                        Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
+                                        intent.putExtra("DocumentId", mBoardList.get(pos).getDocumentId());
+                                        intent.putExtra("BoardName", mBoardName);
+
+                                        startActivity(intent);
+                                    }
+                                });
+                                mRecyclerView.setAdapter(mBoardAdapter);
+                            }
+
+
+                        } else {
+                            Log.d("서치", "데이터가 없다");
+                        }
+
+                        loadingbar.dismiss();
                     }
-
-
-                }else{
-                    Log.d("서치","데이터가 없다");
-                }
-
-                loadingbar.dismiss();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("서치","불러오기 실패");
+                Log.d("서치", "불러오기 실패");
             }
         });
     }

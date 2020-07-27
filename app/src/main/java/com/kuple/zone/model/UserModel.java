@@ -13,7 +13,7 @@ public class UserModel {
         return favoritList;
     }
 
-    public void setFavorilist(ArrayList<String> favoritList) {
+    public void setFavoritList(ArrayList<String> favoritList) {
         this.favoritList = favoritList;
     }
 
@@ -56,12 +56,9 @@ public class UserModel {
                 ", userPassword='" + userPassword + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", nickname='" + nickname + '\'' +
-                ", favorilist=" + favoritList +
+                ", favoritList=" + favoritList +
                 '}';
     }
-
-
-
 
 }
 

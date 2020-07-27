@@ -1,5 +1,7 @@
 package com.kuple.zone.model;
+
 import java.util.List;
+
 public class feedModel {
     private List<BusInfo> shuttleBusInfos;
     private List<Timetable> timetable;

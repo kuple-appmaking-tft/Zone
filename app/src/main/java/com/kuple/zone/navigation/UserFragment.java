@@ -25,7 +25,7 @@ import com.kuple.zone.R;
 import com.kuple.zone.login.LoginActivity;
 import com.kuple.zone.model.UserModel;
 
-public class UserFragment extends AppCompatActivity implements View.OnClickListener{
+public class UserFragment extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UserFragment";
 
     //firebase auth object
@@ -49,7 +49,6 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
     private TextView textviewCode;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +59,7 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
         //initializing firebase authentication object
         firebaseAuth = FirebaseAuth.getInstance();
         //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
-        if(firebaseAuth.getCurrentUser() == null) {
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
@@ -73,7 +72,7 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
         textivewDelete.setOnClickListener(this);
     }
 
-    public void takeUserInfo(){
+    public void takeUserInfo() {
         //유저가 있다면, null이 아니면 계속 진행
         firebaseAuth.getCurrentUser().reload();
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -87,15 +86,15 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
                 if (userModel == null) {
                     Toast.makeText(UserFragment.this, "유저 정보를 가져오지 못했습니다.", Toast.LENGTH_LONG).show();
                 } else {
-                    textviewId.setText("아이디: "+userModel.getUserEmail());
-                    textviewName.setText("이름: "+userModel.getNickname());
-                    textviewGroup.setText("학적: "+userModel.getPhoneNumber());
+                    textviewId.setText("아이디: " + userModel.getUserEmail());
+                    textviewName.setText("이름: " + userModel.getNickname());
+                    textviewGroup.setText("학적: " + userModel.getPhoneNumber());
                 }
             }
         });
     }
 
-    public void initializeViewGroup(){
+    public void initializeViewGroup() {
         //initializing views
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
         textivewDelete = (TextView) findViewById(R.id.textviewDelete);
@@ -118,7 +117,7 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
         // 회원 탈퇴를 하더라도 회원의 정보를 Database에서는 3개월간 저장해야 하기에 DB에서는 삭제하지 않습니다.
         // Admin에서 회원의 DB 정보를 삭제해야 합니다.
         // 회원 가입 후 바로 유저의 삭제는 이루어지지 않습니다. (로그인 내역이 있어야 합니다)
-        if(view == textivewDelete) {
+        if (view == textivewDelete) {
             AlertDialog.Builder alert_confirm = new AlertDialog.Builder(UserFragment.this);
             alert_confirm.setMessage("정말 계정을 삭제 할까요?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override

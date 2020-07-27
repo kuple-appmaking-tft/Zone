@@ -1,124 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    card_view:cardBackgroundColor="@color/colorGray"
-    app:cardCornerRadius="10dp"
     android:layout_marginLeft="20sp"
-    android:layout_marginRight="20sp">
+    android:layout_marginRight="20sp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="10dp"
+    card_view:cardBackgroundColor="@color/colorGray">
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/item_profile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:contentDescription="@string/profileimage"
-        android:src="@drawable/ic_profile_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/item_nickname_level"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/item_profile"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/reply_new"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="10dp"
-        android:src="@drawable/n"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/item_nickname_level"
-        app:layout_constraintStart_toEndOf="@+id/item_nickname_level"
-        app:layout_constraintTop_toTopOf="@+id/item_nickname_level" />
-
-    <com.like.LikeButton
-        android:id="@+id/item_reply_likebutton"
-        android:layout_width="30sp"
-        android:layout_height="30sp"
-        app:anim_scale_factor="2"
-        app:circle_end_color="@color/colorAccent"
-        app:circle_start_color="@color/colorPrimary"
-        app:dots_primary_color="@color/colorAccent"
-        app:dots_secondary_color="@color/colorPrimary"
-        app:icon_size="25dp"
-        app:icon_type="heart"
-        app:is_enabled="true"
-        app:layout_constraintEnd_toStartOf="@+id/item_reply_likecount"
-        app:layout_constraintTop_toTopOf="parent"
-        app:like_drawable="@drawable/thumb_on"
-        app:liked="false"
-        app:unlike_drawable="@drawable/thumb_off" />
-
-    <TextView
-        android:id="@+id/item_reply_likecount"
-        android:layout_width="20sp"
-        android:layout_height="20sp"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/item_reply"
-        app:layout_constraintTop_toTopOf="parent" />
-    <ImageView
-        android:id="@+id/item_reply"
-        android:layout_width="35sp"
-        android:layout_height="35sp"
-        android:src="@drawable/ic_reply_24dp"
-        app:layout_constraintEnd_toStartOf="@+id/item_reply_menu_imageView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/item_reply_menu_imageView"
-        android:layout_width="35sp"
-        android:layout_height="35sp"
-        android:layout_marginEnd="30sp"
-        android:contentDescription="@string/menu"
-        android:src="@drawable/ic_more_vert_black_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/item_reply_guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/item_reply_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textAlignment="textStart"
-        app:layout_constraintEnd_toEndOf="@+id/item_reply_guideline"
-        app:layout_constraintStart_toEndOf="@+id/item_profile"
-        app:layout_constraintTop_toBottomOf="@+id/item_nickname_level" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/item_reply_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="368dp" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/item_replytoreply_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/item_reply_content"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="50dp" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/profileimage"
+            android:src="@drawable/ic_profile_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_nickname_level"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/item_profile"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/reply_new"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/n"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/item_nickname_level"
+            app:layout_constraintStart_toEndOf="@+id/item_nickname_level"
+            app:layout_constraintTop_toTopOf="@+id/item_nickname_level" />
+
+        <com.like.LikeButton
+            android:id="@+id/item_reply_likebutton"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            app:anim_scale_factor="2"
+            app:circle_end_color="@color/colorAccent"
+            app:circle_start_color="@color/colorPrimary"
+            app:dots_primary_color="@color/colorAccent"
+            app:dots_secondary_color="@color/colorPrimary"
+            app:icon_size="25dp"
+            app:icon_type="heart"
+            app:is_enabled="true"
+            app:layout_constraintEnd_toStartOf="@+id/item_reply_likecount"
+            app:layout_constraintTop_toTopOf="parent"
+            app:like_drawable="@drawable/thumb_on"
+            app:liked="false"
+            app:unlike_drawable="@drawable/thumb_off" />
+
+        <TextView
+            android:id="@+id/item_reply_likecount"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/item_reply"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_reply"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:src="@drawable/ic_reply_24dp"
+            app:layout_constraintEnd_toStartOf="@+id/item_reply_menu_imageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_reply_menu_imageView"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_marginEnd="30sp"
+            android:contentDescription="@string/menu"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/item_reply_guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_reply_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/item_reply_guideline"
+            app:layout_constraintStart_toEndOf="@+id/item_profile"
+            app:layout_constraintTop_toBottomOf="@+id/item_nickname_level" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/item_reply_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="368dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/item_replytoreply_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_reply_content" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

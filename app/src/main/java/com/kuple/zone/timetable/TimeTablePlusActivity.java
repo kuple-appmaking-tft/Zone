@@ -1,4 +1,5 @@
 package com.kuple.zone.timetable;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -50,19 +51,18 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         database = FirebaseDatabase.getInstance();
         setContentView(R.layout.activity_time_table_plus);
-        recyclerView = (RecyclerView)findViewById(R.id.class_view);
+        recyclerView = (RecyclerView) findViewById(R.id.class_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final ClassRecyclerViewAdapter classRecyclerViewAdapter = new ClassRecyclerViewAdapter();
         recyclerView.setAdapter(classRecyclerViewAdapter);
 
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
+                new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration); //리사이클러뷰 구분선
 
 
-
         searchcampusSpinner = findViewById(R.id.search_campus);
-        ArrayAdapter searchcampusAdapter = ArrayAdapter.createFromResource(this,R.array.search_campus, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter searchcampusAdapter = ArrayAdapter.createFromResource(this, R.array.search_campus, android.R.layout.simple_spinner_dropdown_item);
         searchcampusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchcampusSpinner.setAdapter(searchcampusAdapter);
 
@@ -89,9 +89,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
                         }
                     });
-                }
-
-                else if (position == 1){
+                } else if (position == 1) {
 
                     database.getReference().child("classes/sejong/general/0/classes/0/courses").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -123,26 +121,26 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         });
 
 
-
     }
-    class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+    class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_sejong,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_sejong, parent, false);
 
             return new CustomViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            ((CustomViewHolder)holder).classNum_sejong.setText(sejongClasses.get(position).classNum);
-            ((CustomViewHolder)holder).code_sejong.setText(sejongClasses.get(position).code);
-            ((CustomViewHolder)holder).name_sejong.setText(sejongClasses.get(position).name);
-            ((CustomViewHolder)holder).professor_sejong.setText(sejongClasses.get(position).professor);
-            ((CustomViewHolder)holder).sel_sejong.setText(sejongClasses.get(position).sel);
-            ((CustomViewHolder)holder).time_sejong.setText(sejongClasses.get(position).time);
+            ((CustomViewHolder) holder).classNum_sejong.setText(sejongClasses.get(position).classNum);
+            ((CustomViewHolder) holder).code_sejong.setText(sejongClasses.get(position).code);
+            ((CustomViewHolder) holder).name_sejong.setText(sejongClasses.get(position).name);
+            ((CustomViewHolder) holder).professor_sejong.setText(sejongClasses.get(position).professor);
+            ((CustomViewHolder) holder).sel_sejong.setText(sejongClasses.get(position).sel);
+            ((CustomViewHolder) holder).time_sejong.setText(sejongClasses.get(position).time);
 
         }
 

@@ -23,6 +23,7 @@ public class InSchoolChildAdapter extends RecyclerView.Adapter<InSchoolChildAdap
         this.mTitleList = mTitleList;
         this.mContext = mContext;
     }
+
     @NonNull
     @Override
     public InSchoolChildAdapter.InSchoolChildViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,20 +40,21 @@ public class InSchoolChildAdapter extends RecyclerView.Adapter<InSchoolChildAdap
 
                 switch (position) {
                     case 0:
-                        List<String> list0=new ArrayList<>();
-                        if(holder.flag==0){
+                        List<String> list0 = new ArrayList<>();
+                        if (holder.flag == 0) {
                             list0.add("쿠플광장");
                             list0.add("고민상담");
                             list0.add("쑥덕쑥덕");
                             list0.add("졸업생 게시판");
-                            holder.recyclerView.setAdapter(new ChildAdapter(list0,mContext));
+                            holder.recyclerView.setAdapter(new ChildAdapter(list0, mContext));
                             holder.imageView.setImageResource(R.drawable.minusarrow);
-                            holder.flag=1;
-                        }else{
+                            holder.flag = 1;
+                        } else {
                             list0.clear();
-                            holder.recyclerView.setAdapter(new ChildAdapter(list0,mContext));;
+                            holder.recyclerView.setAdapter(new ChildAdapter(list0, mContext));
+                            ;
                             holder.imageView.setImageResource(R.drawable.plusarrow);
-                            holder.flag=0;
+                            holder.flag = 0;
                         }
 
 
@@ -64,21 +66,22 @@ public class InSchoolChildAdapter extends RecyclerView.Adapter<InSchoolChildAdap
                         break;
                     case 2:
                         //학업정보
-                        List<String> list1=new ArrayList<>();
-                        if(holder.flag==0){
+                        List<String> list1 = new ArrayList<>();
+                        if (holder.flag == 0) {
                             list1.add("강의평가");
                             list1.add("합격수기");
                             list1.add("취업광장");
                             list1.add("스터디게시판");
                             list1.add("꿀팁게시판");
-                            holder.recyclerView.setAdapter(new ChildAdapter(list1,mContext));
+                            holder.recyclerView.setAdapter(new ChildAdapter(list1, mContext));
                             holder.imageView.setImageResource(R.drawable.minusarrow);
-                            holder.flag=1;
-                        }else{
+                            holder.flag = 1;
+                        } else {
                             list1.clear();
-                            holder.recyclerView.setAdapter(new ChildAdapter(list1,mContext));;
+                            holder.recyclerView.setAdapter(new ChildAdapter(list1, mContext));
+                            ;
                             holder.imageView.setImageResource(R.drawable.plusarrow);
-                            holder.flag=0;
+                            holder.flag = 0;
                         }
                         break;
                     case 3:
@@ -103,7 +106,8 @@ public class InSchoolChildAdapter extends RecyclerView.Adapter<InSchoolChildAdap
         private ImageView imageView;
         private TextView textView;
         private RecyclerView recyclerView;
-        private int flag=0;
+        private int flag = 0;
+
         public InSchoolChildViewHolder(@NonNull View itemView) {
             super(itemView);
             recyclerView = itemView.findViewById(R.id.inschool_recyclerview);

@@ -26,36 +26,36 @@ import com.kuple.zone.model.NotiInfo;
 
 import java.util.Date;
 
-
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    static final String TAG="파이어베이스 메세지 샘플";
+    static final String TAG = "파이어베이스 메세지 샘플";
     public String title;
     public String body;
     public String documentid;
-    private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
-    private FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
-     //    Check if message contains a data payload.
+        //    Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {//data형식
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            title=remoteMessage.getData().get("title");
-            body=remoteMessage.getData().get("body");
-            documentid=remoteMessage.getData().get("documentId");
-            Date date=new Date() ;
-            NotiInfo notiInfo=new NotiInfo(title,body,documentid,date);
+            title = remoteMessage.getData().get("title");
+            body = remoteMessage.getData().get("body");
+            documentid = remoteMessage.getData().get("documentId");
+            Date date = new Date();
+            NotiInfo notiInfo = new NotiInfo(title, body, documentid, date);
             mStore.collection("users").document(firebaseUser.getUid()).collection("notification").document()
                     .set(notiInfo)
-                    ;
+            ;
 
 
         }
         // 노티피케이션을 사용했을떄 데이터 가져오기
         if (remoteMessage.getNotification() != null) {//notification 형식
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            title=remoteMessage.getNotification().getTitle();
-            body=remoteMessage.getNotification().getBody();
+            title = remoteMessage.getNotification().getTitle();
+            body = remoteMessage.getNotification().getBody();
 
         }
         //
@@ -74,11 +74,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification() {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("DocumentId",documentid);//이거없으면 디테일 안열림.
+        intent.putExtra("DocumentId", documentid);//이거없으면 디테일 안열림.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack( DetailActivity.class );
+        stackBuilder.addParentStack(DetailActivity.class);
         stackBuilder.addNextIntent(intent);
-        Log.d("DocumentId",documentid);
+        Log.d("DocumentId", documentid);
 
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);//이게 뒤로 눌렀을때 안꺼지는 방법
@@ -94,7 +94,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setContentIntent(pendingIntent);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-         //Since android Oreo notification channel is needed.
+        //Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId,
                     "Channel human readable title",

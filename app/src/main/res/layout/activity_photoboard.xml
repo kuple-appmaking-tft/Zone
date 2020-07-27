@@ -38,8 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photo_topconstraint"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/photo_topconstraint">
 
         <TextView
             android:id="@+id/nameOfcomunity"
@@ -62,9 +61,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
 
     <!--데이터베이스에 들어가야하는 이미지들-->

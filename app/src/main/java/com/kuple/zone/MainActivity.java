@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.kuple.zone.login.LoginActivity;
 import com.kuple.zone.navigation.AlarmFragment;
 import com.kuple.zone.navigation.BoardFragment;
-import com.kuple.zone.navigation.DetailViewFragment;
+import com.kuple.zone.navigation.HomeFragment;
 import com.kuple.zone.navigation.TimetableFragment;
 import com.kuple.zone.navigation.UserInfoFragment;
 
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private BoardFragment fragmentBoard;
     private AlarmFragment fragmentAlarm;
-    private DetailViewFragment fragmentHome;
+    private HomeFragment fragmentHome;
     private TimetableFragment fragmentTimetable;
     private UserInfoFragment fragmentUser;
     private FragmentTransaction transaction;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
-        if(firebaseAuth.getCurrentUser() == null) {
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         fragmentBoard = new BoardFragment();
         fragmentAlarm = new AlarmFragment();
-        fragmentHome = new DetailViewFragment();
+        fragmentHome = new HomeFragment();
         fragmentUser = new UserInfoFragment();
         fragmentTimetable = new TimetableFragment();
 

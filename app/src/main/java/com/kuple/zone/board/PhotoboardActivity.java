@@ -28,7 +28,7 @@ import java.util.List;
 
 public class PhotoboardActivity extends AppCompatActivity {
     private RecyclerView mMainRecyclerView;
-    private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private PhotoboardAdapter mainAdapter;
     private List<BoardInfo> mPostingInfoList;
     private List<String> mDocumentIdList;
@@ -40,18 +40,18 @@ public class PhotoboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photoboard);
-        mBoardName=getIntent().getStringExtra("BoardName");
+        mBoardName = getIntent().getStringExtra("BoardName");
         findViewById(R.id.float_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PhotoboardActivity.this, WriteActivity.class);
-                intent.putExtra("BoardName",mBoardName);
-                startActivityForResult(intent,99);
+                Intent intent = new Intent(PhotoboardActivity.this, WriteActivity.class);
+                intent.putExtra("BoardName", mBoardName);
+                startActivityForResult(intent, 99);
             }
         });
-        mMainRecyclerView=findViewById(R.id.main_recycler_view);
+        mMainRecyclerView = findViewById(R.id.main_recycler_view);
         mMainRecyclerView.setHasFixedSize(true);
-        swipeRefreshLayout=findViewById(R.id.main_SwipeRefreshLayout);
+        swipeRefreshLayout = findViewById(R.id.main_SwipeRefreshLayout);
         retreive_Testing(mBoardName);
         deepLinkSwitcher();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -63,38 +63,40 @@ public class PhotoboardActivity extends AppCompatActivity {
         });
 
 
-        String getString=getIntent().getStringExtra("Refresh");
+        String getString = getIntent().getStringExtra("Refresh");
         try {//업로드 하자마자 자동 refresh
-            if(getString.equals("success")){
+            if (getString.equals("success")) {
                 mainAdapter.notifyDataSetChanged();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-        mSerch=findViewById(R.id.photo_serch);
+        mSerch = findViewById(R.id.photo_serch);
         mSerch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PhotoboardActivity.this, SearchActivity.class);
-                intent.putExtra("BoardName",mBoardName);
+                Intent intent = new Intent(PhotoboardActivity.this, SearchActivity.class);
+                intent.putExtra("BoardName", mBoardName);
                 startActivity(intent);
             }
         });
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 99&&requestCode==99) {//write 액티비티실행후 나온 결과 받아오기.
-            Log.d("양성열","리절트 함수 실행");
+        if (resultCode == 99 && requestCode == 99) {//write 액티비티실행후 나온 결과 받아오기.
+            Log.d("양성열", "리절트 함수 실행");
             retreive_Testing(mBoardName);//업로드 화면 끝났을때
         }
 //        else if(resultCode == RESULT_CANCELED) {
 //            Log.d("양성열","실패");
 //        }
     }
-    public void retreive_Testing(final String mBoardName){
-        mPostingInfoList=new ArrayList<>();
+
+    public void retreive_Testing(final String mBoardName) {
+        mPostingInfoList = new ArrayList<>();
 
         mStore.collection(mBoardName)
                 .orderBy("date", Query.Direction.DESCENDING)
@@ -112,9 +114,9 @@ public class PhotoboardActivity extends AppCompatActivity {
                     mainAdapter.setOnIemlClickListner(new PhotoboardAdapter.OnItemClickListener() {//클릭됬을때
                         @Override
                         public void onitemClick(View v, int pos) {
-                            Intent intent=new Intent(PhotoboardActivity.this,DetailActivity.class);
-                            intent.putExtra("DocumentId",mDocumentIdList.get(pos));
-                            intent.putExtra("BoardName",mBoardName);
+                            Intent intent = new Intent(PhotoboardActivity.this, DetailActivity.class);
+                            intent.putExtra("DocumentId", mDocumentIdList.get(pos));
+                            intent.putExtra("BoardName", mBoardName);
                             startActivity(intent);
                         }
                     });
@@ -130,8 +132,8 @@ public class PhotoboardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getData() != null) {
             String intentData = intent.getData().toString();
-            String appstring="https://www.photopostiongyang.com/";
-            String documentId=intentData.substring(34,intentData.length());
+            String appstring = "https://www.photopostiongyang.com/";
+            String documentId = intentData.substring(34, intentData.length());
 
             if (intentData != null && !intentData.isEmpty()) {//파이어베이스에서 만든 링크는 잘 들어옴.
                 /*
@@ -140,8 +142,8 @@ public class PhotoboardActivity extends AppCompatActivity {
                 HOST = www.pexels.com
                 PATH PATTERN = /@md-emran-hossain-emran-11822
                 * */
-                Intent documentIdIntent=new Intent(PhotoboardActivity.this,DetailActivity.class);
-                documentIdIntent.putExtra("DocumentId",documentId);
+                Intent documentIdIntent = new Intent(PhotoboardActivity.this, DetailActivity.class);
+                documentIdIntent.putExtra("DocumentId", documentId);
                 startActivity(documentIdIntent);
             }
         }

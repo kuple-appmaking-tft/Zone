@@ -18,24 +18,27 @@ import java.util.ArrayList;
 
 public class HorizentalAdapter extends RecyclerView.Adapter<HorizentalAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<String> mTextList=new ArrayList<>();
+    private ArrayList<String> mTextList = new ArrayList<>();
 
     public HorizentalAdapter(Context mContext, ArrayList<String> mTextList) {
         this.mContext = mContext;
         this.mTextList = mTextList;
     }
-    public interface OnItemClickListener{
-        void onitemClick(View v,int pos);
+
+    public interface OnItemClickListener {
+        void onitemClick(View v, int pos);
     }
-    private static ChildAdapter.OnItemClickListener mListener=null;
-    public void setOnIemlClickListner(ChildAdapter.OnItemClickListener listner){
-        mListener=listner;
+
+    private static ChildAdapter.OnItemClickListener mListener = null;
+
+    public void setOnIemlClickListner(ChildAdapter.OnItemClickListener listner) {
+        mListener = listner;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_horizental,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_horizental, parent, false);
         return new ViewHolder(view);
     }
 
@@ -46,7 +49,7 @@ public class HorizentalAdapter extends RecyclerView.Adapter<HorizentalAdapter.Vi
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,"클릭",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "클릭", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -58,19 +61,19 @@ public class HorizentalAdapter extends RecyclerView.Adapter<HorizentalAdapter.Vi
     }
 
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name=itemView.findViewById(R.id.horizontal_textview);
+            name = itemView.findViewById(R.id.horizontal_textview);
             itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
                 @Override
                 public void onClick(View v) {//들어가는 기능 detail로
-                    int pos=getAdapterPosition();
-                    if(pos!=RecyclerView.NO_POSITION){
-                        if(mListener!=null){
-                            mListener.onitemClick(v,pos);
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onitemClick(v, pos);
                         }
                     }
                 }

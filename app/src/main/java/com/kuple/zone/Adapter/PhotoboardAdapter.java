@@ -33,27 +33,31 @@ import com.smarteist.autoimageslider.SliderView;
 import java.util.Date;
 import java.util.List;
 
-
-public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.MainViewHolder>{
+public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.MainViewHolder> {
     private Context mContext;
     private List<BoardInfo> mPostingInfoList;
     private List<String> mDocumentIdList;
+
     //커스텀 리스터 정의
-///////////////////////////클릭리스너
-    public interface OnItemClickListener{
+    //클릭리스너
+    public interface OnItemClickListener {
         void onitemClick(View v, int pos);
     }
-    private OnItemClickListener mListener=null;
-    public void setOnIemlClickListner(OnItemClickListener listner){
-        this.mListener=listner;
+
+    private OnItemClickListener mListener = null;
+
+    public void setOnIemlClickListner(OnItemClickListener listner) {
+        this.mListener = listner;
     }
-////////////////////////////////
+
+    ////////////////////////////////
     public PhotoboardAdapter(List<BoardInfo> mPostingInfoList, Context mContext) {
         this.mContext = mContext;
         this.mPostingInfoList = mPostingInfoList;
 
     }
-    class MainViewHolder extends RecyclerView.ViewHolder{
+
+    class MainViewHolder extends RecyclerView.ViewHolder {
         private TextView mTitleTextView;        //item_main의 객체를 불러옴...작은네모칸에 들어갈 얘들 선언
         private TextView mNameTextView;
         private TextView mContentsTextView;
@@ -67,18 +71,18 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
         private TextView mReplycount;
 
 
-       public MainViewHolder(@NonNull View itemView) {
+        public MainViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTitleTextView=itemView.findViewById(R.id.item_title_text);
-            mNameTextView=itemView.findViewById(R.id.item_name_text);
-            mContentsTextView=itemView.findViewById(R.id.item_contents_text);
-            mImageSliderView=itemView.findViewById(R.id.item_imageslider);
-            mImageview=itemView.findViewById(R.id.item_menudot_imageview);
-            mLikeButton=itemView.findViewById(R.id.item_likeButton_likeButton);
-            mLikeButton_count=itemView.findViewById(R.id.item_likeButton_textView);
-            mShareImageView=itemView.findViewById(R.id.item_reply_imageview);
-            mDateTextView=itemView.findViewById(R.id.item_date);
-           mNewDateImageView=itemView.findViewById(R.id.item_dateN_ImageView);
+            mTitleTextView = itemView.findViewById(R.id.item_title_text);
+            mNameTextView = itemView.findViewById(R.id.item_name_text);
+            mContentsTextView = itemView.findViewById(R.id.item_contents_text);
+            mImageSliderView = itemView.findViewById(R.id.item_imageslider);
+            mImageview = itemView.findViewById(R.id.item_menudot_imageview);
+            mLikeButton = itemView.findViewById(R.id.item_likeButton_likeButton);
+            mLikeButton_count = itemView.findViewById(R.id.item_likeButton_textView);
+            mShareImageView = itemView.findViewById(R.id.item_reply_imageview);
+            mDateTextView = itemView.findViewById(R.id.item_date);
+            mNewDateImageView = itemView.findViewById(R.id.item_dateN_ImageView);
             mImageSliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
             mImageSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
             mImageSliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
@@ -86,33 +90,34 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
             mImageSliderView.setIndicatorUnselectedColor(Color.GRAY);
             mImageSliderView.setScrollTimeInSec(3);
             mImageSliderView.setAutoCycle(false);
-           mReplycount=itemView.findViewById(R.id.item_reply_count);
+            mReplycount = itemView.findViewById(R.id.item_reply_count);
 
             //////클릭리스너
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos=getAdapterPosition();
-                    if(pos!=RecyclerView.NO_POSITION){
-                        if(mListener!=null){
-                            mListener.onitemClick(v,pos);
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onitemClick(v, pos);
                         }
                     }
                 }
             });
         }
     }
+
     @NonNull
     @Override
     public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MainViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_photo,parent,false));//아이템메뉴는 작은내모가 확장되있는거
+        return new MainViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_photo, parent, false));//아이템메뉴는 작은내모가 확장되있는거
     }
 
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {//class MainViewHolder의 holder <Board>형식의 data값을 참조.
         BoardInfo data = mPostingInfoList.get(position);
         final String documentId = data.getDocumentId();
-        String replycount=String.valueOf(data.getReplycount());
+        String replycount = String.valueOf(data.getReplycount());
         holder.mReplycount.setText(replycount);
         holder.mTitleTextView.setText(data.getTitle());
         holder.mNameTextView.setText(data.getNickname());
@@ -128,6 +133,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
             public void liked(LikeButton likeButton) {
                 mStore.collection("Testing").document(documentId).update("likebutton_count", FieldValue.increment(1));
             }
+
             @Override
             public void unLiked(LikeButton likeButton) {
                 mStore.collection("Testing").document(documentId).update("likebutton_count", FieldValue.increment(-1));
@@ -137,7 +143,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
         holder.mImageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(v,documentId);
+                showPopup(v, documentId);
             }
         });
 //        holder.mShareImageView.setOnClickListener(new View.OnClickListener() {
@@ -173,26 +179,27 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
 //            }
 //        });
 
-        String date=data.getDate().toString();
-        String date1=date.substring(11,16);
-        String date2=date.substring(0,13)+" "+date.substring(30,34);
+        String date = data.getDate().toString();
+        String date1 = date.substring(11, 16);
+        String date2 = date.substring(0, 13) + " " + date.substring(30, 34);
         //Log.d("dateYY", date2);
         holder.mDateTextView.setText(date1);
 
 //        Calendar calendar=Calendar.getInstance();
 ////        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("ee MMM dd :HH:mm yyyy");
 ////        String dateTime=simpleDateFormat.format(new Date());
-        String dateTime=new Date().toString();
-        dateTime=dateTime.substring(0,13)+" "+date.substring(30,34);
+        String dateTime = new Date().toString();
+        dateTime = dateTime.substring(0, 13) + " " + date.substring(30, 34);
         //Log.d("dateYY", dateTime);
-       // Log.d("date", dateTime);
+        // Log.d("date", dateTime);
         holder.mNewDateImageView.setVisibility(View.INVISIBLE);
-        if(dateTime.equals(date2)){
+        if (dateTime.equals(date2)) {
             holder.mNewDateImageView.setVisibility(View.VISIBLE);
         }
     }
-    public void showPopup(final View v,final String documentId) {
-        final FirebaseFirestore mStore=FirebaseFirestore.getInstance();
+
+    public void showPopup(final View v, final String documentId) {
+        final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
         PopupMenu popup = new PopupMenu(mContext, v);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -228,7 +235,8 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
         inflater.inflate(R.menu.menu_showup, popup.getMenu());
         popup.show();
     }
-    public void shareKaKao(){
+
+    public void shareKaKao() {
 
     }
 
@@ -237,7 +245,6 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
     public int getItemCount() {
         return mPostingInfoList.size();
     }
-
 
 
 }

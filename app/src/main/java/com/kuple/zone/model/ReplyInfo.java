@@ -7,13 +7,13 @@ import java.util.List;
 
 public class ReplyInfo {
     private String uid;
-   // private String created_at;
+    // private String created_at;
     private String deleted_at;
     private String content;
     @ServerTimestamp
     private Date date;
     private String documentId;
-    private List<String>uidLikelist;
+    private List<String> uidLikelist;
 
     public ReplyInfo(String uid, String deleted_at, String content, Date date, String documentId, List<String> uidLikelist) {
         this.uid = uid;
@@ -52,7 +52,8 @@ public class ReplyInfo {
         this.documentId = documentId;
     }
 
-    public ReplyInfo(){}
+    public ReplyInfo() {
+    }
 
     public Date getDate() {
         return date;
@@ -77,9 +78,6 @@ public class ReplyInfo {
     public void setUid(String uid) {
         this.uid = uid;
     }
-
-
-
 
 
     public String getDeleted_at() {

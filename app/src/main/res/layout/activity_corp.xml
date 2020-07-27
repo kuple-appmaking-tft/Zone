@@ -15,14 +15,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/corp_kuple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/corp_kuple"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_margin="15dp"
         android:src="@drawable/kuple"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="15dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/corp_corpImageView"
@@ -37,12 +38,12 @@
         android:id="@+id/corp_communityname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:text="게시판이름위치"
-        android:textStyle="bold"
         android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/corp_corpImageView"
-        android:layout_margin="15dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/corp_corpImageView" />
 
     <TextView
         android:id="@+id/corp_corpname"
@@ -72,6 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/corp_corpname" />
+
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/corp_write_Button"
         android:layout_width="wrap_content"
