@@ -1,5 +1,4 @@
 package com.github.tlaabs.timetableview;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;

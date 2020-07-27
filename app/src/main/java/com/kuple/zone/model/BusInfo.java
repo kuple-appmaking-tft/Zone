@@ -1,6 +1,6 @@
 package com.kuple.zone.model;
 
-public class Bus {
+public class BusInfo {
     private int date;
     private String time;
 
