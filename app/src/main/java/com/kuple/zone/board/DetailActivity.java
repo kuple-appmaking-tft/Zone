@@ -200,7 +200,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                                         assert boardInfo != null;
                                         String title = boardInfo.getTitle();
                                         String cotent = replyInfo.getContent();
-                                        sendNotification(mDocumentId_send, title, cotent);
+                                        sendNotification(mDocumentId_send, title, cotent,mBoardName);
 
                                     }
                                 });
@@ -224,7 +224,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                                                         }
                                                     }
                                                     for (String str : uidset) {//중복되지않게 보내기
-                                                        sendNotification(str, boardInfo.getTitle(), replyInfo.getContent());
+                                                        sendNotification(str, boardInfo.getTitle(), replyInfo.getContent(),mBoardName);
                                                     }
 
                                                 }
@@ -455,7 +455,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         FirebaseMessaging.getInstance().subscribeToTopic(mDocumentId);
     }
 
-    private void sendNotification(String documentId, String title, String content) {
+    private void sendNotification(String documentId, String title, String content,String mBoardName) {
         /* our json object will lokk loke
         {
             "to": "topics/topic name",
@@ -472,6 +472,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
             notificationObj.put("title", title + "에 댓글이 달렸습니다");
             notificationObj.put("body", "댓글:" + content);
             notificationObj.put("documentId", mDocumentId_send);
+            notificationObj.put("BoardName",mBoardName);
 
             // mainObj.put("notification",notificationObj);
             mainObj.put("data", notificationObj);

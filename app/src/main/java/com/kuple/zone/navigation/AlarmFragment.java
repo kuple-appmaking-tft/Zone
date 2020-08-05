@@ -62,6 +62,7 @@ public class AlarmFragment extends Fragment {
                             Log.d("클릭","내가쓴글:"+String.valueOf(pos));
                             Intent intent=new Intent(getActivity(), DetailActivity.class);
                             intent.putExtra("DocumentId",list.get(pos).getDocumentId());
+                            intent.putExtra("BoardName",list.get(pos).getBoardName());
                             startActivity(intent);
                         }
                     });
