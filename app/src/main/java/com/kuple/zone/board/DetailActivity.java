@@ -494,7 +494,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> header = new HashMap<>();
                     header.put("content-type", "application/json");
-                    header.put("authorization", "key=AAAAgGWB2_M:APA91bHQEzEfW7ZbMrfZNy_fBF90PEdsoEvOs32Ik-ae9N_3hE-p9HO5GVKy_7yVqw5MMxuCQvNBI4h_r_FkssbkrsjkMkRAFiKsbhq3GoyQHVWfmIjWk9Xf4Bk_89hc4dXFadIdMJeA");
+                    header.put("authorization", "key=AAAAkWD7qvM:APA91bHQt54EOO2qoqX68TPM8juIVVkm8kRUByCqQwbWHdEHArgBZTIpun-F3ryFKwY1zRKjFSGXNwPwpZaPUhGpdUIYdZi07doU2twSIvA9zKSy13hgEX3XTZb2oOCbanEcaAKqNfrp");
                     return header;
                 }
             };
