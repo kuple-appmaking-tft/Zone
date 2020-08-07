@@ -51,7 +51,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         database = FirebaseDatabase.getInstance();
         setContentView(R.layout.activity_time_table_plus);
-        recyclerView = (RecyclerView) findViewById(R.id.class_view);
+        recyclerView = findViewById(R.id.class_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final ClassRecyclerViewAdapter classRecyclerViewAdapter = new ClassRecyclerViewAdapter();
         recyclerView.setAdapter(classRecyclerViewAdapter);
@@ -173,4 +173,3 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
 
 }
-

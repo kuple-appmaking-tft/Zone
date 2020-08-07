@@ -3,6 +3,7 @@ package com.kuple.zone.Adapter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.Inteface.OnItemClick;
 import com.kuple.zone.R;
+import com.kuple.zone.chat.ChatActivity;
 import com.kuple.zone.model.ReplyInfo;
 import com.kuple.zone.model.UserModel;
 import com.like.LikeButton;
@@ -277,6 +279,13 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         }
 
 
+        holder.mProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show_menu_profile(v, position);
+            }
+        });
+
     }
 
     @Override
@@ -324,10 +333,11 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         private ImageView mReplyimage;
         private RecyclerView mRecyclerView;
         private ImageView mN;
-
+        private ImageView mProfile;
 
         ReplyViewHolder(@NonNull View itemView) {
             super(itemView);
+            mProfile = itemView.findViewById(R.id.item_profile);
             mContent = itemView.findViewById(R.id.item_reply_content);
             mMenu = itemView.findViewById(R.id.item_reply_menu_imageView);
             mNickname = itemView.findViewById(R.id.item_nickname_level);
@@ -390,6 +400,27 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         });
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_showup, popup.getMenu());
+        popup.show();
+
+    }
+
+    private void show_menu_profile(final View v, final int position) {
+        PopupMenu popup = new PopupMenu(mContext, v);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.profile_chat) {
+                    Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                    intent.putExtra("toUid", mReplyList.get(position).getUid());
+                    v.getContext().startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_showup_profile, popup.getMenu());
         popup.show();
 
     }
