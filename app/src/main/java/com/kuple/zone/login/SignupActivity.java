@@ -66,15 +66,15 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(new Intent(getApplicationContext(), MainActivity.class)); //추가해 줄 ProfileActivity
         }
         //initializing views
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        editTextPasswordCheck = (EditText) findViewById(R.id.editTextPasswordCheck);
-        editTextPhone = (EditText) findViewById(R.id.editTextPhone);
-        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
-        textviewSingin = (TextView) findViewById(R.id.textViewSignin);
-        ;
-        textviewMessage = (TextView) findViewById(R.id.textviewMessage);
-        buttonSignup = (Button) findViewById(R.id.buttonSignup);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextPasswordCheck = findViewById(R.id.editTextPasswordCheck);
+        editTextPhone = findViewById(R.id.editTextPhone);
+        editTextNickname = findViewById(R.id.editTextNickname);
+        textviewSingin = findViewById(R.id.textViewSignin);
+
+        textviewMessage = findViewById(R.id.textviewMessage);
+        buttonSignup = findViewById(R.id.buttonSignup);
         progressDialog = new ProgressDialog(this);
 
         //button click event
@@ -136,7 +136,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.show();
                         if (task.isSuccessful()) {
-                            loginProcess(email, password);
+                            checkProcess(email, password);
                         } else {
                             //에러발생시
                             textviewMessage.setText("회원가입에 실패했습6니다. \n\n - 이미 등록된 이메일  \n - 암호 최소 6자리 이상");
@@ -148,7 +148,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 });
     }
 
-    public void loginProcess(final String email, final String password) {
+    public void checkProcess(final String email, final String password) {
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -157,10 +157,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         if (task.isSuccessful()) {
 
                             firebaseUser = firebaseAuth.getCurrentUser();
-
+                            final String uid = firebaseAuth.getUid();
                             UserModel userModel = new UserModel();
+                            userModel.setUid(uid);
+                            userModel.setUsermsg("...");
                             userModel.setUserEmail(editTextEmail.getText().toString());
-                            userModel.setUserPassword(editTextPassword.getText().toString());
                             userModel.setPhoneNumber(editTextPhone.getText().toString());
                             userModel.setNickname(editTextNickname.getText().toString());
                             userModel.setFavoritList(new ArrayList<String>());
