@@ -8,17 +8,27 @@ public class NotiInfo {
     private String title;
     private String content;
     private String documentId;
+    private String BoardName;
     @ServerTimestamp
     private Date date;
+
+    public String getBoardName() {
+        return BoardName;
+    }
+
+    public void setBoardName(String boardName) {
+        BoardName = boardName;
+    }
 
     public NotiInfo() {
     }
 
-    public NotiInfo(String title, String content, String documentId, Date date) {
+    public NotiInfo(String title, String content, String documentId, Date date,String BoardName) {
         this.title = title;
         this.content = content;
         this.documentId = documentId;
         this.date = date;
+        this.BoardName=BoardName;
     }
 
     public Date getDate() {
@@ -35,6 +45,7 @@ public class NotiInfo {
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", documentId='" + documentId + '\'' +
+                ", BoardName='" + BoardName + '\'' +
                 ", date=" + date +
                 '}';
     }

@@ -31,6 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public String title;
     public String body;
     public String documentid;
+    public String boardname;
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -43,8 +44,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             title = remoteMessage.getData().get("title");
             body = remoteMessage.getData().get("body");
             documentid = remoteMessage.getData().get("documentId");
+            boardname=remoteMessage.getData().get("BoardName");
             Date date = new Date();
-            NotiInfo notiInfo = new NotiInfo(title, body, documentid, date);
+            NotiInfo notiInfo = new NotiInfo(title, body, documentid, date,boardname);
             mStore.collection("users").document(firebaseUser.getUid()).collection("notification").document()
                     .set(notiInfo)
             ;
@@ -75,6 +77,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("DocumentId", documentid);//이거없으면 디테일 안열림.
+        intent.putExtra("BoardName", boardname);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(DetailActivity.class);
         stackBuilder.addNextIntent(intent);

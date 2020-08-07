@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -77,16 +78,16 @@ public class WriteActivity extends AppCompatActivity {
         documentReference = db.collection(mBoardName).document();
         documentId = documentReference.getId();
         if (user != null) {
-            // Name, email address, and profile photo Url
-//            String name = user.getDisplayName();
-//            String email = user.getEmail();
-//            Uri photoUrl = user.getPhotoUrl();
+             //Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
             boolean emailVerified = user.isEmailVerified();
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
+//             The user's ID, unique to the Firebase project. Do NOT use this value to
+//             authenticate with your backend server, if you have one. Use
+//             FirebaseUser.getIdToken() instead.
             uid = user.getUid();
-            //Toast.makeText(this,uid,Toast.LENGTH_LONG).show();
+            Toast.makeText(this,uid,Toast.LENGTH_LONG).show();
         }
         mTitle = findViewById(R.id.write_title_EditText);
         mContents = findViewById(R.id.write_contents_EditText);
@@ -136,7 +137,7 @@ public class WriteActivity extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
                 Toast.makeText(getApplicationContext(), "업로드성공", Toast.LENGTH_LONG).show();
                 setResult(99);//99보냄
-                //FirebaseMessaging.getInstance().subscribeToTopic(documentId);//구독하기
+                FirebaseMessaging.getInstance().subscribeToTopic(documentId);//구독하기
                 loadingbar.dismiss();
                 finish();
             }
@@ -165,7 +166,6 @@ public class WriteActivity extends AppCompatActivity {
         } else {
             title = mTitle.getText().toString();
             contents = mContents.getText().toString();
-
             mStorageRef = FirebaseStorage.getInstance().getReference("image");//loaction 설정
             if (imageUriList.size() != 0) {
                 for (int i = 0; i < imageUriList.size(); i++) {
