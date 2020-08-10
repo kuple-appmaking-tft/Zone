@@ -38,6 +38,8 @@ import com.kuple.zone.login.LoginActivity;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,16 +47,14 @@ import java.util.List;
 public class TimeTablePlusActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    ArrayList<SejongClass> arrayList = new ArrayList<>();
-    private FirebaseDatabase database;
+    ArrayList<SeoulClass> arrayList = new ArrayList<>();
 
     Spinner searchcampusSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        database = FirebaseDatabase.getInstance();
-        setContentView(R.layout.activity_time_table_plus);
+         setContentView(R.layout.activity_time_table_plus);
         recyclerView = (RecyclerView) findViewById(R.id.class_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final ClassRecyclerViewAdapter classRecyclerViewAdapter = new ClassRecyclerViewAdapter();
@@ -74,84 +74,10 @@ public class TimeTablePlusActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (position == 0) {
-
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-                    // DocumentReference docRef = db.collection("seoul").document("example");
-
-                    db.collection("seoul").document("50eabaf0-cf08-11ea-842c-e7219ecd0044")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        arrayList.clear();
-                                        DocumentSnapshot document = task.getResult();
-
-                                        List list = (List) document.getData().get("majors.major.courses");
-                                        for(int i = 0; i < list.size(); i++) {
-                                            //  (HashMap<String, Object> 형태
-                                            HashMap map = (HashMap) list.get(i);
-                                            SejongClass sejongClass = new SejongClass();
-                                            sejongClass.classNum = map.get("classNum").toString();
-                                            sejongClass.code = map.get("code").toString();
-                                            sejongClass.name = map.get("name").toString();
-                                            sejongClass.professor = map.get("professor").toString();
-                                            sejongClass.sel = map.get("sel").toString();
-                                            sejongClass.time = map.get("time").toString();
-                                            Log.d("TAG","Success");
-                                            arrayList.add(sejongClass);
-                                        }
-                                        classRecyclerViewAdapter.notifyDataSetChanged();
-                                    } else { Log.d("TAG", "SSibal", task.getException());}
-
-                                }
-                            });
+                if (position == 0) {  }
 
 
-                  /*
-                   db.collection("sejong")
-                         .get()
-                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                             @Override
-                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                 if (task.isSuccessful()) {
-                                     arrayList.clear();
-                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                         SejongClass sejongclass = document.toObject(SejongClass.class);
-
-                                         arrayList.add(sejongclass);
-
-                                     }
-                                     classRecyclerViewAdapter.notifyDataSetChanged();
-                                 } else {
-                                 }
-                             }
-                         });
-                         */
-
-                } else if (position == 1) {/*
-
-                    database.getReference().child("seoul/example").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Log.d("TAG","Success");
-                            arrayList.clear();
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                SejongClass sejongClass = snapshot.getValue(SejongClass.class);
-                                arrayList.add(sejongClass);
-                            }
-                            classRecyclerViewAdapter.notifyDataSetChanged();
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });*/
-
+                else if (position == 1) {
                 }
             }
 
@@ -213,6 +139,27 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         }
     }
 
+    private String getJsonString()
+    {
+        String json = "";
+
+        try {
+            InputStream is = getAssets().open("Movies.json");
+            int fileSize = is.available();
+
+            byte[] buffer = new byte[fileSize];
+            is.read(buffer);
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return json;
+    }
 
 }
 
