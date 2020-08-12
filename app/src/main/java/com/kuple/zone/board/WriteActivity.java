@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +45,7 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -517,6 +519,15 @@ public class WriteActivity extends AppCompatActivity {
             // 멀티 선택을 지원하지 않는 기기에서는 getClipdata()가 없음 => getData()로 접근해야 함
             if (data.getClipData() == null) {
                 // Log.i("1. single choice", String.valueOf(data.getData()));
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    editor.insertImage(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Log.d(TAG, String.valueOf(bitmap));
+
                 imageStringList.add(String.valueOf(data.getData()));
                 imageUriList.add(data.getData());
                 sliderAdapterExample.addItem(new SliderItem(String.valueOf(data.getData())));
