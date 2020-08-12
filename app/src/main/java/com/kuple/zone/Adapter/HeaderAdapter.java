@@ -3,6 +3,9 @@ package com.kuple.zone.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +48,12 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
     public void onBindViewHolder(@NonNull final HeaderViewHolder holder, final int position) {
         final String data = mTitleList.get(position);
         holder.textView.setText(data);
+//        String mystring = "Hello.....";
+//        SpannableString content = new SpannableString(data);
+//        content.setSpan(new UnderlineSpan(), 0, data.length(), 0);
+//        holder.textView.setText(content);
+
+
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
