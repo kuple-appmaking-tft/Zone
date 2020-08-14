@@ -200,13 +200,9 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                             holder.flag = 0;
                         }
                         break;
-
-
                 }
             }
         });
-
-
     }
 
     @Override
@@ -225,8 +221,6 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
             recyclerView = itemView.findViewById(R.id.header_recyclerview);
             textView = itemView.findViewById(R.id.header_title);
             imageView = itemView.findViewById(R.id.header_btn_expand_toggle);
-
-
         }
     }
 }

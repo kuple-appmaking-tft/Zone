@@ -44,7 +44,6 @@ public class SearchActivity extends AppCompatActivity implements OnItemClick {
     private RecyclerView mRecyclerView;
     private String mBoardName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +64,6 @@ public class SearchActivity extends AppCompatActivity implements OnItemClick {
                 imm.hideSoftInputFromWindow(mTextInputEditText.getWindowToken(), 0);
             }
         });
-
-
     }
 
     private void retriveSearch(String content, final String mBoardName) {

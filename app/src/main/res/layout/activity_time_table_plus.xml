@@ -7,12 +7,9 @@
     android:orientation="vertical"
     tools:context=".timetable.TimeTablePlusActivity">
 
-
     <ScrollView
-
         android:layout_width="match_parent"
         android:layout_height="300dp">
-
 
         <com.github.tlaabs.timetableview.TimetableView
             android:id="@+id/timetable"

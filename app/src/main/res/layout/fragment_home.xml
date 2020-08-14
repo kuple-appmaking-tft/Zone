@@ -80,8 +80,8 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <ListView
-                android:id="@+id/kuple_feed"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feedKuple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/feedLayout"
@@ -91,7 +91,7 @@
                 android:id="@+id/btnReadMore"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_below="@+id/kuple_feed"
+                android:layout_below="@+id/feedKuple"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="70dp"
