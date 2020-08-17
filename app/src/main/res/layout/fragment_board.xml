@@ -38,6 +38,7 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="99dp" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/board_favorite"
             android:layout_width="match_parent"
@@ -45,7 +46,9 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            android:background="#eaeaea"
+            android:layout_margin="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/board_recyclerview_title"

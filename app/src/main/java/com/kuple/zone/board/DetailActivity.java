@@ -1,10 +1,14 @@
 package com.kuple.zone.board;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -22,6 +26,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.irshulx.Editor;
+import com.github.irshulx.EditorListener;
+import com.github.irshulx.models.EditorContent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -123,7 +130,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         setContentView(R.layout.activity_detail);
         detail_ScrollView = findViewById(R.id.detail_ScrollView);
         mTitle = findViewById(R.id.detail_title);
-        mContent = findViewById(R.id.detail_content);
+       // mContent = findViewById(R.id.detail_content);
         mRecyclerView = findViewById(R.id.detail_recyclerview);
         mRequesQue = Volley.newRequestQueue(this);
         //
@@ -354,7 +361,38 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                 //스크롤뷰 위치지정
                 assert boardInfo != null;
                 mTitle.setText(boardInfo.getTitle());
-                mContent.setText(boardInfo.getContent());
+               // mContent.setText(boardInfo.getContent());
+
+                Editor renderer= (Editor)findViewById(R.id.renderer);
+                Map<Integer, String> headingTypeface = getHeadingTypeface();
+                Map<Integer, String> contentTypeface = getContentface();
+                renderer.setHeadingTypeface(headingTypeface);
+                renderer.setContentTypeface(contentTypeface);
+                renderer.setDividerLayout(R.layout.tmpl_divider_layout);
+                renderer.setEditorImageLayout(R.layout.tmpl_image_view);
+                renderer.setListItemLayout(R.layout.tmpl_list_item);
+                //String content= mSerialized;
+                EditorContent Deserialized= renderer.getContentDeserialized(boardInfo.getContent());
+                renderer.setEditorListener(new EditorListener() {
+                    @Override
+                    public void onTextChanged(EditText editText, Editable text) {
+
+                    }
+
+                    @Override
+                    public void onUpload(Bitmap image, String uuid) {
+
+                    }
+
+                    @Override
+                    public View onRenderMacro(String name, Map<String, Object> settings, int index) {
+                        View view = getLayoutInflater().inflate(R.layout.layout_authored_by, null);
+                        return view;
+                    }
+                });
+                renderer.render(Deserialized);
+                ///
+                /*
                 mLikecount.setText(String.valueOf(boardInfo.getUidList().size() - 1));
                 mReplycount.setText(String.valueOf(boardInfo.getReplycount()));
                 mViewcount.setText(String.valueOf(boardInfo.getViewcount()));
@@ -376,10 +414,29 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
 
 
                 }
+                */
 
             }
         });
 
+
+    }
+    public Map<Integer,String> getHeadingTypeface() {
+        Map<Integer, String> typefaceMap = new HashMap<>();
+        typefaceMap.put(Typeface.NORMAL, "fonts/GreycliffCF-Bold.ttf");
+        typefaceMap.put(Typeface.BOLD, "fonts/GreycliffCF-Heavy.ttf");
+        typefaceMap.put(Typeface.ITALIC, "fonts/GreycliffCF-Heavy.ttf");
+        typefaceMap.put(Typeface.BOLD_ITALIC, "fonts/GreycliffCF-Bold.ttf");
+        return typefaceMap;
+    }
+
+    public Map<Integer,String> getContentface() {
+        Map<Integer, String> typefaceMap = new HashMap<>();
+        typefaceMap.put(Typeface.NORMAL,"fonts/Lato-Medium.ttf");
+        typefaceMap.put(Typeface.BOLD,"fonts/Lato-Bold.ttf");
+        typefaceMap.put(Typeface.ITALIC,"fonts/Lato-MediumItalic.ttf");
+        typefaceMap.put(Typeface.BOLD_ITALIC,"fonts/Lato-BoldItalic.ttf");
+        return typefaceMap;
     }
 
     private void retreiveReply(final DocumentReference documentReference) {
