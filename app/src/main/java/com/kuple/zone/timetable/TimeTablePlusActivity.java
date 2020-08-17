@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,9 +34,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.JsonArray;
 import com.kuple.zone.R;
 import com.kuple.zone.login.LoginActivity;
+import com.smarteist.autoimageslider.IndicatorView.draw.drawer.type.ScaleDownDrawer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
@@ -74,7 +80,59 @@ public class TimeTablePlusActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (position == 0) {  }
+                if (position == 0) {
+
+                    String json = getJsonString();
+
+                    Log.d("알림","test01");
+                    try{
+
+                        JSONObject jsonObject = new JSONObject(json);
+
+                        JSONArray seoulArray = jsonObject.getJSONArray("seoul");
+                        Log.d("알림", "test02");
+                        JSONObject seoulObject = seoulArray.getJSONObject(0);
+                        Log.d("알림", "test03");
+                        JSONArray majorArray = seoulObject.getJSONArray("major");
+                        Log.d("알림", "test04");
+                        JSONObject majorObject = majorArray.getJSONObject(0);
+                        Log.d("알림", "test05");
+                        JSONArray majorsArray = majorObject.getJSONArray("majors");
+                        Log.d("알림", "test06");
+                        JSONObject majorsObject = majorsArray.getJSONObject(0);
+
+                        JSONArray coursesArray = majorsObject.getJSONArray("courses");
+
+                        for(int i = 0 ; i < coursesArray.length(); i++) {
+                                JSONObject coursesObject = coursesArray.getJSONObject(0);
+                                Log.d("알림", "test07");
+
+                                SeoulClass seoulclass = new SeoulClass();
+                                  Log.d("알림", "test08");
+                                seoulclass.setClassNum(coursesObject.getString("classNum"));
+                                seoulclass.setCode(coursesObject.getString("code"));
+                                 Log.d("알림", "test09");
+                                seoulclass.setName(coursesObject.getString("name"));
+                                seoulclass.setProfessor(coursesObject.getString("professor"));
+                                seoulclass.setSel(coursesObject.getString("sel"));
+                                seoulclass.setTime(coursesObject.getString("time"));
+
+                                arrayList.add(seoulclass);
+                                Log.d("알림", "test10");
+
+                           //  JSONArray courses = major.getJSONArray("2");
+                          //      Log.d("알림", "test05");
+                          //    JSONObject jsonArray = majors.getJSONObject("courses");
+                          //  Log.d("알림", "test06");
+                          // String courses = jsonObject.getJSONObject("seoul.major.majors")   .getString("courses");
+                         //   JSONArray seoulArray = new JSONArray(jsonArray);
+                         //   Log.d("알림", "test07");
+                        }
+
+                        }catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                }
 
 
                 else if (position == 1) {
@@ -103,12 +161,14 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            ((CustomViewHolder) holder).classNum_sejong.setText(arrayList.get(position).classNum);
-            ((CustomViewHolder) holder).code_sejong.setText(arrayList.get(position).code);
-            ((CustomViewHolder) holder).name_sejong.setText(arrayList.get(position).name);
-            ((CustomViewHolder) holder).professor_sejong.setText(arrayList.get(position).professor);
-            ((CustomViewHolder) holder).sel_sejong.setText(arrayList.get(position).sel);
-            ((CustomViewHolder) holder).time_sejong.setText(arrayList.get(position).time);
+            Log.d("알림", "test11");
+            ((CustomViewHolder) holder).classNum_sejong.setText(arrayList.get(position).getClassNum());
+            Log.d("알림", "test12");
+            ((CustomViewHolder) holder).code_sejong.setText(arrayList.get(position).getCode());
+            ((CustomViewHolder) holder).name_sejong.setText(arrayList.get(position).getName());
+            ((CustomViewHolder) holder).professor_sejong.setText(arrayList.get(position).getProfessor());
+            ((CustomViewHolder) holder).sel_sejong.setText(arrayList.get(position).getSel());
+            ((CustomViewHolder) holder).time_sejong.setText(arrayList.get(position).getTime());
 
         }
 
@@ -139,18 +199,22 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         }
     }
 
+
+
+
     private String getJsonString()
     {
         String json = "";
-
+        Log.d("알림","example01");
         try {
-            InputStream is = getAssets().open("Movies.json");
+            InputStream is = getAssets().open("total.json");
+            Log.d("알림","example02");
             int fileSize = is.available();
-
+            Log.d("알림","example03");
             byte[] buffer = new byte[fileSize];
             is.read(buffer);
             is.close();
-
+            Log.d("알림","example04");
             json = new String(buffer, "UTF-8");
         }
         catch (IOException ex)
