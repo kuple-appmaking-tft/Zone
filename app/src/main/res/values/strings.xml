@@ -63,10 +63,9 @@
     <string name="마이페이지">마이페이지</string>
     <string name="알림">알림</string>
     <string name="게시판">게시판</string>
-
     <string name="상담게시판">상담게시판</string>
     <string name="로그아웃">로그아웃</string>
-    <string name="nickname">NickName</string>
+    <string name="nickname">UserName</string>
 
     <string name="로그인">로그인</string>
     <string name="신규회원가입">신규 회원가입</string>
