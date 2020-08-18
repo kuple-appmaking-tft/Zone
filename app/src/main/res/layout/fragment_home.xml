@@ -31,7 +31,8 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
 
                     <TextView
                         android:id="@+id/btnBus"
@@ -39,13 +40,13 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_toLeftOf="@+id/btnMeal"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/colorWhite"
                         android:gravity="center"
                         android:paddingHorizontal="15dp"
                         android:paddingVertical="5dp"
                         android:singleLine="true"
                         android:text="셔틀버스"
-                        android:textColor="#000"
+                        android:textColor="@color/colorBlack"
                         android:textSize="20dp" />
 
                     <TextView
@@ -54,13 +55,13 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="5dp"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/colorWhite"
                         android:gravity="center"
                         android:paddingHorizontal="15dp"
                         android:paddingVertical="5dp"
                         android:singleLine="true"
                         android:text="학식"
-                        android:textColor="#000"
+                        android:textColor="@color/colorBlack"
                         android:textSize="20dp" />
 
                     <TextView
@@ -69,13 +70,13 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_toRightOf="@+id/btnMeal"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/colorWhite"
                         android:gravity="center"
                         android:paddingHorizontal="15dp"
                         android:paddingVertical="5dp"
                         android:singleLine="true"
                         android:text="시간표"
-                        android:textColor="#000"
+                        android:textColor="@color/colorBlack"
                         android:textSize="20dp" />
                 </LinearLayout>
             </HorizontalScrollView>
@@ -86,18 +87,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/feedLayout"
                 android:scrollbars="vertical" />
-
-            <Button
-                android:id="@+id/btnReadMore"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_below="@+id/feedKuple"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="70dp"
-                android:background="@color/colorPrimaryDark"
-                android:paddingHorizontal="5dp"
-                android:text="more" />
 
         </RelativeLayout>
 
