@@ -115,7 +115,8 @@ public class PhotoboardActivity extends AppCompatActivity {
                         @Override
                         public void onitemClick(View v, int pos) {
                             Intent intent = new Intent(PhotoboardActivity.this, DetailActivity.class);
-                            intent.putExtra("DocumentId", mDocumentIdList.get(pos));
+                            //intent.putExtra("DocumentId", mDocumentIdList.get(pos));
+                            intent.putExtra("DocumentId", mPostingInfoList.get(pos).getDocumentId());
                             intent.putExtra("BoardName", mBoardName);
                             startActivity(intent);
                         }

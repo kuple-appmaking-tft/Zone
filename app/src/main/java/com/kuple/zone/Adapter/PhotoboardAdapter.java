@@ -121,7 +121,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
         holder.mReplycount.setText(replycount);
         holder.mTitleTextView.setText(data.getTitle());
         holder.mNameTextView.setText(data.getNickname());
-        holder.mContentsTextView.setText(data.getContent());
+        //holder.mContentsTextView.setText(data.getContent());
         SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
         for (int i = 0; i < data.getmDownloadURIList().size(); i++) {
             sliderAdapterExample.addItem(new SliderItem(data.getmDownloadURIList().get(i)));
@@ -181,7 +181,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
 
         String date = data.getDate().toString();
         String date1 = date.substring(11, 16);
-        String date2 = date.substring(0, 13) + " " + date.substring(30, 34);
+        //String date2 = date.substring(0, 13) + " " + date.substring(30, 34);
         //Log.d("dateYY", date2);
         holder.mDateTextView.setText(date1);
 
@@ -189,13 +189,13 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
 ////        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("ee MMM dd :HH:mm yyyy");
 ////        String dateTime=simpleDateFormat.format(new Date());
         String dateTime = new Date().toString();
-        dateTime = dateTime.substring(0, 13) + " " + date.substring(30, 34);
+       // dateTime = dateTime.substring(0, 13) + " " + date.substring(30, 34);
         //Log.d("dateYY", dateTime);
         // Log.d("date", dateTime);
         holder.mNewDateImageView.setVisibility(View.INVISIBLE);
-        if (dateTime.equals(date2)) {
-            holder.mNewDateImageView.setVisibility(View.VISIBLE);
-        }
+//        if (dateTime.equals(date2)) {
+//            holder.mNewDateImageView.setVisibility(View.VISIBLE);
+//        }
     }
 
     public void showPopup(final View v, final String documentId) {
