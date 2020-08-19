@@ -53,6 +53,7 @@ import java.util.List;
 public class TimeTablePlusActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+
     ArrayList<SeoulClass> arrayList = new ArrayList<>();
 
     Spinner searchcampusSpinner;
@@ -61,13 +62,15 @@ public class TimeTablePlusActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_time_table_plus);
-        recyclerView = (RecyclerView) findViewById(R.id.class_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final ClassRecyclerViewAdapter classRecyclerViewAdapter = new ClassRecyclerViewAdapter();
-        recyclerView.setAdapter(classRecyclerViewAdapter);
+
+            RecyclerView recyclerView = findViewById(R.id.class_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            final ClassRecyclerViewAdapter classRecyclerViewAdapter = new ClassRecyclerViewAdapter();
+            recyclerView.setAdapter(classRecyclerViewAdapter);
+
 
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
+        new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration); //리사이클러뷰 구분선
 
 
@@ -90,45 +93,31 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(json);
 
                         JSONArray seoulArray = jsonObject.getJSONArray("seoul");
-                        Log.d("알림", "test02");
-                        JSONObject seoulObject = seoulArray.getJSONObject(0);
-                        Log.d("알림", "test03");
-                        JSONArray majorArray = seoulObject.getJSONArray("major");
-                        Log.d("알림", "test04");
-                        JSONObject majorObject = majorArray.getJSONObject(0);
-                        Log.d("알림", "test05");
-                        JSONArray majorsArray = majorObject.getJSONArray("majors");
-                        Log.d("알림", "test06");
-                        JSONObject majorsObject = majorsArray.getJSONObject(0);
+                        for(int a = 0; a < seoulArray.length(); a++) {
+                            JSONObject seoulObject = seoulArray.getJSONObject(a);
+                            JSONArray majorArray = seoulObject.getJSONArray("major");
+                            for (int b = 0; b < majorArray.length(); b++) {
+                                JSONObject majorObject = majorArray.getJSONObject(b);
+                                JSONArray majorsArray = majorObject.getJSONArray("majors");
+                                for (int c = 0; c < majorsArray.length(); c++) {
+                                    JSONObject majorsObject = majorsArray.getJSONObject(c);
+                                    JSONArray coursesArray = majorsObject.getJSONArray("courses");
+                                    for (int i = 0; i < coursesArray.length(); i++) {
+                                        JSONObject coursesObject = coursesArray.getJSONObject(i);
+                                        SeoulClass seoulclass = new SeoulClass();
+                                        seoulclass.setClassNum(coursesObject.getString("classNum"));
+                                        seoulclass.setCode(coursesObject.getString("code"));
 
-                        JSONArray coursesArray = majorsObject.getJSONArray("courses");
-
-                        for(int i = 0 ; i < coursesArray.length(); i++) {
-                                JSONObject coursesObject = coursesArray.getJSONObject(0);
-                                Log.d("알림", "test07");
-
-                                SeoulClass seoulclass = new SeoulClass();
-                                  Log.d("알림", "test08");
-                                seoulclass.setClassNum(coursesObject.getString("classNum"));
-                                seoulclass.setCode(coursesObject.getString("code"));
-                                 Log.d("알림", "test09");
-                                seoulclass.setName(coursesObject.getString("name"));
-                                seoulclass.setProfessor(coursesObject.getString("professor"));
-                                seoulclass.setSel(coursesObject.getString("sel"));
-                                seoulclass.setTime(coursesObject.getString("time"));
-
-                                arrayList.add(seoulclass);
-                                Log.d("알림", "test10");
-
-                           //  JSONArray courses = major.getJSONArray("2");
-                          //      Log.d("알림", "test05");
-                          //    JSONObject jsonArray = majors.getJSONObject("courses");
-                          //  Log.d("알림", "test06");
-                          // String courses = jsonObject.getJSONObject("seoul.major.majors")   .getString("courses");
-                         //   JSONArray seoulArray = new JSONArray(jsonArray);
-                         //   Log.d("알림", "test07");
+                                        seoulclass.setName(coursesObject.getString("name"));
+                                        seoulclass.setProfessor(coursesObject.getString("professor"));
+                                        seoulclass.setSel(coursesObject.getString("sel"));
+                                        seoulclass.setTime(coursesObject.getString("time"));
+                                        arrayList.add(seoulclass);
+                                    }
+                                    classRecyclerViewAdapter.notifyDataSetChanged();
+                                }
+                            }
                         }
-
                         }catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -198,6 +187,8 @@ public class TimeTablePlusActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 
 
