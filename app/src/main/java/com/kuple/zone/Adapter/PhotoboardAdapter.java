@@ -127,6 +127,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
             sliderAdapterExample.addItem(new SliderItem(data.getmDownloadURIList().get(i)));
         }
         //
+
         holder.mImageSliderView.setSliderAdapter(sliderAdapterExample);
         final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
         holder.mLikeButton.setOnLikeListener(new OnLikeListener() {
