@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Movie;
+import com.github.tlaabs.timetableview.Schedule;
+import com.github.tlaabs.timetableview.TimetableView;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,42 +17,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.transition.Transition;
-import com.github.tlaabs.timetableview.TimetableView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.gson.JsonArray;
 import com.kuple.zone.R;
-import com.kuple.zone.login.LoginActivity;
-import com.smarteist.autoimageslider.IndicatorView.draw.drawer.type.ScaleDownDrawer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class TimeTablePlusActivity extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
+    private Schedule schedule; // 스케줄추가
 
     ArrayList<SeoulClass> arrayList = new ArrayList<>();
 
@@ -87,14 +66,12 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
                     String json = getJsonString();
 
-                    Log.d("알림","test01");
                     try{
 
+                        //major 추가
                         JSONObject jsonObject = new JSONObject(json);
-
                         JSONArray seoulArray = jsonObject.getJSONArray("seoul");
-                        for(int a = 0; a < seoulArray.length(); a++) {
-                            JSONObject seoulObject = seoulArray.getJSONObject(a);
+                            JSONObject seoulObject = seoulArray.getJSONObject(0);
                             JSONArray majorArray = seoulObject.getJSONArray("major");
                             for (int b = 0; b < majorArray.length(); b++) {
                                 JSONObject majorObject = majorArray.getJSONObject(b);
@@ -107,17 +84,113 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                                         SeoulClass seoulclass = new SeoulClass();
                                         seoulclass.setClassNum(coursesObject.getString("classNum"));
                                         seoulclass.setCode(coursesObject.getString("code"));
-
                                         seoulclass.setName(coursesObject.getString("name"));
                                         seoulclass.setProfessor(coursesObject.getString("professor"));
                                         seoulclass.setSel(coursesObject.getString("sel"));
                                         seoulclass.setTime(coursesObject.getString("time"));
                                         arrayList.add(seoulclass);
                                     }
-                                    classRecyclerViewAdapter.notifyDataSetChanged();
+                                   // classRecyclerViewAdapter.notifyDataSetChanged();
                                 }
+
+                            }
+
+                        //general 추가
+                        JSONObject seoulObject_general = seoulArray.getJSONObject(1);
+                        JSONArray generalArray = seoulObject_general.getJSONArray("general");
+                        for (int b = 0; b < generalArray.length(); b++) {
+                            JSONObject majorObject = generalArray.getJSONObject(b);
+                            JSONArray majorsArray = majorObject.getJSONArray("classes");
+                            for (int c = 0; c < majorsArray.length(); c++) {
+                                JSONObject majorsObject = majorsArray.getJSONObject(c);
+                                JSONArray coursesArray = majorsObject.getJSONArray("courses");
+                                for (int i = 0; i < coursesArray.length(); i++) {
+                                    JSONObject coursesObject = coursesArray.getJSONObject(i);
+                                    SeoulClass seoulclass = new SeoulClass();
+                                    seoulclass.setClassNum(coursesObject.getString("classNum"));
+                                    seoulclass.setCode(coursesObject.getString("code"));
+                                    seoulclass.setName(coursesObject.getString("name"));
+                                    seoulclass.setProfessor(coursesObject.getString("professor"));
+                                    seoulclass.setSel(coursesObject.getString("sel"));
+                                    seoulclass.setTime(coursesObject.getString("time"));
+                                    arrayList.add(seoulclass);
+                                }
+
+                            }
+
+                        }
+                        // education 추가
+                        JSONObject seoulObject_education = seoulArray.getJSONObject(2);
+                        JSONArray educationArray = seoulObject_education.getJSONArray("education");
+                        for (int b = 0; b < educationArray.length(); b++) {
+                            JSONObject majorObject = educationArray.getJSONObject(b);
+                            JSONArray coursesArray = majorObject.getJSONArray("courses");
+                            for (int i = 0; i < coursesArray.length(); i++) {
+                                JSONObject coursesObject = coursesArray.getJSONObject(i);
+                                SeoulClass seoulclass = new SeoulClass();
+                                seoulclass.setClassNum(coursesObject.getString("classNum"));
+                                seoulclass.setCode(coursesObject.getString("code"));
+                                seoulclass.setName(coursesObject.getString("name"));
+                                seoulclass.setProfessor(coursesObject.getString("professor"));
+                                seoulclass.setSel(coursesObject.getString("sel"));
+                                seoulclass.setTime(coursesObject.getString("time"));
+                                arrayList.add(seoulclass);
                             }
                         }
+
+
+                        // military
+                        JSONObject seoulObject_military = seoulArray.getJSONObject(3);
+                        JSONArray militaryArray = seoulObject_military.getJSONArray("military");
+                        for (int b = 0; b < militaryArray.length(); b++) {
+                            JSONObject majorObject = militaryArray.getJSONObject(b);
+                            JSONArray coursesArray = majorObject.getJSONArray("courses");
+                            for (int i = 0; i < coursesArray.length(); i++) {
+                                JSONObject coursesObject = coursesArray.getJSONObject(i);
+                                SeoulClass seoulclass = new SeoulClass();
+                                seoulclass.setClassNum(coursesObject.getString("classNum"));
+                                seoulclass.setCode(coursesObject.getString("code"));
+                                seoulclass.setName(coursesObject.getString("name"));
+                                seoulclass.setProfessor(coursesObject.getString("professor"));
+                                seoulclass.setSel(coursesObject.getString("sel"));
+                                seoulclass.setTime(coursesObject.getString("time"));
+                                arrayList.add(seoulclass);
+                            }
+                         }
+
+                        // lifelong
+                        JSONObject seoulObject_lifelong = seoulArray.getJSONObject(3);
+                        JSONArray lifelongArray = seoulObject_lifelong.getJSONArray("military");
+                        for (int b = 0; b < lifelongArray.length(); b++) {
+                            JSONObject majorObject = lifelongArray.getJSONObject(b);
+                            JSONArray coursesArray = majorObject.getJSONArray("courses");
+                            for (int i = 0; i < coursesArray.length(); i++) {
+                                JSONObject coursesObject = coursesArray.getJSONObject(i);
+                                SeoulClass seoulclass = new SeoulClass();
+                                seoulclass.setClassNum(coursesObject.getString("classNum"));
+                                seoulclass.setCode(coursesObject.getString("code"));
+                                seoulclass.setName(coursesObject.getString("name"));
+                                seoulclass.setProfessor(coursesObject.getString("professor"));
+                                seoulclass.setSel(coursesObject.getString("sel"));
+                                seoulclass.setTime(coursesObject.getString("time"));
+                                arrayList.add(seoulclass);
+                            }
+                            classRecyclerViewAdapter.notifyDataSetChanged();
+
+                            findViewById(R.id.class_view).setOnClickListener(
+                                    new Button.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            
+                                        }
+                                    }
+                            );
+
+                        }
+
+
+
+
                         }catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -136,28 +209,30 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         });
 
 
+
+
     }
 
-    class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> { // 리사이클러뷰
 
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_sejong, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_seoul, parent, false);
 
             return new CustomViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            Log.d("알림", "test11");
-            ((CustomViewHolder) holder).classNum_sejong.setText(arrayList.get(position).getClassNum());
-            Log.d("알림", "test12");
-            ((CustomViewHolder) holder).code_sejong.setText(arrayList.get(position).getCode());
-            ((CustomViewHolder) holder).name_sejong.setText(arrayList.get(position).getName());
-            ((CustomViewHolder) holder).professor_sejong.setText(arrayList.get(position).getProfessor());
-            ((CustomViewHolder) holder).sel_sejong.setText(arrayList.get(position).getSel());
-            ((CustomViewHolder) holder).time_sejong.setText(arrayList.get(position).getTime());
+
+            ((CustomViewHolder) holder).classNum_seoul.setText(arrayList.get(position).getClassNum());
+            ((CustomViewHolder) holder).code_seoul.setText(arrayList.get(position).getCode());
+            ((CustomViewHolder) holder).name_seoul.setText(arrayList.get(position).getName());
+            ((CustomViewHolder) holder).professor_seoul.setText(arrayList.get(position).getProfessor());
+            ((CustomViewHolder) holder).sel_seoul.setText(arrayList.get(position).getSel());
+            ((CustomViewHolder) holder).time_seoul.setText(arrayList.get(position).getTime());
 
         }
 
@@ -168,21 +243,21 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
         private class CustomViewHolder extends RecyclerView.ViewHolder {
 
-            TextView classNum_sejong;
-            TextView code_sejong;
-            TextView name_sejong;
-            TextView professor_sejong;
-            TextView sel_sejong;
-            TextView time_sejong;
+            TextView classNum_seoul;
+            TextView code_seoul;
+            TextView name_seoul;
+            TextView professor_seoul;
+            TextView sel_seoul;
+            TextView time_seoul;
 
             public CustomViewHolder(View view) {
                 super(view);
-                classNum_sejong = (TextView) view.findViewById(R.id.classNum_sejong);
-                code_sejong = (TextView) view.findViewById(R.id.code_sejong);
-                name_sejong = (TextView) view.findViewById(R.id.name_sejong);
-                professor_sejong = (TextView) view.findViewById(R.id.professor_sejong);
-                sel_sejong = (TextView) view.findViewById(R.id.sel_sejong);
-                time_sejong = (TextView) view.findViewById(R.id.time_sejong);
+                classNum_seoul = (TextView) view.findViewById(R.id.classNum_seoul);
+                code_seoul = (TextView) view.findViewById(R.id.code_seoul);
+                name_seoul = (TextView) view.findViewById(R.id.name_seoul);
+                professor_seoul = (TextView) view.findViewById(R.id.professor_seoul);
+                sel_seoul = (TextView) view.findViewById(R.id.sel_seoul);
+                time_seoul = (TextView) view.findViewById(R.id.time_seoul);
 
             }
         }
@@ -198,7 +273,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         String json = "";
         Log.d("알림","example01");
         try {
-            InputStream is = getAssets().open("total.json");
+            InputStream is = getAssets().open("seoul_all.json");
             Log.d("알림","example02");
             int fileSize = is.available();
             Log.d("알림","example03");
