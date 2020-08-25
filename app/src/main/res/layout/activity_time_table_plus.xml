@@ -12,7 +12,6 @@
         android:layout_height="300dp">
 
         <com.github.tlaabs.timetableview.TimetableView
-            android:id="@+id/timetable"
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:orientation="vertical"
@@ -43,7 +42,6 @@
 
             <!--전공 / 교양 검색 -->
             <Spinner
-                android:id="@+id/search_classes"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -53,7 +51,6 @@
             </Spinner>
             <!--검색어 -->
             <Spinner
-                android:id="@+id/search_condition"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -63,7 +60,6 @@
 
             <!--과목 정렬_우선순위 -->
             <Spinner
-                android:id="@+id/search_range"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -73,7 +69,6 @@
 
             <!--시간대 검색 -->
             <Spinner
-                android:id="@+id/search_time"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -83,7 +78,6 @@
 
             <!--학점 검색 -->
             <Spinner
-                android:id="@+id/search_credit"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

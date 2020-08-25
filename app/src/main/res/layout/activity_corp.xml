@@ -7,7 +7,6 @@
     tools:context=".board.CorpActivity">
 
     <ImageView
-        android:id="@+id/corp_backImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="15dp"
@@ -56,7 +55,6 @@
         app:layout_constraintTop_toTopOf="@+id/corp_communityname" />
 
     <ImageView
-        android:id="@+id/corp_serch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
@@ -66,7 +64,6 @@
         app:layout_constraintTop_toTopOf="@+id/corp_communityname" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/corp_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

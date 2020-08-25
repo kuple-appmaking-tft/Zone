@@ -15,7 +15,6 @@
         android:scaleType="fitXY" />
 
     <ImageView
-        android:id="@+id/iv_gif_container"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="bottom|start"

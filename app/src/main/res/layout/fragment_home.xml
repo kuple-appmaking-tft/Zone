@@ -9,7 +9,6 @@
     tools:context=".navigation.HomeFragment">
 
     <ScrollView
-        android:id="@+id/feedHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
@@ -18,7 +17,6 @@
         android:scrollbars="none">
 
         <RelativeLayout
-            android:id="@+id/feedFilter"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -93,7 +91,6 @@
     </ScrollView>
 
     <ProgressBar
-        android:id="@+id/pbTmp"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"

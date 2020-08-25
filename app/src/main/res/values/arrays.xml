@@ -7,22 +7,12 @@
     </string-array>
 
     <!--전공 / 교양 검색 -->
-    <string-array name="search_classes">
-    </string-array>
 
     <!--검색어 -->
-    <string-array name="search_condition">
-    </string-array>
 
     <!--과목 정렬_우선순위 -->
-    <string-array name="search_range">
-    </string-array>
 
     <!--시간대 검색 -->
-    <string-array name="search_time">
-    </string-array>
 
     <!--학점 검색 -->
-    <string-array name="search_credit">
-    </string-array>
 </resources>

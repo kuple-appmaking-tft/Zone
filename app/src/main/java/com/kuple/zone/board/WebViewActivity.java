@@ -29,6 +29,6 @@ public class WebViewActivity extends AppCompatActivity {
         mWebSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebSettings.setDomStorageEnabled(true);
-        mWebView.loadUrl("");
+        mWebView.loadUrl("https://dormitel.korea.ac.kr/mbshome/mbs/hoyeon/subview.do?id=hoyeon_040200000000");
     }
 }

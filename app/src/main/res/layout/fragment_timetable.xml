@@ -21,13 +21,11 @@
             android:text="Plus" />
 
         <Button
-            android:id="@+id/btn_5day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5Day" />
 
         <Button
-            android:id="@+id/btn_7day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="7Day" />
@@ -35,7 +33,6 @@
     </LinearLayout>
 
     <com.github.tlaabs.timetableview.TimetableView
-        android:id="@+id/timetable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:header_title="@array/default_header_title" />
