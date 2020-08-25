@@ -75,6 +75,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'org.jetbrains:annotations:13.0'
    // compile 'com.github.irshulx:laser-native-editor:3.0.3'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
 
 

@@ -67,7 +67,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         String dateTime = dateTime2.substring(4, 10);
         Log.d("date1", dateTime);
         if (date.substring(4, 10).equals(dateTime)) {
-            holder.mN.setVisibility(View.VISIBLE);
+//            holder.mN.setVisibility(View.VISIBLE);
         }
     }
 
@@ -86,7 +86,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             title = itemView.findViewById(R.id.item_noti_title);
             content = itemView.findViewById(R.id.item_noti_content);
             mDate = itemView.findViewById(R.id.item_noti_date);
-            mN=itemView.findViewById(R.id.item_noti_n);
+            //mN=itemView.findViewById(R.id.item_noti_n);
 
             itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
                 @Override

@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -106,13 +108,20 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
     private TextView mViewcount;
 
     private SliderView mSliderView;
-    private SliderAdapterExample mSliderAdapterExample;
+    //private SliderAdapterExample mSliderAdapterExample;
 
     private ConstraintLayout constraintLayout;
     private ScrollView detail_ScrollView;
     private BoardInfo boardInfo;
     private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private LikeButton mLikeButton;
+
+    private OnFragmentInteractionListener mListener;
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
 
 
     @Override
@@ -154,20 +163,8 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
 //                swipeRefreshLayout.setRefreshing(false);
 //            }
 //        });
-        mToiletImageView = findViewById(R.id.detail_toiletimage);
+        //mToiletImageView = findViewById(R.id.detail_toiletimage);
         loadingbar = new ProgressDialog(this);
-
-        mSliderView = findViewById(R.id.detail_sliderView);
-        mSliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-        mSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        mSliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-        mSliderView.setIndicatorSelectedColor(Color.WHITE);
-        mSliderView.setIndicatorUnselectedColor(Color.GRAY);
-        mSliderView.setScrollTimeInSec(3);
-        mSliderView.setAutoCycle(false);
-
-
-        mSliderAdapterExample = new SliderAdapterExample(this);
 
         initUid();//uid 전역변수로 사용가능
         upviewcount();//조회수 1올리기
@@ -362,7 +359,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                 assert boardInfo != null;
                 mTitle.setText(boardInfo.getTitle());
                // mContent.setText(boardInfo.getContent());
-
+                //내용 대신 에디터 (html)파일
                 Editor renderer= (Editor)findViewById(R.id.renderer);
                 Map<Integer, String> headingTypeface = getHeadingTypeface();
                 Map<Integer, String> contentTypeface = getContentface();
@@ -372,18 +369,17 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                 renderer.setEditorImageLayout(R.layout.tmpl_image_view);
                 renderer.setListItemLayout(R.layout.tmpl_list_item);
                 //String content= mSerialized;
+                Log.d("콘텐츠",boardInfo.getContent());
                 EditorContent Deserialized= renderer.getContentDeserialized(boardInfo.getContent());
                 renderer.setEditorListener(new EditorListener() {
                     @Override
                     public void onTextChanged(EditText editText, Editable text) {
 
                     }
-
                     @Override
                     public void onUpload(Bitmap image, String uuid) {
 
                     }
-
                     @Override
                     public View onRenderMacro(String name, Map<String, Object> settings, int index) {
                         View view = getLayoutInflater().inflate(R.layout.layout_authored_by, null);
@@ -391,30 +387,9 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                     }
                 });
                 renderer.render(Deserialized);
-                ///
-                /*
-                mLikecount.setText(String.valueOf(boardInfo.getUidList().size() - 1));
                 mReplycount.setText(String.valueOf(boardInfo.getReplycount()));
                 mViewcount.setText(String.valueOf(boardInfo.getViewcount()));
-                //sliderview
-                if (boardInfo.getmDownloadURIList().size() != 0) {
-                    for (int i = 0; i < boardInfo.getmDownloadURIList().size(); i++) {
-                        String url = boardInfo.getmDownloadURIList().get(i);
-                        SliderItem sliderItem = new SliderItem(url);
-                        mSliderAdapterExample.addItem(sliderItem);
-                        if (i == boardInfo.getmDownloadURIList().size() - 1) {
-                            mSliderView.setSliderAdapter(mSliderAdapterExample);
-                        }
-                    }
-                } else {
-//                    Log.d("슬라이드","안보이게함");
-
-                    mSliderView.setVisibility(View.INVISIBLE);
-                    mToiletImageView.setVisibility(View.VISIBLE);
-
-
-                }
-                */
+                mLikecount.setText(String.valueOf(boardInfo.getUidList().size() - 1));
 
             }
         });

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -45,6 +46,7 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,46 +107,12 @@ public class WriteActivity extends AppCompatActivity {
             Toast.makeText(this,uid,Toast.LENGTH_LONG).show();
         }
         mTitle = findViewById(R.id.write_title_EditText);
-//        mContents = findViewById(R.id.write_contents_EditText);
         mTitleLayout = findViewById(R.id.write_textInputLayout_title);
-//
-//        mContentsLayOut = findViewById(R.id.write_textInputLayout_contents);
         loadingbar = new ProgressDialog(this);
-//        findViewById(R.id.write_addphoto).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
-//            }
-//        });
-//이미지슬라이더
         imageStringList = new ArrayList<>();//이거없으면안댐
         imageUriList = new ArrayList<>();//이거없으면안댐
-        sliderAdapterExample = new SliderAdapterExample(this);
-//        SliderView sliderView = findViewById(R.id.write_sliderview);
-//        sliderView.setSliderAdapter(sliderAdapterExample);
-//        sliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-//        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-//        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-//        sliderView.setIndicatorSelectedColor(Color.WHITE);
-//        sliderView.setIndicatorUnselectedColor(Color.GRAY);
-//        sliderView.setScrollTimeInSec(3);
-//        sliderView.setAutoCycle(false);
-
-//        mContentsLayOut.setEndIconOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                uploadFile();//스토리지에 업로드
-//            }
-//        });
-
-
         editor = (Editor) findViewById(R.id.editor);
         setUpEditor();
-
     }
 
     private void uploadStore(final BoardInfo boardInfo) {
@@ -248,8 +216,6 @@ public class WriteActivity extends AppCompatActivity {
                 editor.insertDivider();
             }
         });
-
-
         findViewById(R.id.action_color).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -267,14 +233,10 @@ public class WriteActivity extends AppCompatActivity {
                                 Toast.makeText(WriteActivity.this, "picked" + colorHex(color), Toast.LENGTH_LONG).show();
                                 editor.updateTextColor(colorHex(color));
                             }
-
                             @Override
                             public void onColor(int color, boolean fromUser) {
-
                             }
                         });
-
-
             }
         });
 
@@ -282,18 +244,14 @@ public class WriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editor.openImagePicker();
-                Log.d("짱개","이미지클릭");
             }
         });
-
         findViewById(R.id.action_insert_link).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.insertLink();
             }
         });
-
-
         findViewById(R.id.action_erase).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,32 +270,6 @@ public class WriteActivity extends AppCompatActivity {
         //editor.setNormalTextSize(10);
         // editor.setEditorTextColor("#FF3333");
         //editor.StartEditor();
-        editor.setEditorListener(new EditorListener() {
-            @Override
-            public void onTextChanged(EditText editText, Editable text) {
-                // Toast.makeText(EditorTestActivity.this, text, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onUpload(Bitmap image, String uuid) {
-                Toast.makeText(WriteActivity.this, uuid, Toast.LENGTH_LONG).show();
-                /**
-                 * TODO do your upload here from the bitmap received and all onImageUploadComplete(String url); to insert the result url to
-                 * let the editor know the upload has completed
-                 */
-                editor.onImageUploadComplete("http://www.videogamesblogger.com/wp-content/uploads/2015/08/metal-gear-solid-5-the-phantom-pain-cheats-640x325.jpg", uuid);
-                // editor.onImageUploadFailed(uuid);
-            }
-
-            @Override
-            public View onRenderMacro(String name, Map<String, Object> props, int index) {
-                View view = getLayoutInflater().inflate(R.layout.layout_authored_by, null);
-                return view;
-            }
-
-        });
-
-
         /**
          * rendering serialized content
          // */
@@ -349,8 +281,6 @@ public class WriteActivity extends AppCompatActivity {
 //        Intent intent = new Intent(getApplicationContext(), RenderTestActivity.class);
 //        intent.putExtra("content", serialized);
 //        startActivity(intent);
-
-
         /**
          * Rendering html
          */
@@ -362,7 +292,7 @@ public class WriteActivity extends AppCompatActivity {
         editor.render();
         findViewById(R.id.btnRender).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//업로드버튼
                 /*
                 Retrieve the content as serialized, you could also say getContentAsHTML();
                 */
@@ -373,7 +303,24 @@ public class WriteActivity extends AppCompatActivity {
 //                startActivity(intent);
                 contents = editor.getContentAsSerialized();
                 editor.getContentAsHTML();
-                uploadFile();
+                //uploadFile();
+
+                String dynamiclink = "test";
+                Date date = new Date();
+                title = mTitle.getText().toString();
+                BoardInfo boardInfo = new BoardInfo(
+                        title
+                        , contents
+                        , uid
+                        , documentId
+                        , date
+                        , "0"
+                        , Arrays.asList("")
+                        , 0
+                        , 0
+                        , mDownloadURI
+                );
+                uploadStore(boardInfo);
                 Log.d("짱개에디터테스트",contents);
             }
         });
@@ -396,6 +343,55 @@ public class WriteActivity extends AppCompatActivity {
         }, 0, backupInterval);
 
          */
+        editor.setEditorListener(new EditorListener() {
+            @Override
+            public void onTextChanged(EditText editText, Editable text) {
+                // Toast.makeText(EditorTestActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onUpload(Bitmap image,final String uuid) {
+                Toast.makeText(WriteActivity.this, uuid, Toast.LENGTH_LONG).show();
+                Date time = new Date();
+                mStorageRef = FirebaseStorage.getInstance().getReference("image");
+                final StorageReference imgref = mStorageRef.child(time.toString());
+                mDownloadURI = new ArrayList<>();
+                Uri imageUri=getImageUri(WriteActivity.this,image);
+                UploadTask uploadTask = imgref.putFile(imageUri);
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        // Continue with the task to get the download URL
+                        return imgref.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            final Uri downloadUri = task.getResult();
+                            //setListner사용
+                            mDownloadURI.add(downloadUri.toString());
+                            editor.onImageUploadComplete(downloadUri.toString(), uuid);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        editor.onImageUploadFailed(uuid);
+                    }
+                });
+                 //editor.onImageUploadFailed(uuid);
+            }
+            @Override
+            public View onRenderMacro(String name, Map<String, Object> props, int index) {
+                View view = getLayoutInflater().inflate(R.layout.layout_authored_by, null);
+                return view;
+            }
+
+        });
     }
 
     private String colorHex(int color) {
@@ -453,7 +449,8 @@ public class WriteActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
                             if (task.isSuccessful()) {
-                                Uri downloadUri = task.getResult();
+                                final Uri downloadUri = task.getResult();
+                                //setListner사용
                                 mDownloadURI.add(downloadUri.toString());
                                 if (mDownloadURI.size() == imageUriList.size()) {
                                     String dynamiclink = "test";
@@ -472,7 +469,6 @@ public class WriteActivity extends AppCompatActivity {
                                     );
                                     Log.d("성공", "성공");
                                     uploadStore(boardInfo);
-
                                 }
                             }
                         }
@@ -493,10 +489,7 @@ public class WriteActivity extends AppCompatActivity {
                         , mDownloadURI
                 );
                 uploadStore(boardInfo);
-
             }
-
-
         }
 
 
@@ -510,6 +503,7 @@ public class WriteActivity extends AppCompatActivity {
 
     }
 
+    /*
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
@@ -530,7 +524,6 @@ public class WriteActivity extends AppCompatActivity {
 
                 imageStringList.add(String.valueOf(data.getData()));
                 imageUriList.add(data.getData());
-                sliderAdapterExample.addItem(new SliderItem(String.valueOf(data.getData())));
             } else {
                 ClipData clipData = data.getClipData();
                 if (clipData.getItemCount() > 10) {
@@ -542,13 +535,11 @@ public class WriteActivity extends AppCompatActivity {
                     String dataStr = String.valueOf(clipData.getItemAt(0).getUri());
                     imageStringList.add(dataStr);
                     imageUriList.add(data.getData());
-                    sliderAdapterExample.addItem(new SliderItem(dataStr));
                 } else if (clipData.getItemCount() > 1 && clipData.getItemCount() < 10) {
                     for (int i = 0; i < clipData.getItemCount(); i++) {
                         //     Log.i("3. single choice", String.valueOf(clipData.getItemAt(i).getUri()));
                         imageStringList.add(String.valueOf(clipData.getItemAt(i).getUri()));
                         imageUriList.add(clipData.getItemAt(i).getUri());
-                        sliderAdapterExample.addItem(new SliderItem(String.valueOf(clipData.getItemAt(i).getUri())));
                     }
                 }
             }
@@ -556,6 +547,37 @@ public class WriteActivity extends AppCompatActivity {
             Toast.makeText(WriteActivity.this, "사진 선택을 취소하였습니다.", Toast.LENGTH_SHORT).show();
         }
     }
+    */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == editor.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+                editor.insertImage(bitmap);
+                imageStringList.add(String.valueOf(data.getData()));
+                imageUriList.add(data.getData());
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            //Write your code if there's no result
+            Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_SHORT).show();
+            // editor.RestoreState();
+        }
+    }
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+
+
 
 
 }
