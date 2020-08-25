@@ -1,21 +1,26 @@
 package com.kuple.zone.navigation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kuple.zone.Adapter.FeedAdapter;
 import com.kuple.zone.R;
+import com.kuple.zone.board.WebViewActivity;
 import com.kuple.zone.model.FeedModel;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements View.OnClickListener{
+public class HomeFragment extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<FeedModel> modelFeedArrayList = new ArrayList<>();
     FeedAdapter adapterFeed;
@@ -27,19 +32,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch(getView().getId()){
-            case R.id.btnBus:
-            case R.id.btnMeal:
-            case R.id.btnTimeTable:
-        }
-    }
-
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_home);
-
         recyclerView = (RecyclerView) recyclerView.findViewById(R.id.feedKuple);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -49,6 +44,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         recyclerView.setAdapter(adapterFeed);
 
         populateRecyclerView();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(view.getId()){
+            case R.id.btnBus:
+            case R.id.btnMeal:
+            case R.id.btnTimeTable:
+        }
     }
 
     public void populateRecyclerView() {

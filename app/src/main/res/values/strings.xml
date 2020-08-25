@@ -71,5 +71,11 @@
     <string name="신규회원가입">신규 회원가입</string>
     <string name="비밀번호찾기">비밀번호가 기억나지 않습니까?</string>
 
-    <item name="photoView" type="id"/>
+    <item name="photoView" type="id" />
+    <string name="title_activity_webview">webview</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

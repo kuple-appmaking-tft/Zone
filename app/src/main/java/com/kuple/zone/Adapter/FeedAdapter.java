@@ -44,7 +44,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
         final FeedModel modelFeed = FeedArrayList.get(position);
 
-        holder.tv_name.setName(modelFeed.getName());
+        //holder.tv_name.setName(modelFeed.getName());
         holder.tv_time.setText(modelFeed.getTime());
         holder.tv_likes.setText(String.valueOf(modelFeed.getLikes()));
         holder.tv_comments.setText(modelFeed.getComments() + " comments");
