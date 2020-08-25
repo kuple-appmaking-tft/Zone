@@ -63,14 +63,19 @@
     <string name="마이페이지">마이페이지</string>
     <string name="알림">알림</string>
     <string name="게시판">게시판</string>
-
     <string name="상담게시판">상담게시판</string>
     <string name="로그아웃">로그아웃</string>
-    <string name="nickname">NickName</string>
+    <string name="nickname">UserName</string>
 
     <string name="로그인">로그인</string>
     <string name="신규회원가입">신규 회원가입</string>
     <string name="비밀번호찾기">비밀번호가 기억나지 않습니까?</string>
 
-    <item name="photoView" type="id"/>
+    <item name="photoView" type="id" />
+    <string name="title_activity_webview">webview</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
