@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kuple.zone.Adapter.FeedAdapter;
 import com.kuple.zone.R;
-import com.kuple.zone.board.WebViewActivity;
 import com.kuple.zone.model.FeedModel;
 
 import java.util.ArrayList;
@@ -24,8 +23,6 @@ public class HomeFragment extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<FeedModel> modelFeedArrayList = new ArrayList<>();
     FeedAdapter adapterFeed;
-
-    @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -46,9 +43,8 @@ public class HomeFragment extends AppCompatActivity {
         populateRecyclerView();
     }
 
-    @Override
     public void onClick(View v) {
-        switch(view.getId()){
+        switch(v.getId()){
             case R.id.btnBus:
             case R.id.btnMeal:
             case R.id.btnTimeTable:
