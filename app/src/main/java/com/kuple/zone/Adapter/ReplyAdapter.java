@@ -40,7 +40,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.Inteface.OnItemClick;
 import com.kuple.zone.R;
-import com.kuple.zone.chat.ChatActivity;
+//import com.kuple.zone.chat.ChatActivity;
 import com.kuple.zone.model.ReplyInfo;
 import com.kuple.zone.model.UserModel;
 import com.like.LikeButton;
@@ -282,7 +282,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         holder.mProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                show_menu_profile(v, position);
+                //show_menu_profile(v, position);
             }
         });
 
@@ -403,7 +403,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         popup.show();
 
     }
-
+/*
     private void show_menu_profile(final View v, final int position) {
         PopupMenu popup = new PopupMenu(mContext, v);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -424,5 +424,5 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         popup.show();
 
     }
-
+*/
 }
