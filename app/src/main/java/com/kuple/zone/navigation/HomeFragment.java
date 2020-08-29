@@ -2,10 +2,12 @@ package com.kuple.zone.navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,40 +17,38 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kuple.zone.Adapter.FeedAdapter;
 import com.kuple.zone.R;
+import com.kuple.zone.board.WebViewActivity;
 import com.kuple.zone.model.FeedModel;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends AppCompatActivity {
-    RecyclerView recyclerView;
-    ArrayList<FeedModel> modelFeedArrayList = new ArrayList<>();
-    FeedAdapter adapterFeed;
+import javax.annotation.Nullable;
+
+public class HomeFragment extends Fragment {
+    private RecyclerView recyclerView;
+    private ArrayList<FeedModel> modelFeedArrayList = new ArrayList<>();
+    private FeedAdapter adapterFeed;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        return view;
-    }
+        recyclerView = (RecyclerView) view.findViewById(R.id.feedKuple);
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_home);
-        recyclerView = (RecyclerView) recyclerView.findViewById(R.id.feedKuple);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapterFeed = new FeedAdapter(this, modelFeedArrayList);
+        adapterFeed = new FeedAdapter(getActivity(), modelFeedArrayList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapterFeed);
 
-        populateRecyclerView();
-    }
-
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.btnBus:
-            case R.id.btnMeal:
-            case R.id.btnTimeTable:
-        }
+        Log.e("fragment", "HomeFragment");
+        TextView btnMeal = (TextView) view.findViewById(R.id.btnMeal);
+        btnMeal.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),WebViewActivity.class);
+                startActivity(intent);
+            }
+        });
+        return view;
     }
 
     public void populateRecyclerView() {
