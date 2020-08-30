@@ -45,7 +45,9 @@
                         android:singleLine="true"
                         android:text="셔틀버스"
                         android:textColor="@color/colorBlack"
-                        android:textSize="20dp" />
+                        android:textSize="20dp"
+                        android:onClick="onClick"
+                        tools:ignore="OnClick" />
 
                     <TextView
                         android:id="@+id/btnMeal"
@@ -84,9 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/feedLayout"
-                android:scrollbars="vertical"
-                android:onClick="onClick"
-                tools:ignore="OnClick" />
+                android:scrollbars="vertical" />
 
         </RelativeLayout>
 

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class BoardInfo {
+    private String BoardTitle;
     private String title;
     private String content;
     private String uid;
@@ -31,7 +32,8 @@ public class BoardInfo {
     @Override
     public String toString() {
         return "BoardInfo{" +
-                "title='" + title + '\'' +
+                "BoardTitle ='" + BoardTitle + '\'' +
+                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", uid='" + uid + '\'' +
                 ", documentId='" + documentId + '\'' +
@@ -120,6 +122,13 @@ public class BoardInfo {
 
     }
 
+    public String getBoardTitle() {
+        return BoardTitle;
+    }
+
+    public void setBoardTitle(String boardTitle) {
+        BoardTitle = boardTitle;
+    }
 
     public Date getDate() {
         return date;
