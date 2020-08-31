@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.tlaabs.timetableview.Schedule;
 import com.github.tlaabs.timetableview.TimetableView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,23 +34,27 @@ import java.util.ArrayList;
 public class TimeTablePlusActivity extends AppCompatActivity {
     private Schedule schedule; // 스케줄추가
 
+    public static final int RESULT_OK_ADD = 1;
     ArrayList<SeoulClass> arrayList = new ArrayList<>();
 
     Spinner searchcampusSpinner;
 
+//    Button timetable_plusbtn = (Button) findViewById(R.id.timetable_plusbtn) ;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_time_table_plus);
+        setContentView(R.layout.activity_time_table_plus);
 
-            RecyclerView recyclerView = findViewById(R.id.class_view);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            final ClassRecyclerViewAdapter classRecyclerViewAdapter = new ClassRecyclerViewAdapter();
-            recyclerView.setAdapter(classRecyclerViewAdapter);
+        RecyclerView recyclerView = findViewById(R.id.class_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final ClassRecyclerViewAdapter classRecyclerViewAdapter = new ClassRecyclerViewAdapter();
+        recyclerView.setAdapter(classRecyclerViewAdapter);
 
 
         DividerItemDecoration dividerItemDecoration =
-        new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
+                new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration); //리사이클러뷰 구분선
 
 
@@ -60,7 +65,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
         searchcampusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
 
                 if (position == 0) {
 
@@ -71,29 +76,29 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         //major 추가
                         JSONObject jsonObject = new JSONObject(json);
                         JSONArray seoulArray = jsonObject.getJSONArray("seoul");
-                            JSONObject seoulObject = seoulArray.getJSONObject(0);
-                            JSONArray majorArray = seoulObject.getJSONArray("major");
-                            for (int b = 0; b < majorArray.length(); b++) {
-                                JSONObject majorObject = majorArray.getJSONObject(b);
-                                JSONArray majorsArray = majorObject.getJSONArray("majors");
-                                for (int c = 0; c < majorsArray.length(); c++) {
-                                    JSONObject majorsObject = majorsArray.getJSONObject(c);
-                                    JSONArray coursesArray = majorsObject.getJSONArray("courses");
-                                    for (int i = 0; i < coursesArray.length(); i++) {
-                                        JSONObject coursesObject = coursesArray.getJSONObject(i);
-                                        SeoulClass seoulclass = new SeoulClass();
-                                        seoulclass.setClassNum(coursesObject.getString("classNum"));
-                                        seoulclass.setCode(coursesObject.getString("code"));
-                                        seoulclass.setName(coursesObject.getString("name"));
-                                        seoulclass.setProfessor(coursesObject.getString("professor"));
-                                        seoulclass.setSel(coursesObject.getString("sel"));
-                                        seoulclass.setTime(coursesObject.getString("time"));
-                                        arrayList.add(seoulclass);
-                                    }
-                                   // classRecyclerViewAdapter.notifyDataSetChanged();
+                        JSONObject seoulObject = seoulArray.getJSONObject(0);
+                        JSONArray majorArray = seoulObject.getJSONArray("major");
+                        for (int b = 0; b < majorArray.length(); b++) {
+                            JSONObject majorObject = majorArray.getJSONObject(b);
+                            JSONArray majorsArray = majorObject.getJSONArray("majors");
+                            for (int c = 0; c < majorsArray.length(); c++) {
+                                JSONObject majorsObject = majorsArray.getJSONObject(c);
+                                JSONArray coursesArray = majorsObject.getJSONArray("courses");
+                                for (int i = 0; i < coursesArray.length(); i++) {
+                                    JSONObject coursesObject = coursesArray.getJSONObject(i);
+                                    SeoulClass seoulclass = new SeoulClass();
+                                    seoulclass.setClassNum(coursesObject.getString("classNum"));
+                                    seoulclass.setCode(coursesObject.getString("code"));
+                                    seoulclass.setName(coursesObject.getString("name"));
+                                    seoulclass.setProfessor(coursesObject.getString("professor"));
+                                    seoulclass.setSel(coursesObject.getString("sel"));
+                                    seoulclass.setTime(coursesObject.getString("time"));
+                                    arrayList.add(seoulclass);
                                 }
-
+                                // classRecyclerViewAdapter.notifyDataSetChanged();
                             }
+
+                        }
 
                         //general 추가
                         JSONObject seoulObject_general = seoulArray.getJSONObject(1);
@@ -139,7 +144,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         }
 
 
-                        // military
+                        // military 추가
                         JSONObject seoulObject_military = seoulArray.getJSONObject(3);
                         JSONArray militaryArray = seoulObject_military.getJSONArray("military");
                         for (int b = 0; b < militaryArray.length(); b++) {
@@ -156,11 +161,11 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                                 seoulclass.setTime(coursesObject.getString("time"));
                                 arrayList.add(seoulclass);
                             }
-                         }
+                        }
 
-                        // lifelong
-                        JSONObject seoulObject_lifelong = seoulArray.getJSONObject(3);
-                        JSONArray lifelongArray = seoulObject_lifelong.getJSONArray("military");
+                        // lifelong 추가
+                        JSONObject seoulObject_lifelong = seoulArray.getJSONObject(4);
+                        JSONArray lifelongArray = seoulObject_lifelong.getJSONArray("lifelong");
                         for (int b = 0; b < lifelongArray.length(); b++) {
                             JSONObject majorObject = lifelongArray.getJSONObject(b);
                             JSONArray coursesArray = majorObject.getJSONArray("courses");
@@ -175,25 +180,30 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                                 seoulclass.setTime(coursesObject.getString("time"));
                                 arrayList.add(seoulclass);
                             }
-                            classRecyclerViewAdapter.notifyDataSetChanged();
 
-                            findViewById(R.id.class_view).setOnClickListener(
-                                    new Button.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            
-                                        }
-                                    }
-                            );
+
+                          /*  timetable_plusbtn.setOnClickListener(new Button.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    schedule.setClassTitle(arrayList.get(position).getClassNum());//coursesObject.getString("classNum"));//.getText().toString());
+                                    schedule.setClassPlace(arrayList.get(position).getTime());
+                                    schedule.setProfessorName(arrayList.get(position).getProfessor());
+                                    Intent i = new Intent();
+                                    ArrayList<Schedule> schedules = new ArrayList<Schedule>();
+                                    //you can add more schedules to ArrayList
+                                    schedules.add(schedule);
+                                    i.putExtra("schedules",schedules);
+                                    setResult(RESULT_OK_ADD,i);
+                                    finish();
+                                }
+                            });*/
+
 
                         }
-
-
-
-
-                        }catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        classRecyclerViewAdapter.notifyDataSetChanged();
+                    }catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 
@@ -219,7 +229,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_seoul, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class, parent, false);
 
             return new CustomViewHolder(view);
         }
@@ -291,5 +301,6 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         return json;
     }
 
-}
 
+
+}
