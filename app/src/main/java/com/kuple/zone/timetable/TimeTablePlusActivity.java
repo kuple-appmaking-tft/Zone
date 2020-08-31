@@ -118,7 +118,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                                     seoulclass.setProfessor(coursesObject.getString("professor"));
                                     seoulclass.setSel(coursesObject.getString("sel"));
                                     seoulclass.setTime(coursesObject.getString("time"));
-                                    arrayList.add(seoulclass);
+                                      arrayList.add(seoulclass);
                                 }
 
                             }
@@ -201,6 +201,16 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
                         }
                         classRecyclerViewAdapter.notifyDataSetChanged();
+
+                        Button timetableplus_bt = (Button) findViewById(R.id.timetable_plusbtn);
+                        timetableplus_bt.setOnClickListener(new Button.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+
+
                     }catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -299,6 +309,12 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         }
 
         return json;
+    }
+
+    private void inputDataProcessing(){
+     //   schedule.setClassTitle(cours//subjectEdit.getText().toString());
+      //  schedule.setClassPlace(classroomEdit.getText().toString());
+       // schedule.setProfessorName(professorEdit.getText().toString());
     }
 
 
