@@ -1,5 +1,6 @@
 package com.kuple.zone.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,18 +13,21 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kuple.zone.MainActivity;
 import com.kuple.zone.R;
 import com.kuple.zone.model.BoardInfo;
 import com.kuple.zone.model.SliderItem;
+import com.kuple.zone.model.UserModel;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.smarteist.autoimageslider.IndicatorAnimations;
@@ -37,6 +41,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
     private Context mContext;
     private List<BoardInfo> mPostingInfoList;
     private List<String> mDocumentIdList;
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
     //커스텀 리스터 정의
     //클릭리스너
@@ -75,14 +80,14 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
             super(itemView);
             mTitleTextView = itemView.findViewById(R.id.item_title_text);
             mNameTextView = itemView.findViewById(R.id.item_name_text);
-            mContentsTextView = itemView.findViewById(R.id.item_contents_text);
+           // mContentsTextView = itemView.findViewById(R.id.item_contents_text);
             mImageSliderView = itemView.findViewById(R.id.item_imageslider);
-            mImageview = itemView.findViewById(R.id.item_menudot_imageview);
+           // mImageview = itemView.findViewById(R.id.item_menudot_imageview);
             mLikeButton = itemView.findViewById(R.id.item_likeButton_likeButton);
-            mLikeButton_count = itemView.findViewById(R.id.item_likeButton_textView);
-            mShareImageView = itemView.findViewById(R.id.item_reply_imageview);
+            mLikeButton_count = itemView.findViewById(R.id.viewcounttext);
+            //mShareImageView = itemView.findViewById(R.id.item_reply_imageview);
             mDateTextView = itemView.findViewById(R.id.item_date);
-            mNewDateImageView = itemView.findViewById(R.id.item_dateN_ImageView);
+            //mNewDateImageView = itemView.findViewById(R.id.item_dateN_ImageView);
             mImageSliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
             mImageSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
             mImageSliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
@@ -114,12 +119,28 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {//class MainViewHolder의 holder <Board>형식의 data값을 참조.
+    public void onBindViewHolder(@NonNull final MainViewHolder holder, int position) {//class MainViewHolder의 holder <Board>형식의 data값을 참조.
         BoardInfo data = mPostingInfoList.get(position);
         final String documentId = data.getDocumentId();
         String replycount = String.valueOf(data.getReplycount());
         holder.mReplycount.setText(replycount);
+        holder.mLikeButton_count.setText(String.valueOf(data.getUidList().size()-1));
         holder.mTitleTextView.setText(data.getTitle());
+        String writer = data.getUid();
+        mStore.collection("users").document(writer).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                UserModel fm = documentSnapshot.toObject(UserModel.class);
+                assert fm != null;
+                try {
+                    holder.mNameTextView.setText(fm.nickname );
+                    //holder.mSubinfo.setText("테스트");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         holder.mNameTextView.setText(data.getNickname());
         //holder.mContentsTextView.setText(data.getContent());
         SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
@@ -130,6 +151,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
 
         holder.mImageSliderView.setSliderAdapter(sliderAdapterExample);
         final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+        /*
         holder.mLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -141,13 +163,16 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
                 mStore.collection("Testing").document(documentId).update("likebutton_count", FieldValue.increment(-1));
             }
         });
-        holder.mLikeButton_count.setText(String.valueOf(data.getUidList().size()));
+        */
+        //holder.mLikeButton_count.setText(String.valueOf(data.getUidList().size()));
+        /*
         holder.mImageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPopup(v, documentId);
             }
         });
+        */
 //        holder.mShareImageView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -194,7 +219,7 @@ public class PhotoboardAdapter extends RecyclerView.Adapter<PhotoboardAdapter.Ma
        // dateTime = dateTime.substring(0, 13) + " " + date.substring(30, 34);
         //Log.d("dateYY", dateTime);
         // Log.d("date", dateTime);
-        holder.mNewDateImageView.setVisibility(View.INVISIBLE);
+       // holder.mNewDateImageView.setVisibility(View.INVISIBLE);
 //        if (dateTime.equals(date2)) {
 //            holder.mNewDateImageView.setVisibility(View.VISIBLE);
 //        }

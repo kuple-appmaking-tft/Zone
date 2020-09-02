@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +40,7 @@ public class CorpActivity extends AppCompatActivity implements OnItemClick {
     private RecyclerView mRecyclerView;
     private FloatingActionButton mWiteBitton;
     private ImageView mSerchImageView;
+    private TextView mcorp_communityname;
 
 
     @Override
@@ -47,8 +49,9 @@ public class CorpActivity extends AppCompatActivity implements OnItemClick {
         setContentView(R.layout.activity_corp);
         loadingbar = new ProgressDialog(CorpActivity.this);//로딩바
         mBoardName = getIntent().getStringExtra("BoardName");
-        mRecyclerView = findViewById(R.id.normal_recyclerview);//리사이클러뷰 선언
+        mRecyclerView = findViewById(R.id.corp_recyclerview);//리사이클러뷰 선언
         mWiteBitton = findViewById(R.id.corp_write_Button);
+        mSerchImageView=findViewById(R.id.corp_serch);
         mWiteBitton.setOnClickListener(new View.OnClickListener() {//글쓰기
             @Override
             public void onClick(View v) {
@@ -64,6 +67,8 @@ public class CorpActivity extends AppCompatActivity implements OnItemClick {
                 startActivity(intent);
             }
         });
+        mcorp_communityname=findViewById(R.id.corp_communityname);
+        mcorp_communityname.setText(mBoardName);
         retreive_Testing(mBoardName);
     }
 

@@ -121,7 +121,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
         } else {
             holder.imageView.setVisibility(View.INVISIBLE);
         }
-        holder.mLikecount.setText(String.valueOf(boardInfo.getViewcount()));
+        holder.mLikecount.setText(String.valueOf(boardInfo.getUidList().size()));
 
 
     }

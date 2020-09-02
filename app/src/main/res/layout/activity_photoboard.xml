@@ -8,24 +8,24 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/photo_topconstraint"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/kuple_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-
             android:id="@+id/photo_backbtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="0dp"
-            android:src="@drawable/arrow_left"
+            android:layout_width="24dp"
+            android:layout_height="18dp"
+            android:src="@drawable/backarrow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
             android:id="@+id/photo_kuple"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/kuple"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,15 +36,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/photo_secondconstraint"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/photo_topconstraint">
 
         <TextView
             android:id="@+id/nameOfcomunity"
+            android:background="@drawable/edge_textview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
+            android:layout_height="35dp"
+            android:layout_margin="10sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"
             android:text="게시판이름"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
