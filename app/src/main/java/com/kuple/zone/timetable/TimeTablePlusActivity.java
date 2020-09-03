@@ -73,6 +73,8 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
                     try{
 
+
+
                         //major 추가
                         JSONObject jsonObject = new JSONObject(json);
                         JSONArray seoulArray = jsonObject.getJSONArray("seoul");
@@ -168,7 +170,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         JSONArray lifelongArray = seoulObject_lifelong.getJSONArray("lifelong");
                         for (int b = 0; b < lifelongArray.length(); b++) {
                             JSONObject majorObject = lifelongArray.getJSONObject(b);
-                            JSONArray coursesArray = majorObject.getJSONArray("courses");
+                            final JSONArray coursesArray = majorObject.getJSONArray("courses");
                             for (int i = 0; i < coursesArray.length(); i++) {
                                 JSONObject coursesObject = coursesArray.getJSONObject(i);
                                 SeoulClass seoulclass = new SeoulClass();
@@ -180,7 +182,17 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                                 seoulclass.setTime(coursesObject.getString("time"));
                                 arrayList.add(seoulclass);
                             }
+                            Button timetableplus_bt = (Button) findViewById(R.id.timetable_plusbtn);
+                            timetableplus_bt.setOnClickListener(new Button.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
 
+                                    //schedule.setClassTitle(coursesArray.getString(string);
+                                    //schedule.setClassPlace(classroomEdit.getText().toString());
+                                    //schedule.setProfessorName(professorEdit.getText().toString());
+
+                                }
+                            });
 
                           /*  timetable_plusbtn.setOnClickListener(new Button.OnClickListener() {
                                 @Override
@@ -202,13 +214,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         }
                         classRecyclerViewAdapter.notifyDataSetChanged();
 
-                        Button timetableplus_bt = (Button) findViewById(R.id.timetable_plusbtn);
-                        timetableplus_bt.setOnClickListener(new Button.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
 
-                            }
-                        });
 
 
                     }catch (JSONException e) {
@@ -219,6 +225,9 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
                 else if (position == 1) {
                 }
+
+
+
             }
 
 
@@ -311,11 +320,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         return json;
     }
 
-    private void inputDataProcessing(){
-     //   schedule.setClassTitle(cours//subjectEdit.getText().toString());
-      //  schedule.setClassPlace(classroomEdit.getText().toString());
-       // schedule.setProfessorName(professorEdit.getText().toString());
-    }
+
 
 
 
