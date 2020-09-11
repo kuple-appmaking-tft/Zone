@@ -177,3 +177,4 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         }
     }
 }
+//textview -> imageview

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="@color/white">
+    android:background="@drawable/background_feed_data">
 
     <RelativeLayout
         android:id="@+id/rv_profile"
@@ -58,10 +58,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:layout_marginLeft="180dp"
+                    android:gravity="right"
                     android:text="20.08.06 24:00"
                     android:textColor="@color/colorBlack"
-                    android:textSize="13sp" />
+                    android:textSize="13dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -108,7 +108,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/document"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rv_status"

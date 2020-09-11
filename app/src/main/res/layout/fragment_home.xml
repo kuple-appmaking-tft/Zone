@@ -20,22 +20,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <HorizontalScrollView
+            <LinearLayout
                 android:id="@+id/feedLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
+                android:layout_width="400dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/background_button_round"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <ImageView
+                        android:id="@+id/btnBus"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/btn_bus" />
 
                     <TextView
-                        android:id="@+id/btnBus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_margin="5dp"
                         android:layout_toLeftOf="@+id/btnMeal"
                         android:background="@color/colorWhite"
@@ -44,16 +59,32 @@
                         android:paddingVertical="5dp"
                         android:singleLine="true"
                         android:text="셔틀버스"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="20dp"
-                        android:onClick="onClick"
-                        tools:ignore="OnClick" />
+                        android:textColor="@color/colorCrimson"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <ImageView
+                        android:id="@+id/btnMeal"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/btn_meal" />
 
                     <TextView
-                        android:id="@+id/btnMeal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
                         android:layout_margin="5dp"
                         android:background="@color/colorWhite"
                         android:gravity="center"
@@ -61,13 +92,31 @@
                         android:paddingVertical="5dp"
                         android:singleLine="true"
                         android:text="학식"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="20dp" />
+                        android:textColor="@color/colorCrimson"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <ImageView
+                        android:id="@+id/btnLib"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/btn_book" />
 
                     <TextView
-                        android:id="@+id/btnTimeTable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_margin="5dp"
                         android:layout_toRightOf="@+id/btnMeal"
                         android:background="@color/colorWhite"
@@ -76,10 +125,42 @@
                         android:paddingVertical="5dp"
                         android:singleLine="true"
                         android:text="시간표"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="20dp" />
+                        android:textColor="@color/colorCrimson"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
                 </LinearLayout>
-            </HorizontalScrollView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <ImageView
+                        android:id="@+id/btn_map"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/btn_map" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:layout_toRightOf="@+id/btnMeal"
+                        android:background="@color/colorWhite"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="교내지도"
+                        android:textColor="@color/colorCrimson"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/feedKuple"

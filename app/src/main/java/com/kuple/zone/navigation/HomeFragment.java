@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -48,7 +49,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         Log.e("fragment", "HomeFragment");
-        TextView btnMeal = (TextView) view.findViewById(R.id.btnMeal);
+        ImageView btnMeal = (ImageView) view.findViewById(R.id.btnMeal);
         btnMeal.setOnClickListener(new View.OnClickListener()
         {
             @Override
