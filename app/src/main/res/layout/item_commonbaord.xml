@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -45,19 +46,44 @@
         android:layout_height="60dp"
         android:layout_marginTop="15dp"
         android:src="@drawable/ic_more_vert_black_24dp"
-        app:layout_constraintEnd_toStartOf="@+id/normal_reply"
+        app:layout_constraintEnd_toStartOf="@+id/message"
         app:layout_constraintStart_toStartOf="@id/guideline3"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <ImageView
+        android:id="@+id/message"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/message"
+        android:layout_marginTop="17dp"
+        app:layout_constraintStart_toEndOf="@+id/normal_Imageview"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
+        android:layout_marginLeft="10dp"
         android:id="@+id/normal_reply"
         android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/normal_Imageview"
+        app:layout_constraintStart_toEndOf="@+id/message"
         app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/viewcountimage"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/like"
+        android:layout_marginTop="17dp"
+        app:layout_constraintStart_toEndOf="@+id/normal_Imageview"
+        app:layout_constraintTop_toBottomOf="@+id/message"
+        />
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:id="@+id/viewcounttext"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toEndOf="@+id/viewcountimage"
+        app:layout_constraintTop_toBottomOf="@+id/normal_reply" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

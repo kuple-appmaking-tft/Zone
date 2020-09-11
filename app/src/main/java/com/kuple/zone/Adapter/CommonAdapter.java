@@ -85,8 +85,8 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
         final BoardInfo boardInfo = mBoardInfo.get(position);
         holder.mTitleTextView.setText(boardInfo.getTitle());
         //댓글수 가져오기
-        String replycount = String.valueOf(boardInfo.getReplycount()) + "\n" + "댓글";
-        holder.mReplycount.setText(replycount);
+       // String replycount = String.valueOf(boardInfo.getReplycount()) + "\n" + "댓글";
+        holder.mReplycount.setText(String.valueOf(boardInfo.getReplycount()));
         //올린시간 가져오기
         String date = boardInfo.getDate().toString();
         String date1 = date.substring(11, 16);
@@ -116,11 +116,12 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
             }
         });
         //이미지그려주기
-        if (boardInfo.getmDownloadURIList().size() != 0) {
+        if (boardInfo.getmDownloadURIList()!= null) {
             Glide.with(holder.imageView).load(boardInfo.getmDownloadURIList().get(0)).into(holder.imageView);
         } else {
             holder.imageView.setVisibility(View.INVISIBLE);
         }
+        holder.mLikecount.setText(String.valueOf(boardInfo.getUidList().size()));
 
 
     }
@@ -146,6 +147,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
         private TextView mSubinfo;
         private TextView mReplycount;
         private ImageView imageView;
+        private TextView mLikecount;
 
 
         public BoardViewHolder(View itemView) {
@@ -155,6 +157,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
             mSubinfo = itemView.findViewById(R.id.normal_name_date_viewcont);
             imageView = itemView.findViewById(R.id.normal_Imageview);
             mReplycount = itemView.findViewById(R.id.normal_reply);
+            mLikecount=itemView.findViewById(R.id.viewcounttext);
 
             itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
                 @Override

@@ -6,23 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".board.CorpActivity">
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="15dp"
-        android:src="@drawable/back"
-        app:layout_constraintBottom_toBottomOf="@+id/corp_kuple"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/corp_kuple"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="15dp"
-        android:src="@drawable/kuple"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/normal_top_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_topbar_back"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/corp_back"
+            android:layout_width="24dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/backarrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/corp_profile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20sp"
+            android:src="@drawable/image_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/corp_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toEndOf="@+id/corp_profile"
+            app:layout_constraintBottom_toTopOf="@+id/corp_boardname"
+            android:text="세부내용"/>
+
+        <TextView
+            android:id="@+id/corp_boardname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/corp_profile"
+
+            android:text="고려대학교 총학생회"
+             />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/corp_corpImageView"
@@ -31,32 +68,27 @@
         android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/corp_kuple" />
+        app:layout_constraintTop_toBottomOf="@+id/normal_top_constraint" />
 
     <TextView
         android:id="@+id/corp_communityname"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_margin="15dp"
+        android:background="@drawable/edge_textview"
         android:text="게시판이름위치"
-        android:textSize="25sp"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/corp_corpImageView" />
 
-    <TextView
-        android:id="@+id/corp_corpname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_marginStart="20dp"
-        android:text="단체명입력위치"
-        app:layout_constraintStart_toEndOf="@+id/corp_communityname"
-        app:layout_constraintTop_toTopOf="@+id/corp_communityname" />
+
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/corp_serch"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_margin="15dp"
         android:src="@drawable/serch"
         app:layout_constraintBottom_toBottomOf="@+id/corp_communityname"
@@ -64,12 +96,13 @@
         app:layout_constraintTop_toTopOf="@+id/corp_communityname" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/corp_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/corp_corpname" />
+        app:layout_constraintTop_toBottomOf="@+id/corp_communityname" />
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/corp_write_Button"

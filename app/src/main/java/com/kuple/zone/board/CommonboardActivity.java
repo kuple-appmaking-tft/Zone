@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -40,6 +41,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
     private RecyclerView mRecyclerView;
     private String mBoardName;
     private ImageView mSerch;
+    private TextView mBoardTitleName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,8 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
                 startActivity(intent);
             }
         });
+        mBoardTitleName=findViewById(R.id.normal_title_constraint1);
+        mBoardTitleName.setText(mBoardName);
 
 
         retreive_Testing(mBoardName);

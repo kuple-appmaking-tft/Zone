@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kuple.zone.R;
 import com.kuple.zone.board.CommonboardActivity;
+import com.kuple.zone.board.CorpActivity;
 import com.kuple.zone.board.PhotoboardActivity;
 import com.kuple.zone.model.HeaderModel;
 
@@ -191,19 +192,25 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                         break;
                     case 4:
                         //교내단체게시판
-                        List<String> list4 = new ArrayList<>();
+                        final List<String> list4 = new ArrayList<>();
                         if (holder.flag == 0) {
-                            list4.add("강의평가");
-                            list4.add("합격수기");
-                            list4.add("취업광장");
-                            list4.add("스터디게시판");
-                            list4.add("꿀팁게시판");
-                            holder.recyclerView.setAdapter(new InSchoolChildAdapter(list4, mContext));
+                            list4.add("총학생회");
+                            ChildAdapter childAdapter4=new ChildAdapter(list4,mContext);
+                            childAdapter4.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
+                                @Override
+                                public void onitemClick(View v, int pos) {
+                                    Intent intent = new Intent(mActivity, CorpActivity.class);
+                                    intent.putExtra("BoardName", list4.get(pos));
+                                    mActivity.startActivity(intent);
+                                }
+                            });
+                           // holder.recyclerView.setAdapter(new InSchoolChildAdapter(list4, mContext));
+                            holder.recyclerView.setAdapter(childAdapter4);
                             holder.imageView.setImageResource(R.drawable.minusarrow);
                             holder.flag = 1;
                         } else {
                             list4.clear();
-                            holder.recyclerView.setAdapter(new InSchoolChildAdapter(list4, mContext));
+                            holder.recyclerView.setAdapter(new ChildAdapter(list4, mContext));
                             ;
                             holder.imageView.setImageResource(R.drawable.plusarrow);
                             holder.flag = 0;

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +36,7 @@ public class PhotoboardActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private String mBoardName;
     private ImageView mSerch;
+    private TextView mNameOfcomunity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class PhotoboardActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+        mNameOfcomunity=findViewById(R.id.nameOfcomunity);
+        mNameOfcomunity.setText(mBoardName);
 
 
         String getString = getIntent().getStringExtra("Refresh");
