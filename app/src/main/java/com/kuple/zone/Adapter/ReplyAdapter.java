@@ -273,8 +273,9 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         String dateTime = replyInfo.getDate().toString().substring(4, 10);
         Log.d("date1", dateTime);
         if (dateTime2.substring(4, 10).equals(dateTime)) {
-            holder.mN.setVisibility(View.VISIBLE);
+//            holder.mN.setVisibility(View.VISIBLE);
         }
+        holder.date.setText(replyInfo.getDate().toString());
 
 
     }
@@ -324,6 +325,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         private ImageView mReplyimage;
         private RecyclerView mRecyclerView;
         private ImageView mN;
+        private TextView date;
 
 
         ReplyViewHolder(@NonNull View itemView) {
@@ -336,7 +338,8 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
             mReplyimage = itemView.findViewById(R.id.item_reply);
             loadingbar = new ProgressDialog(mContext);
             mRecyclerView = itemView.findViewById(R.id.item_replytoreply_recyclerView);
-            mN = itemView.findViewById(R.id.reply_new);
+//            mN = itemView.findViewById(R.id.reply_new);
+            date=itemView.findViewById(R.id.date);
 
 //            itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
 //                @Override

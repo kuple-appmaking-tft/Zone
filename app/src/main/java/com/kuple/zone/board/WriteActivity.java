@@ -33,6 +33,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
@@ -42,6 +43,7 @@ import com.kuple.zone.Adapter.SliderAdapterExample;
 import com.kuple.zone.R;
 import com.kuple.zone.model.BoardInfo;
 import com.kuple.zone.model.SliderItem;
+import com.kuple.zone.model.UserModel;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -81,8 +83,12 @@ public class WriteActivity extends AppCompatActivity {
     ///
     private String title;
     private String contents;
-    private String documentId;
+    private String documentId,nickname;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
     private DocumentReference documentReference;
     Editor editor;
 
@@ -306,22 +312,39 @@ public class WriteActivity extends AppCompatActivity {
                 //uploadFile();
 
                 String dynamiclink = "test";
-                Date date = new Date();
+                final Date date = new Date();
                 title = mTitle.getText().toString();
-                BoardInfo boardInfo = new BoardInfo(
-                        title
-                        , contents
-                        , uid
-                        , documentId
-                        , date
-                        , "0"
-                        , Arrays.asList("")
-                        , 0
-                        , 0
-                        , mDownloadURI
-                );
-                uploadStore(boardInfo);
-                Log.d("짱개에디터테스트",contents);
+                db.collection("users").document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        UserModel fm = documentSnapshot.toObject(UserModel.class);
+                        assert fm != null;
+                        try {
+//                            holder.mSubinfo.setText(fm.nickname + " " + finaldate + " ");
+                            nickname=fm.getNickname();
+                            BoardInfo boardInfo = new BoardInfo(
+                                    title
+                                    , contents
+                                    , uid
+                                    , documentId
+                                    , date
+                                    , "0"
+                                    , Arrays.asList("")
+                                    , 0
+                                    , 0
+                                    , mDownloadURI
+                                    ,nickname
+                            );
+                            uploadStore(boardInfo);
+                            //holder.mSubinfo.setText("테스트");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
+
             }
         });
 
@@ -417,83 +440,84 @@ public class WriteActivity extends AppCompatActivity {
         typefaceMap.put(Typeface.BOLD_ITALIC, "fonts/Lato-BoldItalic.ttf");
         return typefaceMap;
     }
-    private void uploadFile() {
-        //업로드할 파일이 있으면 수행
-        loadingbar.setTitle("Set profile image");
-        loadingbar.setMessage("pleas wait업로딩중");
-        loadingbar.setCanceledOnTouchOutside(false);
-        loadingbar.show();
-        mDownloadURI = new ArrayList<>();
-        Date time = new Date();
-        if (mTitle.getText().toString().length() == 0 || contents.length() == 0) {
-            Toast.makeText(getApplicationContext(), "제목,내용을 입력하시오", Toast.LENGTH_LONG).show();
-        } else {
-            title = mTitle.getText().toString();
-            //contents = mContents.getText().toString();
-            mStorageRef = FirebaseStorage.getInstance().getReference("image");//loaction 설정
-            if (imageUriList.size() != 0) {
-                for (int i = 0; i < imageUriList.size(); i++) {
-                    Uri imageUri = imageUriList.get(i);
-                    final StorageReference imgref = mStorageRef.child(imageUri.getLastPathSegment() + time.toString() + uid.toString());//고유하게 저장하기위해서.
-                    UploadTask uploadTask = imgref.putFile(imageUri);
-                    Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                        @Override
-                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                            if (!task.isSuccessful()) {
-                                throw task.getException();
-                            }
-                            // Continue with the task to get the download URL
-                            return imgref.getDownloadUrl();
-                        }
-                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                final Uri downloadUri = task.getResult();
-                                //setListner사용
-                                mDownloadURI.add(downloadUri.toString());
-                                if (mDownloadURI.size() == imageUriList.size()) {
-                                    String dynamiclink = "test";
-                                    Date date = new Date();
-                                    BoardInfo boardInfo = new BoardInfo(
-                                            title
-                                            , contents
-                                            , uid
-                                            , documentId
-                                            , date
-                                            , "0"
-                                            , Arrays.asList("")
-                                            , 0
-                                            , 0
-                                            , mDownloadURI
-                                    );
-                                    Log.d("성공", "성공");
-                                    uploadStore(boardInfo);
-                                }
-                            }
-                        }
-                    });
-
-                }//for문끝  스토리지에 저장만함
-            } else {
-                BoardInfo boardInfo = new BoardInfo(
-                        title
-                        , contents
-                        , uid
-                        , documentId
-                        , new Date()
-                        , "0"
-                        , Arrays.asList("")
-                        , 0
-                        , 0
-                        , mDownloadURI
-                );
-                uploadStore(boardInfo);
-            }
-        }
-
-
-    }
+//    private void uploadFile() {
+//        //업로드할 파일이 있으면 수행
+//        loadingbar.setTitle("Set profile image");
+//        loadingbar.setMessage("pleas wait업로딩중");
+//        loadingbar.setCanceledOnTouchOutside(false);
+//        loadingbar.show();
+//        mDownloadURI = new ArrayList<>();
+//        Date time = new Date();
+//        if (mTitle.getText().toString().length() == 0 || contents.length() == 0) {
+//            Toast.makeText(getApplicationContext(), "제목,내용을 입력하시오", Toast.LENGTH_LONG).show();
+//        } else {
+//            title = mTitle.getText().toString();
+//            //contents = mContents.getText().toString();
+//            mStorageRef = FirebaseStorage.getInstance().getReference("image");//loaction 설정
+//            if (imageUriList.size() != 0) {
+//                for (int i = 0; i < imageUriList.size(); i++) {
+//                    Uri imageUri = imageUriList.get(i);
+//                    final StorageReference imgref = mStorageRef.child(imageUri.getLastPathSegment() + time.toString() + uid.toString());//고유하게 저장하기위해서.
+//                    UploadTask uploadTask = imgref.putFile(imageUri);
+//                    Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+//                        @Override
+//                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+//                            if (!task.isSuccessful()) {
+//                                throw task.getException();
+//                            }
+//                            // Continue with the task to get the download URL
+//                            return imgref.getDownloadUrl();
+//                        }
+//                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Uri> task) {
+//                            if (task.isSuccessful()) {
+//                                final Uri downloadUri = task.getResult();
+//                                //setListner사용
+//                                mDownloadURI.add(downloadUri.toString());
+//                                if (mDownloadURI.size() == imageUriList.size()) {
+//                                    String dynamiclink = "test";
+//                                    Date date = new Date();
+//                                    BoardInfo boardInfo = new BoardInfo(
+//                                            title
+//                                            , contents
+//                                            , uid
+//                                            , documentId
+//                                            , date
+//                                            , "0"
+//                                            , Arrays.asList("")
+//                                            , 0
+//                                            , 0
+//                                            , mDownloadURI
+//
+//                                    );
+//                                    Log.d("성공", "성공");
+//                                    uploadStore(boardInfo);
+//                                }
+//                            }
+//                        }
+//                    });
+//
+//                }//for문끝  스토리지에 저장만함
+//            } else {
+//                BoardInfo boardInfo = new BoardInfo(
+//                        title
+//                        , contents
+//                        , uid
+//                        , documentId
+//                        , new Date()
+//                        , "0"
+//                        , Arrays.asList("")
+//                        , 0
+//                        , 0
+//                        , mDownloadURI
+//                );
+//                uploadStore(boardInfo);
+//            }
+//        }
+//
+//
+//    }
 
 
     @Override

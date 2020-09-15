@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
         firebaseAuth = FirebaseAuth.getInstance();
 
         //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
@@ -64,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+//        Intent  intent=getIntent();
+//        String boardname=intent.getStringExtra("데이터삭제");
+//        if(boardname!=null){
+//            transaction.replace(R.id.main_content, fragmentBoard).commitAllowingStateLoss();
+//        }
 
     }
 
