@@ -58,7 +58,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:gravity="right"
+                    android:layout_marginLeft="175dp"
+                    android:layout_gravity="center"
                     android:text="20.08.06 24:00"
                     android:textColor="@color/colorBlack"
                     android:textSize="13dp" />
@@ -76,7 +77,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:fontFamily="sans-serif"
-        android:gravity="center"
+        android:gravity="left"
         android:text="제목"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"

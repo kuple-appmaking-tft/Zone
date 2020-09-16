@@ -14,7 +14,7 @@
         android:textSize="50sp"
         android:text="@string/알림"
         android:textStyle="bold"
-        android:textColor="@color/colorDark"
+        android:textColor="@color/colorPrimaryDark"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
