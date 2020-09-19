@@ -2,6 +2,7 @@ package com.kuple.zone.navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,8 +34,9 @@ import com.kuple.zone.model.UserModel;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ArrayList<BoardInfo> modelFeedArrayList;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -47,7 +50,8 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         Log.e("fragment", "HomeFragment");
         ImageView btnMeal = (ImageView) view.findViewById(R.id.btnMeal);
         btnMeal.setOnClickListener(new View.OnClickListener()
@@ -59,34 +63,25 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        final DocumentReference docRef = mStore.collection("users").document(firebaseUser.getUid());
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@androidx.annotation.Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w("TAG", "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d("TAG", "Current data: " + snapshot.getData());
-                    final UserModel userModel=snapshot.toObject(UserModel.class);
-                    HorizentalAdapter adapter=new HorizentalAdapter(getContext(),userModel.getFavoritList());
-                    adapter.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
-                        @Override
-                        public void onitemClick(View v, int pos) {
-                            Intent intent=new Intent(getContext(), CommonboardActivity.class);
-                            intent.putExtra("BoardName",userModel.getFavoritList().get(pos));
-                            startActivity(intent);
-                        }
-                    });
-                    mRecyclerView.setAdapter(adapter);
-                } else {
-                    Log.d("TAG", "Current data: null");
-                }
-            }
-        });
         return view;
     }
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        //3초후에 해당 adapter를 갱신하고 동글뱅이를 닫아준다.setRefreshing(false);
+        //핸들러를 사용하는 이유는 일반쓰레드는 메인쓰레드가 가진 UI에 접근할 수 없기 때문에 핸들러를 이용해서
+        //메시지큐에 메시지를 전달하고 루퍼를 이용하여 순서대로 UI에 접근한다.
+
+        //반대로 메인쓰레드에서 일반 쓰레드에 접근하기 위해서는 루퍼를 만들어야 한다.
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                //해당 어댑터를 서버와 통신한 값이 나오면 됨
+                FeedAdapter mAdapter = new FeedAdapter (HomeFragment.this, android.R.layout.list_content);;
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        },3000);
+    }
+
 }
