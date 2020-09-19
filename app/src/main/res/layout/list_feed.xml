@@ -45,7 +45,6 @@
             android:layout_toEndOf="@+id/img_profile"
             android:orientation="vertical">
 
-
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
@@ -65,22 +64,23 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:text="일반계시판"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorLightGray"
                     android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/tv_time"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="150dp"
+                    android:layout_marginStart="100dp"
                     android:fontFamily="sans-serif"
                     android:text="20.08.06 24:00"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorLightGray"
                     android:textSize="13sp" />
 
             </LinearLayout>
-        </LinearLayout>
+
+            </LinearLayout>
     </RelativeLayout>
 
     <TextView
@@ -115,7 +115,6 @@
         android:textColor="@color/colorBlack"
         android:textSize="16sp"
         tools:ignore="ObsoleteLayoutParam" />
-
     <ImageView
         android:id="@+id/img_post"
         android:layout_width="match_parent"
@@ -130,6 +129,16 @@
         android:visibility="gone"
         tools:ignore="ContentDescription,HardcodedText" />
 
+    <View
+        android:layout_below="@id/img_post"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="0.5dp"
+        android:background="@color/colorLightGray"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        tools:ignore="RtlHardcoded" />
     <RelativeLayout
         android:id="@+id/rv_status"
         android:layout_width="match_parent"
@@ -148,6 +157,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:src="@drawable/message"
+                android:layout_gravity="center"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -175,12 +185,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="UseCompoundDrawables"
-            android:layout_marginLeft="320dp">
+            android:layout_marginLeft="240dp">
 
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/like"
+                android:src="@drawable/ic_like"
+                android:layout_gravity="center"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -188,10 +199,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_gravity="center"
                 android:text="20"
                 android:textColor="@color/colorBlack"
                 android:textSize="13sp" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="UseCompoundDrawables"
+            android:layout_marginLeft="280dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_bookmark"
+                android:layout_gravity="center"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="20"
+                android:layout_gravity="center"
+                android:textColor="@color/colorBlack"
+                android:textSize="13sp" />
         </LinearLayout>
 
     </RelativeLayout>

@@ -40,8 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="vertical"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp">
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <ImageView
                         android:id="@+id/btnBus"
@@ -69,8 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="vertical"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp">
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <ImageView
                         android:id="@+id/btnMeal"
@@ -98,8 +98,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="vertical"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp">
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <ImageView
                         android:id="@+id/btnLib"
@@ -116,20 +116,19 @@
                         android:layout_margin="5dp"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:text="시간표"
+                        android:text="열람실"
                         android:textColor="@color/colorCrimson"
                         android:textSize="10dp"
                         android:visibility="visible" />
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="vertical"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp">
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <ImageView
                         android:id="@+id/btn_map"
@@ -137,7 +136,9 @@
                         android:layout_height="60dp"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
-                        android:src="@drawable/btn_map" />
+                        android:src="@drawable/btn_map"
+                        android:contentDescription="TODO"
+                        tools:ignore="ContentDescription,HardcodedText" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -159,16 +160,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/feedLayout"
                 android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/feedKuple0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/feedLayout"
+                    android:layout_marginTop="10dp"
+                    android:scrollbars="vertical"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/feedKuple0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/feedLayout"
-                android:layout_marginTop="-2dp"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </RelativeLayout>
     </ScrollView>
 
