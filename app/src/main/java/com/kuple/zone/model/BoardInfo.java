@@ -19,13 +19,18 @@ public class BoardInfo {
     private int replycount;
     private ArrayList<String> mDownloadURIList;
     private String nickname;
+    private String BoardName;
+
+    public String getBoardName() {
+        return BoardName;
+    }
+
+    public void setBoardName(String boardName) {
+        BoardName = boardName;
+    }
 
     public String getNickname() {
         return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     @Override
@@ -42,10 +47,15 @@ public class BoardInfo {
                 ", replycount=" + replycount +
                 ", mDownloadURIList=" + mDownloadURIList +
                 ", nickname='" + nickname + '\'' +
+                ", BoardName='" + BoardName + '\'' +
                 '}';
     }
 
-    public BoardInfo(String title, String content, String uid, String documentId, Date date, String deleted_at, List<String> uidList, int viewcount, int replycount, ArrayList<String> mDownloadURIList,String nickname) {
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public BoardInfo(String title, String content, String uid, String documentId, Date date, String deleted_at, List<String> uidList, int viewcount, int replycount, ArrayList<String> mDownloadURIList,String nickname,String boardName) {
         this.title = title;
         this.content = content;
         this.uid = uid;
@@ -57,6 +67,7 @@ public class BoardInfo {
         this.replycount = replycount;
         this.mDownloadURIList = mDownloadURIList;
         this.nickname=nickname;
+        this.BoardName=boardName;
     }
 
     public ArrayList<String> getmDownloadURIList() {

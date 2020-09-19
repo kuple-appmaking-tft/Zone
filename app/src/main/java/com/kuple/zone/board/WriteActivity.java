@@ -86,6 +86,7 @@ public class WriteActivity extends AppCompatActivity {
     private String documentId,nickname;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    String mBoardName;
 
 
 
@@ -96,7 +97,7 @@ public class WriteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
-        String mBoardName = getIntent().getStringExtra("BoardName");
+        mBoardName = getIntent().getStringExtra("BoardName");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         documentReference = db.collection(mBoardName).document();
         documentId = documentReference.getId();
@@ -334,6 +335,7 @@ public class WriteActivity extends AppCompatActivity {
                                     , 0
                                     , mDownloadURI
                                     ,nickname
+                                    ,mBoardName
                             );
                             uploadStore(boardInfo);
                             //holder.mSubinfo.setText("테스트");
