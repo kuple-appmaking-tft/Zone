@@ -2,7 +2,6 @@ package com.kuple.zone.navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,9 +24,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.Adapter.ChildAdapter;
 import com.kuple.zone.Adapter.FeedAdapter;
 import com.kuple.zone.Adapter.HorizentalAdapter;
+import com.kuple.zone.Inteface.OnItemClick;
 import com.kuple.zone.R;
 import com.kuple.zone.board.CommonboardActivity;
 import com.kuple.zone.board.WebViewActivity;
@@ -34,24 +38,33 @@ import com.kuple.zone.model.UserModel;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ArrayList<BoardInfo> modelFeedArrayList;
-    private RecyclerView.Adapter mAdapter;
+    private FeedAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    //private OnItemClick mCallback;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.feedKuple);
-        mAdapter = new FeedAdapter(modelFeedArrayList);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        String[] boardarray ={"쿠플광장","고민상담","쑥덕쑥덕","졸업생 게시판","쿠플툰","먹쿠먹쿠","강의평가","합격수기","취업광장","스터디게시판","꿀팁게시판"
+                ,"부동산","구인구직","중고거래","분실물신고","총학생회"} ;
+        for(String s:boardarray){
+            RetrieveFireStore(s);
+        }
+
+
+//        mAdapter = new FeedAdapter(modelFeedArrayList);
+//
+//
+//        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mRecyclerView.setAdapter(mAdapter);
+
+
         Log.e("fragment", "HomeFragment");
         ImageView btnMeal = (ImageView) view.findViewById(R.id.btnMeal);
         btnMeal.setOnClickListener(new View.OnClickListener()
@@ -63,25 +76,55 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         });
 
+        final DocumentReference docRef = mStore.collection("users").document(firebaseUser.getUid());
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@androidx.annotation.Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("TAG", "Listen failed.", e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d("TAG", "Current data: " + snapshot.getData());
+                    final UserModel userModel=snapshot.toObject(UserModel.class);
+                    HorizentalAdapter adapter=new HorizentalAdapter(getContext(),userModel.getFavoritList());
+                    adapter.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
+                        @Override
+                        public void onitemClick(View v, int pos) {
+                            Intent intent=new Intent(getContext(), CommonboardActivity.class);
+                            intent.putExtra("BoardName",userModel.getFavoritList().get(pos));
+                            startActivity(intent);
+                        }
+                    });
+                    mRecyclerView.setAdapter(adapter);
+                } else {
+                    Log.d("TAG", "Current data: null");
+                }
+            }
+        });
         return view;
     }
-    @Override
-    public void onRefresh() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        //3초후에 해당 adapter를 갱신하고 동글뱅이를 닫아준다.setRefreshing(false);
-        //핸들러를 사용하는 이유는 일반쓰레드는 메인쓰레드가 가진 UI에 접근할 수 없기 때문에 핸들러를 이용해서
-        //메시지큐에 메시지를 전달하고 루퍼를 이용하여 순서대로 UI에 접근한다.
 
-        //반대로 메인쓰레드에서 일반 쓰레드에 접근하기 위해서는 루퍼를 만들어야 한다.
-        new Handler().postDelayed(new Runnable() {
+    private void RetrieveFireStore(String collectionname) {
+
+        mStore.collection(collectionname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void run() {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                ArrayList<BoardInfo> feed_list=new ArrayList<>();
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        BoardInfo boardInfo=document.toObject(BoardInfo.class);
+                        feed_list.add(boardInfo);
+                    }
+                    FeedAdapter feedAdapter=new FeedAdapter(feed_list,getContext());
+                    mRecyclerView.setAdapter(feedAdapter);
 
-                //해당 어댑터를 서버와 통신한 값이 나오면 됨
-                FeedAdapter mAdapter = new FeedAdapter (HomeFragment.this, android.R.layout.list_content);;
-                mSwipeRefreshLayout.setRefreshing(false);
+                } else {
+
+                }
             }
-        },3000);
+        });
     }
-
 }

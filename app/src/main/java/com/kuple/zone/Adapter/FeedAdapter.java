@@ -28,8 +28,8 @@ import com.kuple.zone.R;
 import com.kuple.zone.model.BoardInfo;
 import com.kuple.zone.model.SliderItem;
 import com.kuple.zone.model.UserModel;
-import com.kuple.zone.navigation.HomeFragment;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,24 +37,20 @@ import javax.annotation.Nonnull;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder>{
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
-    private List<BoardInfo> list_feed;
+    private ArrayList<BoardInfo> arrayList_feed;
     private Context mContext;
-    private FirebaseUser mFirebaseUser;
+    private FirebaseUser mFirebaseUser;//현재 사용중인 앱의 주인의 정보 .getCurrent 까지 된정보
     private OnItemClick mCallback;
     private int count = 0;
     private String mBoardName;
     private RequestManager glide;
 
-    public FeedAdapter(List<BoardInfo> list_feed) {
-        this.list_feed = list_feed;
+    public FeedAdapter(ArrayList<BoardInfo> arrayList_feed,Context mContext) {
+        this.arrayList_feed = arrayList_feed;
         this.mContext = mContext;
-        this.mFirebaseUser = mFirebaseUser;
-        this.mCallback = mCallback;
-        this.mBoardName = mBoardName;
-        glide = Glide.with(mContext);
-    }
 
-    public FeedAdapter(HomeFragment homeFragment, int list_content) {
+
+//
     }
 
     public interface OnItemClickListener {
@@ -72,7 +68,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     @Override
     public void onBindViewHolder(final FeedViewHolder holder, int position) {
-        final BoardInfo modelFeed = list_feed.get(position);
+        final BoardInfo modelFeed = arrayList_feed.get(position);
         final String documentId = modelFeed.getDocumentId();
         holder.tv_boardtitle.setText(modelFeed.getBoardTitle());
         holder.tv_feedtitle.setText(modelFeed.getTitle());
@@ -115,6 +111,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
                 }
             }
         });
+        // glide = Glide.with(mContext);
         /* 이미지그려주기
         if (modelFeed.getmDownloadURIList().size() != 0) {
             Glide.with(holder.img_post).load(modelFeed.getmDownloadURIList().get(0)).into(holder.img_post);
@@ -145,7 +142,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     @Override
     public int getItemCount() {
-        return list_feed.size();
+        return arrayList_feed.size();
     }
 
     class FeedViewHolder extends RecyclerView.ViewHolder {

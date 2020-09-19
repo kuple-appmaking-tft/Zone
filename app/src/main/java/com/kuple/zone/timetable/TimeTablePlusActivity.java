@@ -383,6 +383,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         item2.add(schedule2);
                         uploadFireStore(schedule2);
                         timetable.add(item2);
+
                     }
 
 
@@ -614,6 +615,4 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
         return json;
     }
-
-
 }
