@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 public class BoardInfo {
-    private String BoardTitle;
     private String title;
     private String content;
     private String uid;
@@ -20,20 +19,24 @@ public class BoardInfo {
     private int replycount;
     private ArrayList<String> mDownloadURIList;
     private String nickname;
+    private String BoardName;
+
+    public String getBoardName() {
+        return BoardName;
+    }
+
+    public void setBoardName(String boardName) {
+        BoardName = boardName;
+    }
 
     public String getNickname() {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     @Override
     public String toString() {
         return "BoardInfo{" +
-                "BoardTitle ='" + BoardTitle + '\'' +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", uid='" + uid + '\'' +
                 ", documentId='" + documentId + '\'' +
@@ -44,10 +47,15 @@ public class BoardInfo {
                 ", replycount=" + replycount +
                 ", mDownloadURIList=" + mDownloadURIList +
                 ", nickname='" + nickname + '\'' +
+                ", BoardName='" + BoardName + '\'' +
                 '}';
     }
 
-    public BoardInfo(String title, String content, String uid, String documentId, Date date, String deleted_at, List<String> uidList, int viewcount, int replycount, ArrayList<String> mDownloadURIList,String nickname) {
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public BoardInfo(String title, String content, String uid, String documentId, Date date, String deleted_at, List<String> uidList, int viewcount, int replycount, ArrayList<String> mDownloadURIList,String nickname,String boardName) {
         this.title = title;
         this.content = content;
         this.uid = uid;
@@ -59,6 +67,7 @@ public class BoardInfo {
         this.replycount = replycount;
         this.mDownloadURIList = mDownloadURIList;
         this.nickname=nickname;
+        this.BoardName=boardName;
     }
 
     public ArrayList<String> getmDownloadURIList() {
@@ -123,13 +132,6 @@ public class BoardInfo {
 
     }
 
-    public String getBoardTitle() {
-        return BoardTitle;
-    }
-
-    public void setBoardTitle(String boardTitle) {
-        BoardTitle = boardTitle;
-    }
 
     public Date getDate() {
         return date;

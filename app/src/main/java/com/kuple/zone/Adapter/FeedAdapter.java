@@ -70,7 +70,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     public void onBindViewHolder(final FeedViewHolder holder, int position) {
         final BoardInfo modelFeed = arrayList_feed.get(position);
         final String documentId = modelFeed.getDocumentId();
-        holder.tv_boardtitle.setText(modelFeed.getBoardTitle());
         holder.tv_feedtitle.setText(modelFeed.getTitle());
         //댓글수 가져오기
         String commentCount = "댓글 " + String.valueOf(modelFeed.getReplycount()) + "개";
@@ -91,11 +90,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         }
         //이미지 불러오기
         SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
-        for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
-            if(modelFeed.getmDownloadURIList() == null)
-                holder.img_post.setVisibility(View.GONE);
-            sliderAdapterExample.addItem(new SliderItem(modelFeed.getmDownloadURIList().get(i)));
+        if (modelFeed.getmDownloadURIList()!= null&&modelFeed.getmDownloadURIList().size()!=0){
+            for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
+                if(modelFeed.getmDownloadURIList() == null)
+                    holder.img_post.setVisibility(View.GONE);
+                sliderAdapterExample.addItem(new SliderItem(modelFeed.getmDownloadURIList().get(i)));
+            }
         }
+
         //작성자
         String writer = modelFeed.getUid();
         mStore.collection("users").document(writer).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

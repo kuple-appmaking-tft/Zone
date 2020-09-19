@@ -139,6 +139,8 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         //
         final String mDocumentId = getIntent().getStringExtra("DocumentId");//mDocumentId는 디테일 정보받아오기
         final String mBoardName = getIntent().getStringExtra("BoardName");
+        Log.d("디테일:도큐먼트",mDocumentId);
+        Log.d("디테일:보드네임",mBoardName);
         if (mDocumentId != null) {
             documentReference = mStore.collection(mBoardName).document(mDocumentId);
         }
@@ -148,7 +150,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         setContentView(R.layout.activity_detail);
         detail_ScrollView = findViewById(R.id.detail_ScrollView);
         mTitle = findViewById(R.id.detail_title);
-       // mContent = findViewById(R.id.detail_content);
+        // mContent = findViewById(R.id.detail_content);
         mRecyclerView = findViewById(R.id.detail_recyclerview);
         mRequesQue = Volley.newRequestQueue(this);
         //
@@ -402,7 +404,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                 mTitle.setText(boardInfo.getTitle());
                 birthdate.setText(boardInfo.getDate().toString());
                 username.setText(boardInfo.getNickname());
-               // mContent.setText(boardInfo.getContent());
+                // mContent.setText(boardInfo.getContent());
                 //내용 대신 에디터 (html)파일
                 Editor renderer= (Editor)findViewById(R.id.renderer);
                 Map<Integer, String> headingTypeface = getHeadingTypeface();
@@ -603,7 +605,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(mContext, "파이어베이스 deleted_at 현재신간으로 업데이트", Toast.LENGTH_LONG).show();
                                 //mCallback.onClick("실시간 댓글 삭제");//삭제하면 콜백함수로 양성열 보내짐.//이 어댑터에서 보낼 정보는 이렇게쓰면댐
-                               // documentReference_reply.update("replycount", FieldValue.increment(-1));//댓글수 1증가.
+                                // documentReference_reply.update("replycount", FieldValue.increment(-1));//댓글수 1증가.
 //                                Intent intent=new Intent(DetailActivity.this, MainActivity.class);
 //                                intent.putExtra("데이터삭제",boardname);
 //                                startActivity(intent);
