@@ -3,7 +3,6 @@ package com.kuple.zone;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import com.kuple.zone.navigation.TimetableFragment;
 import com.kuple.zone.navigation.UserInfoFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private long pressedTime;
 
     private FragmentManager fragmentManager;
     private BoardFragment fragmentBoard;
@@ -33,10 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+
 
         fragmentManager = getSupportFragmentManager();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -64,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+//        Intent  intent=getIntent();
+//        String boardname=intent.getStringExtra("데이터삭제");
+//        if(boardname!=null){
+//            transaction.replace(R.id.main_content, fragmentBoard).commitAllowingStateLoss();
+//        }
+
     }
 
     public void clickHandler(int num) {
@@ -79,25 +88,6 @@ public class MainActivity extends AppCompatActivity {
             transaction.replace(R.id.main_content, fragmentUser).commitAllowingStateLoss();
         } else if (num == R.id.action_timetable) {
             transaction.replace(R.id.main_content, fragmentTimetable).commitAllowingStateLoss();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        //super.onBackPressed()
-        if(pressedTime == 0){
-            Toast.makeText(MainActivity.this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
-            pressedTime = System.currentTimeMillis();
-        }
-        else{
-            int Seconds = (int) (System.currentTimeMillis() - pressedTime);
-
-            if(Seconds > 2000){
-                pressedTime = 0;
-            }
-            else{
-                finish();
-            }
         }
     }
 }

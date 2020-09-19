@@ -111,7 +111,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
                 }
             }
         });
-       // glide = Glide.with(mContext);
+        // glide = Glide.with(mContext);
         /* 이미지그려주기
         if (modelFeed.getmDownloadURIList().size() != 0) {
             Glide.with(holder.img_post).load(modelFeed.getmDownloadURIList().get(0)).into(holder.img_post);

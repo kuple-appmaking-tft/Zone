@@ -47,7 +47,7 @@ public class BoardInfo {
                 '}';
     }
 
-    public BoardInfo(String title, String content, String uid, String documentId, Date date, String deleted_at, List<String> uidList, int viewcount, int replycount, ArrayList<String> mDownloadURIList) {
+    public BoardInfo(String title, String content, String uid, String documentId, Date date, String deleted_at, List<String> uidList, int viewcount, int replycount, ArrayList<String> mDownloadURIList,String nickname) {
         this.title = title;
         this.content = content;
         this.uid = uid;
@@ -58,6 +58,7 @@ public class BoardInfo {
         this.viewcount = viewcount;
         this.replycount = replycount;
         this.mDownloadURIList = mDownloadURIList;
+        this.nickname=nickname;
     }
 
     public ArrayList<String> getmDownloadURIList() {

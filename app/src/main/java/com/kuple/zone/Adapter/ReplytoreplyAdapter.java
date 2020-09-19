@@ -103,7 +103,7 @@ public class ReplytoreplyAdapter extends RecyclerView.Adapter<ReplytoreplyAdapte
         String dateTime = replyInfo.getDate().toString().substring(4, 10);
         Log.d("date1", dateTime);
         if (dateTime2.substring(4, 10).equals(dateTime)) {
-            holder.mN.setVisibility(View.VISIBLE);
+//            holder.mN.setVisibility(View.VISIBLE);
         }
     }
 
@@ -127,7 +127,7 @@ public class ReplytoreplyAdapter extends RecyclerView.Adapter<ReplytoreplyAdapte
             mNickname = itemView.findViewById(R.id.item_nickname_level);
             mLikebutton = itemView.findViewById(R.id.item_reply_likebutton);
             mLikecount = itemView.findViewById(R.id.item_reply_likecount);
-            mN = itemView.findViewById(R.id.reply_new);
+         //   mN = itemView.findViewById(R.id.reply_new);
 
         }
     }

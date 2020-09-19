@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.google.firebase:firebase-messaging:20.2.3'
     implementation project(path: ':timetableview')
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation ('com.github.bumptech.glide:okhttp3-integration:4.9.0'){
         exclude group: 'glide-parent'
@@ -76,6 +77,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:13.0'
    // compile 'com.github.irshulx:laser-native-editor:3.0.3'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
 
