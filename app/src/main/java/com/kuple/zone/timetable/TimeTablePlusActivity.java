@@ -219,7 +219,6 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
 
     }
-
     private void RetreiveFireStore() {
         db.collection("users")
                 .document(user.getUid())
@@ -236,7 +235,6 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                                 timetable.add(item);
                             }
                         } else {
-
                         }
                         ;
                     }

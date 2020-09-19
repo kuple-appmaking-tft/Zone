@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment {
                 ArrayList<BoardInfo> feed_list=new ArrayList<>();
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        BoardInfo boardInfo=document.toObject(BoardInfo.class);
+                       BoardInfo boardInfo=document.toObject(BoardInfo.class);
                         feed_list.add(boardInfo);
                     }
                     FeedAdapter feedAdapter=new FeedAdapter(feed_list,getContext());
