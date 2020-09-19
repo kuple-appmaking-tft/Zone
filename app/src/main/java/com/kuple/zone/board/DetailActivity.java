@@ -1,6 +1,8 @@
 package com.kuple.zone.board;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -8,10 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,12 +54,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.kuple.zone.Adapter.ReplyAdapter;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.kuple.zone.Adapter.ReplyAdapter;
+
 import com.kuple.zone.Adapter.ReplytoreplyAdapter;
 import com.kuple.zone.Adapter.SliderAdapterExample;
 import com.kuple.zone.Inteface.OnItemClick;
+import com.kuple.zone.MainActivity;
 import com.kuple.zone.R;
 import com.kuple.zone.model.BoardInfo;
 import com.kuple.zone.model.ReplyInfo;
@@ -115,6 +122,8 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
     private BoardInfo boardInfo;
     private FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private LikeButton mLikeButton;
+    private TextView mBoardTitleName,username,birthdate;
+    private ImageView Top_menu,fresh,plusarrow;
 
     private OnFragmentInteractionListener mListener;
     public interface OnFragmentInteractionListener {
@@ -130,6 +139,8 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         //
         final String mDocumentId = getIntent().getStringExtra("DocumentId");//mDocumentId는 디테일 정보받아오기
         final String mBoardName = getIntent().getStringExtra("BoardName");
+        Log.d("디테일:도큐먼트",mDocumentId);
+        Log.d("디테일:보드네임",mBoardName);
         if (mDocumentId != null) {
             documentReference = mStore.collection(mBoardName).document(mDocumentId);
         }
@@ -139,7 +150,7 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         setContentView(R.layout.activity_detail);
         detail_ScrollView = findViewById(R.id.detail_ScrollView);
         mTitle = findViewById(R.id.detail_title);
-       // mContent = findViewById(R.id.detail_content);
+        // mContent = findViewById(R.id.detail_content);
         mRecyclerView = findViewById(R.id.detail_recyclerview);
         mRequesQue = Volley.newRequestQueue(this);
         //
@@ -152,6 +163,40 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         mReplycount = findViewById(R.id.item_detail_replycount_TextView);
         mViewcount = findViewById(R.id.item_detail_viewcount_TextView);
         mLikeButton = findViewById(R.id.item_likeButton_likeButton);
+        mBoardTitleName=findViewById(R.id.detail_title_title);
+        mBoardTitleName.setText(mBoardName);//게시판위치
+        username=findViewById(R.id.detail_username);
+        birthdate=findViewById(R.id.detail_birthdate);
+        Top_menu=findViewById(R.id.Top_menu);
+        Top_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show_menu(v,mDocumentId,mBoardName);
+            }
+        });
+        fresh=findViewById(R.id.fresh);
+        fresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                retreiveReply(documentReference);
+            }
+        });
+//        Log.d("롤",String.valueOf(mRecyclerView.getVisibility()));
+        plusarrow=findViewById(R.id.plusarrow);
+        plusarrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mRecyclerView.getVisibility()==View.INVISIBLE){
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    plusarrow.setImageResource(R.drawable.minusarrow);
+                }else{
+                    mRecyclerView.setVisibility(View.INVISIBLE);
+                    plusarrow.setImageResource(R.drawable.plusarrow);
+                }
+            }
+        });
+
+
 
         mDocumentId_send = mDocumentId;
         //swipeRefreshLayout=findViewById(R.id.detail_SwipeRefreshLayout);
@@ -168,7 +213,6 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
 
         initUid();//uid 전역변수로 사용가능
         upviewcount();//조회수 1올리기
-
         retreiveDocumentReference(documentReference);
         retreiveReply(documentReference);
         //retreivePhoto(documentReference);
@@ -358,7 +402,9 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                 //스크롤뷰 위치지정
                 assert boardInfo != null;
                 mTitle.setText(boardInfo.getTitle());
-               // mContent.setText(boardInfo.getContent());
+                birthdate.setText(boardInfo.getDate().toString());
+                username.setText(boardInfo.getNickname());
+                // mContent.setText(boardInfo.getContent());
                 //내용 대신 에디터 (html)파일
                 Editor renderer= (Editor)findViewById(R.id.renderer);
                 Map<Integer, String> headingTypeface = getHeadingTypeface();
@@ -536,6 +582,52 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
             e.printStackTrace();
         }
 
+
+    }
+    private void show_menu(View v,String documentId,final String boardname) {
+        final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+        documentReference_reply=mStore.collection(boardname).document(documentId);
+        final Context mContext=DetailActivity.this;
+        PopupMenu popup = new PopupMenu(mContext, v);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.remove_superficially) {//Toast.makeText(mContext, "무슨수정이냐 그냥 쳐 삭제해라", Toast.LENGTH_LONG).show();
+                    // mBoardInfo.remove(position);
+                    return true;
+                } else if (itemId == R.id.remove_firebase) {
+                    Date date = new Date();
+                    if (boardInfo.getUid().equals(mFirebaseUser.getUid())) {
+                        documentReference_reply
+                                .update("deleted_at", date.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(mContext, "파이어베이스 deleted_at 현재신간으로 업데이트", Toast.LENGTH_LONG).show();
+                                //mCallback.onClick("실시간 댓글 삭제");//삭제하면 콜백함수로 양성열 보내짐.//이 어댑터에서 보낼 정보는 이렇게쓰면댐
+                                // documentReference_reply.update("replycount", FieldValue.increment(-1));//댓글수 1증가.
+//                                Intent intent=new Intent(DetailActivity.this, MainActivity.class);
+//                                intent.putExtra("데이터삭제",boardname);
+//                                startActivity(intent);
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(mContext, "파이어베이스 deleted_at 업데이트실패", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(mContext, "너가 올린 댓글이 아니다", Toast.LENGTH_LONG).show();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_showup, popup.getMenu());
+        popup.show();
 
     }
 
