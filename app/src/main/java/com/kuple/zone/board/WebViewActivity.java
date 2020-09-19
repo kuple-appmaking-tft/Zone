@@ -35,6 +35,6 @@ public class WebViewActivity extends AppCompatActivity {
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 브라우저 캐시 사용 재정의 value : LOAD_DEFAULT, LOAD_NORMAL, LOAD_CACHE_ELSE_NETWORK, LOAD_NO_CACHE, or LOAD_CACHE_ONLY
         mWebSettings.setDefaultFixedFontSize(14); //기본 고정 글꼴 크기, value : 1~72 사이의 숫자
 
-        mWebView.loadUrl("https://dorm.ourhome.co.kr/notice.aspx");
+        mWebView.loadUrl("http://libs.korea.ac.kr:81/");
     }
 }

@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.Adapter.FeedAdapter;
 import com.kuple.zone.R;
 import com.kuple.zone.board.DetailActivity;
+import com.kuple.zone.board.MealWebViewActivity;
 import com.kuple.zone.board.WebViewActivity;
 import com.kuple.zone.model.BoardInfo;
 
@@ -63,11 +64,19 @@ public class HomeFragment extends Fragment {
 //                        }
 //                    });
         Log.e("fragment", "HomeFragment");
+        ImageView btnLib = (ImageView) view.findViewById(R.id.btnLib);
+        btnLib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                startActivity(intent);
+            }
+        });
         ImageView btnMeal = (ImageView) view.findViewById(R.id.btnMeal);
         btnMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                Intent intent = new Intent(getActivity(), MealWebViewActivity.class);
                 startActivity(intent);
             }
         });

@@ -3,42 +3,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kuple.zone">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
+        <activity android:name=".board.MealWebViewActivity"> </activity>
         <activity android:name=".board.WebViewActivity"> </activity>
-        <activity android:name=".board.CorpActivity"
+        <activity
+            android:name=".board.CorpActivity"
             tools:ignore="MissingClass" />
-        <activity android:name=".board.WriteActivity"
+        <activity
+            android:name=".board.WriteActivity"
             tools:ignore="MissingClass" />
-        <activity android:name=".board.DetailActivity"
+        <activity
+            android:name=".board.DetailActivity"
             tools:ignore="MissingClass" />
-        <activity android:name=".board.PhotoboardActivity"
+        <activity
+            android:name=".board.PhotoboardActivity"
             tools:ignore="MissingClass" />
-        <activity android:name=".board.SearchActivity"
+        <activity
+            android:name=".board.SearchActivity"
             tools:ignore="MissingClass" />
-        <activity android:name=".login.EmailCheckActivity"
+        <activity
+            android:name=".login.EmailCheckActivity"
             tools:ignore="MissingClass" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".login.FindActivity"
+        <activity
+            android:name=".login.FindActivity"
             tools:ignore="MissingClass" />
-        <activity android:name=".login.SignupActivity"
+        <activity
+            android:name=".login.SignupActivity"
             tools:ignore="MissingClass" />
         <activity android:name=".timetable.TimeTablePlusActivity" />
-        <activity android:name=".board.CommonboardActivity"
+        <activity
+            android:name=".board.CommonboardActivity"
             tools:ignore="MissingClass" />
-        <activity android:name=".login.LoginActivity"
+        <activity
+            android:name=".login.LoginActivity"
             tools:ignore="MissingClass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,5 +61,11 @@
             </intent-filter>
         </service>
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

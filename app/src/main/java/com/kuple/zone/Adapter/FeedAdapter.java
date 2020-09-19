@@ -96,31 +96,31 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         //n표시
         if (date.substring(4, 10).equals(dateMonthDay)) {
         }
-        //이미지 불러오기
-        SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
-        if (modelFeed.getmDownloadURIList()!= null&&modelFeed.getmDownloadURIList().size()!=0){
-            for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
-                if(modelFeed.getmDownloadURIList() == null)
-                    holder.img_post.setVisibility(View.GONE);
-                sliderAdapterExample.addItem(new SliderItem(modelFeed.getmDownloadURIList().get(i)));
-            }
-        }
+//        //이미지 불러오기
+//        SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
+//        if (modelFeed.getmDownloadURIList()!= null&&modelFeed.getmDownloadURIList().size()!=0){
+//            for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
+//                if(modelFeed.getmDownloadURIList() == null)
+//                    holder.img_post.setVisibility(View.GONE);
+//                sliderAdapterExample.addItem(new SliderItem(modelFeed.getmDownloadURIList().get(i)));
+//            }
+//        }
 
         //작성자
-        String writer = modelFeed.getUid();
-        mStore.collection("users").document(writer).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                UserModel fm = documentSnapshot.toObject(UserModel.class);
-                assert fm != null;
-                try {
-                    holder.tv_post.setText(fm.nickname + " " + finaldate + " ");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        String writer = modelFeed.getUid();
+//        mStore.collection("users").document(writer).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @SuppressLint("SetTextI18n")
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                UserModel fm = documentSnapshot.toObject(UserModel.class);
+//                assert fm != null;
+//                try {
+//                    holder.tv_post.setText(fm.nickname + " " + finaldate + " ");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
        // glide = Glide.with(mContext);
         /* 이미지그려주기
         if (modelFeed.getmDownloadURIList().size() != 0) {
