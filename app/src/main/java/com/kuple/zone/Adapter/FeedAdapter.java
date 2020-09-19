@@ -29,6 +29,8 @@ import com.kuple.zone.model.BoardInfo;
 import com.kuple.zone.model.SliderItem;
 import com.kuple.zone.model.UserModel;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,9 +50,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     public FeedAdapter(ArrayList<BoardInfo> arrayList_feed,Context mContext) {
         this.arrayList_feed = arrayList_feed;
         this.mContext = mContext;
-
-
-//
     }
 
     public interface OnItemClickListener {
@@ -71,22 +70,31 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         final BoardInfo modelFeed = arrayList_feed.get(position);
         final String documentId = modelFeed.getDocumentId();
         holder.tv_feedtitle.setText(modelFeed.getTitle());
+        //작성자 닉네임 가져오기
+        holder.tv_name.setText(modelFeed.getNickname());
+        //보드 이름 가져오기
+        holder.tv_boardtitle.setText(modelFeed.getBoardName());
         //댓글수 가져오기
-        String commentCount = "댓글 " + String.valueOf(modelFeed.getReplycount()) + "개";
+        final String commentCount = "+" + String.valueOf(modelFeed.getReplycount());
         holder.tv_commentcount.setText(commentCount);
+        //조회수 가져오기
+        final String viewCount = String.valueOf(modelFeed.getViewcount());
+        holder.tv_view.setText(viewCount);
         //종야요수 가져오기
-        final String likeCount = String.valueOf(modelFeed.getUidList().size()) + "개";
+        final String likeCount = String.valueOf(modelFeed.getUidList().size() - 1);
         holder.tv_like.setText(likeCount);
         //올린시간 가져오기
         String date = modelFeed.getDate().toString();
-        String date1 = date.substring(11, 16);
-        String date2 = date.substring(11, 13);//시간부분
-        final String finaldate = date1;
-        String dateTime2 = new Date().toString();
-        String dateTime = dateTime2.substring(4, 10);
-        Log.d("date1", dateTime);
+        String dateTime = date.substring(11, 16);//시간 부분
+        String dateYear = date.substring(24, 28);//연도 부분
+        final String finaldate = dateTime;
+        String dateCalc = new Date().toString();
+        String dateMonthDay = dateCalc.substring(4, 10);//월 일부분
+        String time = dateMonthDay + ", " + dateYear + " " + dateTime;
+        holder.tv_time.setText(time);
+        Log.d("dateMonthDay", dateMonthDay);
         //n표시
-        if (date.substring(4, 10).equals(dateTime)) {
+        if (date.substring(4, 10).equals(dateMonthDay)) {
         }
         //이미지 불러오기
         SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
@@ -121,14 +129,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             holder.img_post.setVisibility(View.INVISIBLE);
         }
         */
-        holder.ll_like.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                mStore.collection("Testing").document(documentId).update("likebutton_count", FieldValue.increment(1));
-                holder.ll_like.setEnabled(false);
-            }
-        });
     }
 
     public static Bitmap StringToBitmap(String encodedString) {
@@ -148,9 +148,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     }
 
     class FeedViewHolder extends RecyclerView.ViewHolder {
-        private ViewGroup ll_like;
+        private TextView tv_name;
         private TextView tv_feedtitle;
         private TextView tv_post;
+        private TextView tv_view;
+        private TextView tv_time;
         private TextView tv_commentcount;
         private TextView tv_boardtitle;
         private TextView tv_like;
@@ -158,13 +160,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
         public FeedViewHolder(View itemView) {
             super(itemView);
-            ll_like = (ViewGroup) itemView.findViewById(R.id.ll_like);
+            tv_time = (TextView)itemView.findViewById(R.id.tv_time);
+            tv_name = (TextView)itemView.findViewById(R.id.tv_name);
             tv_boardtitle = (TextView) itemView.findViewById(R.id.tv_boardtitle);
             tv_feedtitle = (TextView) itemView.findViewById(R.id.tv_feed_title);
             tv_post = (TextView) itemView.findViewById(R.id.tv_post);
             tv_commentcount = (TextView) itemView.findViewById(R.id.tv_comment);
             img_post = (ImageView) itemView.findViewById(R.id.img_post);
             tv_like = (TextView) itemView.findViewById(R.id.tv_like);
+            tv_view = (TextView) itemView.findViewById(R.id.tv_view);
 
             itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
                 @Override
