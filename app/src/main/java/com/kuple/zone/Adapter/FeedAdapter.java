@@ -28,6 +28,7 @@ import com.kuple.zone.R;
 import com.kuple.zone.model.BoardInfo;
 import com.kuple.zone.model.SliderItem;
 import com.kuple.zone.model.UserModel;
+import com.kuple.zone.navigation.HomeFragment;
 
 import java.util.Date;
 import java.util.List;
@@ -38,7 +39,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private List<BoardInfo> list_feed;
     private Context mContext;
-    private FirebaseUser mFirebaseUser;//현재 사용중인 앱의 주인의 정보 .getCurrent 까지 된정보
+    private FirebaseUser mFirebaseUser;
     private OnItemClick mCallback;
     private int count = 0;
     private String mBoardName;
@@ -51,6 +52,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         this.mCallback = mCallback;
         this.mBoardName = mBoardName;
         glide = Glide.with(mContext);
+    }
+
+    public FeedAdapter(HomeFragment homeFragment, int list_content) {
     }
 
     public interface OnItemClickListener {

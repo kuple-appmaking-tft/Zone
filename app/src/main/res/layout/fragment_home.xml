@@ -163,13 +163,19 @@
                         android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/feedKuple"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/feedLayout"
-                android:scrollbars="vertical" />
+                android:layout_height="match_parent"
+                android:id="@+id/swipe_layout">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/feedKuple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:layout_below="@+id/feedLayout" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </RelativeLayout>
 
