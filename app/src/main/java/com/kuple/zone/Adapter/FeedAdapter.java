@@ -156,7 +156,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
         public FeedViewHolder(View itemView) {
             super(itemView);
-            ll_like = (ViewGroup) itemView.findViewById(R.id.ll_like);
             tv_boardtitle = (TextView) itemView.findViewById(R.id.tv_boardtitle);
             tv_feedtitle = (TextView) itemView.findViewById(R.id.tv_feed_title);
             tv_post = (TextView) itemView.findViewById(R.id.tv_post);
