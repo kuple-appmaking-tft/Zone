@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp" >
+
+    <TextView
+        android:id="@+id/textviewLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:textSize="25sp"
+        android:text="학적사항 업데이트" />
+
+    <TextView
+        android:id="@+id/textviewEmailAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textviewLogo"
+        android:text="포털 ID"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/edittextEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginBottom="10dp"
+        android:inputType="textEmailAddress"
+        android:layout_below="@+id/textviewEmailAddress">
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textviewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="포털 PW"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/edittextEmailAddress" />
+
+    <EditText
+        android:id="@+id/edittextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginBottom="10dp"
+        android:inputType="textPassword"
+        android:layout_below="@+id/textviewPassword" />
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/buttonSubmit"
+        android:layout_below="@+id/edittextPassword"
+        android:layout_marginBottom="20dp"
+        android:text="취소" />
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittextPassword"
+        android:layout_marginBottom="20dp"
+        android:text="연동" />
+
+    <TextView
+        android:id="@+id/textviewMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/buttonSubmit"
+        android:textSize="15sp"
+        android:text="수집한 포탈 ID와 PW는 학적사항을 수집하는 용도로만 사용되며, 다른 용도로는 일체 사용하지 않습니다.
+    또한 서버에 직접적으로 저장되지 않으며, 개인 핸드폰 단말에 암호화되어 저장됩니다\n" />
+
+</RelativeLayout>
