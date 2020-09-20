@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.irshulx.Editor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,6 +43,7 @@ public class HomeFragment extends Fragment {
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     ArrayList<BoardInfo> feed_list = new ArrayList<>();
+
 
     //private OnItemClick mCallback;
 
@@ -86,6 +88,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         return view;
     }
 
@@ -101,7 +104,7 @@ public class HomeFragment extends Fragment {
                         feed_list.add(boardInfo);
                         Log.d("불러온정보", collectionName);
                     }
-                    FeedAdapter feedAdapter = new FeedAdapter(feed_list, getContext());
+                    FeedAdapter feedAdapter = new FeedAdapter(feed_list, getContext(),getActivity());
 
                     feedAdapter.setOnIemlClickListner(new FeedAdapter.OnItemClickListener() {
                         @Override

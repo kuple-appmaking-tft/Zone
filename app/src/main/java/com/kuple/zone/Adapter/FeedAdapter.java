@@ -1,10 +1,12 @@
 package com.kuple.zone.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.Editable;
 import android.text.Layout;
@@ -39,6 +41,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,10 +56,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     private int count = 0;
     private String mBoardName;
     private RequestManager glide;
+    private Activity activity;
 
-    public FeedAdapter(ArrayList<BoardInfo> arrayList_feed, Context mContext) {
+
+    public FeedAdapter(ArrayList<BoardInfo> arrayList_feed, Context mContext, Activity activity) {
         this.arrayList_feed = arrayList_feed;
         this.mContext = mContext;
+        this.activity=activity;
     }
 
     public interface OnItemClickListener {
@@ -106,32 +112,32 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         //n표시
         if (date.substring(4, 10).equals(dateMonthDay)) {
         }
-//        Editor renderer= (Editor)findViewById(R.id.FeedRender);
-//        Map<Integer, String> headingTypeface = getHeadingTypeface();
-//        Map<Integer, String> contentTypeface = getContentface();
-//        renderer.setHeadingTypeface(headingTypeface);
-//        renderer.setContentTypeface(contentTypeface);
-//        renderer.setDividerLayout(R.layout.tmpl_divider_layout);
-//        renderer.setEditorImageLayout(R.layout.tmpl_image_view);
-//        renderer.setListItemLayout(R.layout.tmpl_list_item);
-//        //String content= mSerialized;
-//        EditorContent Deserialized= renderer.getContentDeserialized(boardInfo.getContent());
-//        renderer.setEditorListener(new EditorListener() {
-//            @Override
-//            public void onTextChanged(EditText editText, Editable text) {
-//
-//            }
-//            @Override
-//            public void onUpload(Bitmap image, String uuid) {
-//
-//            }
-//            @Override
-//            public View onRenderMacro(String name, Map<String, Object> settings, int index) {
-//                View view = getLayoutInflater().inflate(R.layout.layout_authored_by, null);
-//                return view;
-//            }
-//        });
-//        renderer.render(Deserialized);
+        Editor renderer=holder.FeedRender;
+        Map<Integer, String> headingTypeface = getHeadingTypeface();
+        Map<Integer, String> contentTypeface = getContentface();
+        renderer.setHeadingTypeface(headingTypeface);
+        renderer.setContentTypeface(contentTypeface);
+        renderer.setDividerLayout(R.layout.tmpl_divider_layout);
+        renderer.setEditorImageLayout(R.layout.tmpl_image_view);
+        renderer.setListItemLayout(R.layout.tmpl_list_item);
+        //String content= mSerialized;
+        EditorContent Deserialized= renderer.getContentDeserialized(modelFeed.getContent());
+        renderer.setEditorListener(new EditorListener() {
+            @Override
+            public void onTextChanged(EditText editText, Editable text) {
+
+            }
+            @Override
+            public void onUpload(Bitmap image, String uuid) {
+
+            }
+            @Override
+            public View onRenderMacro(String name, Map<String, Object> settings, int index) {
+                View view = activity.getLayoutInflater().inflate(R.layout.layout_authored_by, null);
+                return view;
+            }
+        });
+        renderer.render(Deserialized);
         SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
         glide = Glide.with(mContext);
         if (modelFeed.getmDownloadURIList().size() != 0) {
@@ -170,6 +176,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             return null;
         }
     }
+    public Map<Integer,String> getHeadingTypeface() {
+        Map<Integer, String> typefaceMap = new HashMap<>();
+        typefaceMap.put(Typeface.NORMAL, "fonts/GreycliffCF-Bold.ttf");
+        typefaceMap.put(Typeface.BOLD, "fonts/GreycliffCF-Heavy.ttf");
+        typefaceMap.put(Typeface.ITALIC, "fonts/GreycliffCF-Heavy.ttf");
+        typefaceMap.put(Typeface.BOLD_ITALIC, "fonts/GreycliffCF-Bold.ttf");
+        return typefaceMap;
+    }
+
+    public Map<Integer,String> getContentface() {
+        Map<Integer, String> typefaceMap = new HashMap<>();
+        typefaceMap.put(Typeface.NORMAL,"fonts/Lato-Medium.ttf");
+        typefaceMap.put(Typeface.BOLD,"fonts/Lato-Bold.ttf");
+        typefaceMap.put(Typeface.ITALIC,"fonts/Lato-MediumItalic.ttf");
+        typefaceMap.put(Typeface.BOLD_ITALIC,"fonts/Lato-BoldItalic.ttf");
+        return typefaceMap;
+    }
 
     @Override
     public int getItemCount() {
@@ -188,6 +211,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         private TextView tv_like;
         private ImageView img_post;
 
+
         public FeedViewHolder(View itemView) {
             super(itemView);
             FeedRender = (Editor) itemView.findViewById(R.id.FeedRender);
@@ -200,6 +224,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             img_post = (ImageView) itemView.findViewById(R.id.img_post);
             tv_like = (TextView) itemView.findViewById(R.id.tv_like);
             tv_view = (TextView) itemView.findViewById(R.id.tv_view);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
                 @Override

@@ -219,6 +219,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
 
     }
+
     private void RetreiveFireStore() {
         db.collection("users")
                 .document(user.getUid())
@@ -235,6 +236,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                                 timetable.add(item);
                             }
                         } else {
+
                         }
                         ;
                     }
@@ -345,6 +347,8 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         schedule1.setClassPlace(place); //string의 0 , 2 , 4 번째 가져와야함 example 수(7-9) 농심국제관 308호
                         ArrayList<Schedule> item1 = new ArrayList<>();
                         item1.add(schedule1);
+                        //timetable.add(item1);
+
                         uploadFireStore(schedule1);
                         //스케쥴 1 끝
                         Schedule schedule2 = new Schedule();
@@ -378,9 +382,9 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         String place2=dayarray[0].substring(placeStartIdx2+1);
                         schedule1.setClassPlace(place2); //string의 0 , 2 , 4 번째 가져와야함 example 수(7-9) 농심국제관 308호
                         ArrayList<Schedule> item2 = new ArrayList<>();
-                        item2.add(schedule2);
+                        item1.add(schedule2);
                         uploadFireStore(schedule2);
-                        timetable.add(item2);
+                        timetable.add(item1);
 
                     }
 
@@ -613,4 +617,6 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
         return json;
     }
+
+
 }

@@ -117,6 +117,7 @@
         android:textColor="@color/colorBlack"
         android:textSize="16sp"
         tools:ignore="ObsoleteLayoutParam" />
+
     <com.github.irshulx.Editor
         android:id="@+id/FeedRender"
         android:layout_width="match_parent"
@@ -124,8 +125,9 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
+        app:render_type="Renderer"
+        android:layout_below="@+id/tv_post"/>
 
-        app:render_type="Renderer" />
     <ImageView
         android:id="@+id/img_post"
         android:layout_width="match_parent"
