@@ -87,7 +87,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
 //            Log.d("양성열","실패");
 //        }
     }
-
+//
     public void retreive_Testing(String boardname) {
         loadingbar.setTitle("Set profile image");
         loadingbar.setMessage("pleas wait업로딩중");
