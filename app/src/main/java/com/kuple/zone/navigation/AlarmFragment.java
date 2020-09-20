@@ -8,14 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.Adapter.NotificationAdapter;
 import com.kuple.zone.R;
 import com.kuple.zone.board.DetailActivity;
+import com.kuple.zone.chat.ChatRoomActivity;
 import com.kuple.zone.model.NotiInfo;
 
 import java.util.ArrayList;
@@ -77,13 +76,10 @@ public class AlarmFragment extends Fragment {
         kutalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), ChatRoomActivity.class);;
+                startActivity(intent);
             }
         });
-
-
-
-
         return view;
     }
 }
