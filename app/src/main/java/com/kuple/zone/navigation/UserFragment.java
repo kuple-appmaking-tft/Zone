@@ -48,7 +48,6 @@ public class UserFragment extends AppCompatActivity implements View.OnClickListe
     private TextView textviewGroup;
     private TextView textviewCode;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -13,6 +13,8 @@
     <color name="colorEmailSignInPressed">#004D40</color>
     <color name="colorBlack">#000000</color>>
     <color name="colorRed">#FF0000</color>
+    <color name="mainRed">#862633</color>
+
     <color name="colorPurple">#561e59</color>
     <color name="colorGray">#e0e0e0</color>
     <color name="colorDarkGray">#b3b1b1</color>
