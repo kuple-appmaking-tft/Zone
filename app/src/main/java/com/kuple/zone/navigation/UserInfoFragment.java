@@ -89,14 +89,14 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
 
                     // Student Info
                     if(userModel.getStudentModel() == null){
-                        Toast.makeText(v.getContext(), "학사 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(v.getContext(), "학사 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
 
-                        textviewName.setText("이름");
+                        /*textviewName.setText("이름");
                         textviewCollege.setText("대학");
                         textviewState.setText("외부인");
                         textviewCode.setText("학번");
                         textviewMajor.setText("전공");
-                        textviewUpdate.setText("학적사항 업데이트 관련 텍스트\n학적사항 업데이트 관련 텍스트");
+                        textviewUpdate.setText("학적사항 업데이트 관련 텍스트\n학적사항 업데이트 관련 텍스트");*/
                     }else{
                         textviewName.setText(userModel.getStudentModel().getName());
                         textviewCollege.setText(userModel.getStudentModel().getCollege());

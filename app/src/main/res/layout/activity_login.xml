@@ -14,7 +14,6 @@
         android:layout_marginTop="96dp"
         android:src="@drawable/kuple"/>
 
-
     <com.google.android.material.textfield.TextInputLayout
         app:passwordToggleEnabled="true"
         style="@style/Widget.AppTheme.TextInputLayoutList"

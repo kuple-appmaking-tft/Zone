@@ -346,8 +346,6 @@
                 android:background="@drawable/edittext_login"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-
-
                 android:padding="3dp">
 
             </com.google.android.material.textfield.TextInputEditText>

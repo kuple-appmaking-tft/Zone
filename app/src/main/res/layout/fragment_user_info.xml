@@ -38,7 +38,7 @@
                     android:id="@+id/textviewState"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="외부인"
+                    android:text="20년도 2학기 학부재학"
                     android:textSize="12sp"
                     android:textColor="#707070"/>
 
@@ -89,7 +89,7 @@
                     android:id="@+id/textviewCollege"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="대학"
+                    android:text="문화스포츠대학"
                     android:textSize="12sp"
                     android:textColor="#707070"/>
 
@@ -97,7 +97,7 @@
                     android:id="@+id/textviewMajor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="학과"
+                    android:text="문화창의학부 미디어문예창작학과"
                     android:textSize="12sp"
                     android:textColor="#707070"/>
             </LinearLayout>
@@ -113,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="학번"
+                    android:text="2018******"
                     android:textSize="12sp"
                     android:textColor="#707070"/>
 
@@ -121,7 +121,7 @@
                     android:id="@+id/textviewName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="이름"
+                    android:text="나마로"
                     android:layout_gravity="right"
                     android:textSize="12sp"
                     android:textColor="#707070"/>
