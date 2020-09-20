@@ -139,8 +139,6 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         //
         final String mDocumentId = getIntent().getStringExtra("DocumentId");//mDocumentId는 디테일 정보받아오기
         final String mBoardName = getIntent().getStringExtra("BoardName");
-        Log.d("디테일:도큐먼트",mDocumentId);
-        Log.d("디테일:보드네임",mBoardName);
         if (mDocumentId != null) {
             documentReference = mStore.collection(mBoardName).document(mDocumentId);
         }
