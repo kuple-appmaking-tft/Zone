@@ -59,30 +59,10 @@ public class BoardFragment extends Fragment {
         HeaderAdapter headerAdapter=new HeaderAdapter(data,getContext(),getActivity());
         recyclerview.setAdapter(headerAdapter);
 
+
+
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         horizentalRecyclerView.setLayoutManager(layoutManager);
-
-
-//        mStore.collection("users").document(firebaseUser.getUid())
-//                .get()
-//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                final UserModel userModel=documentSnapshot.toObject(UserModel.class);
-//                assert userModel != null;
-//
-//                HorizentalAdapter adapter=new HorizentalAdapter(getContext(),userModel.getFavoritList());
-//                adapter.setOnIemlClickListner(new ChildAdapter.OnItemClickListener() {
-//                    @Override
-//                    public void onitemClick(View v, int pos) {
-//                        Intent intent=new Intent(getContext(), CommonboardActivity.class);
-//                        intent.putExtra("BoardName",userModel.getFavoritList().get(pos));
-//                        startActivity(intent);
-//                    }
-//                });
-//                horizentalRecyclerView.setAdapter(adapter);
-//            }
-//        });
         final DocumentReference docRef = mStore.collection("users").document(firebaseUser.getUid());
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
