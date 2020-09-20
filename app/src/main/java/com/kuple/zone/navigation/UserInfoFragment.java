@@ -2,12 +2,14 @@ package com.kuple.zone.navigation;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.os.Debug;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,16 +47,19 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
 
     //view objects
     private Button buttonLogout;
+    private Button buttonUpdate;
 
     // delete user info all
     private Button textivewDelete;
 
     // take user info
     private TextView textviewNickname;
-    private TextView textviewId;
     private TextView textviewName;
-    private TextView textviewGroup;
+    private TextView textviewMajor;
+    private TextView textviewCollege;
     private TextView textviewCode;
+    private TextView textviewState;
+    private TextView textviewUpdate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +70,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         firebaseUser = firebaseAuth.getCurrentUser();
     }
 
-    public void takeUserInfo(final View fragmentView) {
+    public void takeUserInfo(final View v) {
         mFirestore = FirebaseFirestore.getInstance();
         DocumentReference docRef = mFirestore.collection("users").document(firebaseUser.getUid());
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -73,12 +78,32 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 UserModel userModel = documentSnapshot.toObject(UserModel.class);
                 if (userModel == null) {
-                    Toast.makeText(fragmentView.getContext(), "유저 정보를 가져오지 못했습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), "유저 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    textviewNickname.setText("닉네임: " + userModel.getNickname());
-                    textviewId.setText("아이디: " + userModel.getUserEmail());
-                    textviewName.setText("이름: " + userModel.getNickname());
-                    textviewGroup.setText("학적: " + userModel.getPhoneNumber());
+
+                    if(userModel.getNickname() == null){
+                        textviewNickname.setText(userModel.getNickname());
+                    }else{
+                        textviewNickname.setText("닉네임");
+                    }
+
+                    // Student Info
+                    if(userModel.getStudentModel() == null){
+                        Toast.makeText(v.getContext(), "학사 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
+
+                        textviewName.setText("이름");
+                        textviewCollege.setText("대학");
+                        textviewState.setText("외부인");
+                        textviewCode.setText("학번");
+                        textviewMajor.setText("전공");
+                        textviewUpdate.setText("학적사항 업데이트 관련 텍스트\n학적사항 업데이트 관련 텍스트");
+                    }else{
+                        textviewName.setText(userModel.getStudentModel().getName());
+                        textviewCollege.setText(userModel.getStudentModel().getCollege());
+                        textviewState.setText(userModel.getStudentModel().getAcademicInfo());
+                        textviewCode.setText(userModel.getStudentModel().getCode());
+                        textviewMajor.setText(userModel.getStudentModel().getMajor());
+                    }
                 }
             }
         });
@@ -86,13 +111,20 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
 
     public void initializeViewGroup(View v) {
         //initializing views
-        buttonLogout = (Button) v.findViewById(R.id.buttonLogout);
-        textivewDelete = (Button) v.findViewById(R.id.textviewDelete);
-        textviewNickname = (TextView) v.findViewById(R.id.textviewNickname);
-        textviewId = (TextView) v.findViewById(R.id.textviewId);
-        textviewName = (TextView) v.findViewById(R.id.textviewName);
-        textviewGroup = (TextView) v.findViewById(R.id.textviewGroup);
-        textviewCode = (TextView) v.findViewById(R.id.textviewCode);
+        //button
+        buttonLogout = v.findViewById(R.id.buttonLogout);
+        textivewDelete = v.findViewById(R.id.textviewDelete);
+        buttonUpdate = v.findViewById(R.id.update_button);
+
+        //textview
+        textviewNickname = v.findViewById(R.id.textviewNickname);
+        textviewCollege = v.findViewById(R.id.textviewCollege);
+        textviewCode = v.findViewById(R.id.textviewCode);
+        textviewName = v.findViewById(R.id.textviewName);
+        textviewMajor = v.findViewById(R.id.textviewMajor);
+        textviewState = v.findViewById(R.id.textviewState);
+        textviewUpdate = v.findViewById(R.id.update_text);
+
     }
 
     @Override
@@ -109,7 +141,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         // 회원 가입 후 바로 유저의 삭제는 이루어지지 않습니다. (로그인 내역이 있어야 합니다)
         if (view == textivewDelete) {
             final AlertDialog.Builder alert_confirm = new AlertDialog.Builder(view.getContext());
-            alert_confirm.setMessage("정말 계정을 삭제 할까요?").setCancelable(false).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            alert_confirm.setMessage("! 쿠플존에서 탈퇴하시겠습니까?\n\n쿠플존에서 탈퇴하면 대화 내용, 친구 시간표가 모두 삭제됩니다. 탈퇴하시겠습니까?, 탈퇴시 정보는 1개월간 유지됩니다.").setCancelable(false).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     return;
@@ -128,17 +160,54 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                                     } else {
                                         reCredential(view);
                                     }
-
                                 }
                             });
                 }
             });
             alert_confirm.show();
         }
+
+        if(view == buttonUpdate){
+            final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+            LayoutInflater inflater = getLayoutInflater();
+            View inflateView = inflater.inflate(R.layout.dialog_student_info, null);
+            builder.setView(inflateView);
+            final Button submit = (Button) inflateView.findViewById(R.id.buttonSubmit);
+            final Button cancel = (Button) inflateView.findViewById(R.id.buttonCancel);
+            final EditText email = (EditText) inflateView.findViewById(R.id.edittextEmailAddress);
+            final EditText password = (EditText) inflateView.findViewById(R.id.edittextPassword);
+
+            final AlertDialog portal_alert = builder.create();
+            submit.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    String strEmail = email.getText().toString();
+                    String strPassword = password.getText().toString();
+                    Toast.makeText(getContext(), strEmail+"/"+strPassword,Toast.LENGTH_LONG).show();
+                    buttonUpdate.setText("업데이트 완료!");
+                    buttonUpdate.setTextColor(Color.parseColor("#9e9e9e"));
+                    buttonUpdate.setBackgroundColor(Color.parseColor("#eaeaea"));
+
+                    // 업데이트 내역을 보여줍니다.
+                    textviewUpdate.setText("이름, 대학, 전공, 학번, 학적사항이 업데이트 되었습니다.");
+
+                    portal_alert.dismiss();
+                }
+            });
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    portal_alert.dismiss();
+                }
+            });
+
+
+            portal_alert.show();
+        }
     }
 
+    // 로그인한지 오래되거나 재인증이 필요한 경우 탈퇴가 이루어지지 않습니다.
     private void reCredential(final View view) {
-        // 로그인한지 오래되거나 재인증이 필요한 경우 탈퇴가 이루어지지 않습니다.
         final EditText edittext = new EditText(view.getContext());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -163,7 +232,6 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                                                                 getActivity().finish();
                                                                 startActivity(new Intent(view.getContext(), LoginActivity.class));
                                                             } else {
-                                                                reCredential(view);
                                                             }
 
                                                         }
@@ -192,9 +260,10 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         // 유저 정보를 뷰에 보여줍니다.
         takeUserInfo(fragmentView);
 
-        //logout button event
+        // 버튼 이벤트
         buttonLogout.setOnClickListener(this);
         textivewDelete.setOnClickListener(this);
+        buttonUpdate.setOnClickListener(this);
 
         // Inflate the layout for this fragment
         return fragmentView;

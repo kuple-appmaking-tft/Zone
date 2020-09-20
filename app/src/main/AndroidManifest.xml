@@ -37,6 +37,7 @@
             tools:ignore="MissingClass" />
         <activity
             android:name=".login.SignupActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge" />
             tools:ignore="MissingClass" />
         <activity android:name=".timetable.TimeTablePlusActivity" />
         <activity
@@ -44,6 +45,7 @@
             tools:ignore="MissingClass" />
         <activity
             android:name=".login.LoginActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"
             tools:ignore="MissingClass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

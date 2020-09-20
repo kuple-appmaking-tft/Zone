@@ -15,6 +15,16 @@ public class UserModel {
     private String userphoto;
     private String usermsg;
 
+    private StudentModel studentModel;
+
+    public StudentModel getStudentModel() {
+        return studentModel;
+    }
+
+    public void setStudentModel(StudentModel studentModel) {
+        this.studentModel = studentModel;
+    }
+
     private ArrayList<String> favoritList;
 
     public ArrayList<String> getFavoritList() {

@@ -37,12 +37,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     EditText editTextEmail;
     EditText editTextPassword;
     EditText editTextPasswordCheck;
-    EditText editTextPhone;
     EditText editTextNickname;
     Button buttonSignup;
+    TextView signup_condition;
 
-    TextView textviewSingin;
-    TextView textviewMessage;
+    Button buttonCancel;
     ProgressDialog progressDialog;
 
     // Firebase 정의
@@ -69,17 +68,18 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextPasswordCheck = findViewById(R.id.editTextPasswordCheck);
-        editTextPhone = findViewById(R.id.editTextPhone);
-        editTextNickname = findViewById(R.id.editTextNickname);
-        textviewSingin = findViewById(R.id.textViewSignin);
 
-        textviewMessage = findViewById(R.id.textviewMessage);
+        editTextNickname = findViewById(R.id.editTextNickname);
+        buttonCancel = findViewById(R.id.buttonCancel);
+        signup_condition = findViewById(R.id.signup_condition);
+
         buttonSignup = findViewById(R.id.buttonSignup);
         progressDialog = new ProgressDialog(this);
 
         //button click event
         buttonSignup.setOnClickListener(this);
-        textviewSingin.setOnClickListener(this);
+        buttonCancel.setOnClickListener(this);
+        signup_condition.setOnClickListener(this);
     }
 
     //button click event
@@ -90,9 +90,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             registerUser();
         }
 
-        if (view == textviewSingin) {
+        if (view == buttonCancel) {
             finish();
-            startActivity(new Intent(this, LoginActivity.class)); //추가해 줄 로그인 액티비티
+        }
+
+        if(view == signup_condition){
+            startActivity(new Intent(getApplicationContext(), AgreementActivity.class));
         }
     }
 
@@ -102,7 +105,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String passwordCheck = editTextPasswordCheck.getText().toString().trim();
-        String phoneNumber = editTextPhone.getText().toString().trim();
 
         String nickname = editTextNickname.getText().toString().trim();
 
@@ -139,9 +141,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                             checkProcess(email, password);
                         } else {
                             //에러발생시
-                            textviewMessage.setText("회원가입에 실패했습6니다. \n\n - 이미 등록된 이메일  \n - 암호 최소 6자리 이상");
-                            Toast.makeText(SignupActivity.this, "등록 에러!", Toast.LENGTH_SHORT).show();
-                            return;
+                            Toast.makeText(SignupActivity.this, "회원가입에 실패했습6니다. \n\n - 이미 등록된 이메일  \n - 암호 최소 6자리 이상", Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
                     }
@@ -162,7 +162,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                             userModel.setUid(uid);
                             userModel.setUsermsg("...");
                             userModel.setUserEmail(editTextEmail.getText().toString());
-                            userModel.setPhoneNumber(editTextPhone.getText().toString());
                             userModel.setNickname(editTextNickname.getText().toString());
                             userModel.setFavoritList(new ArrayList<String>());
 
