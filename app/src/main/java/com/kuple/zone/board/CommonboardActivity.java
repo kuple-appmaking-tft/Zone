@@ -69,7 +69,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
                 startActivity(intent);
             }
         });
-        mBoardTitleName=findViewById(R.id.normal_second_constraint);
+        mBoardTitleName=findViewById(R.id.normal_title_constraint1);
         mBoardTitleName.setText(mBoardName);
 
 
