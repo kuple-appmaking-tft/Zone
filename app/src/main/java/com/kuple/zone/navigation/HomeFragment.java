@@ -1,7 +1,6 @@
 package com.kuple.zone.navigation;
 
 import android.content.Intent;
-import android.graphics.Path;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -92,7 +91,7 @@ public class HomeFragment extends Fragment {
 
     private void RetrieveFireStore(final String collectionName, final RecyclerView recyclerView) {
 
-        mStore.collection(collectionName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            mStore.collection(collectionName).orderBy("viewcount").startAt(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull final Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -116,7 +115,6 @@ public class HomeFragment extends Fragment {
                     });
                     recyclerView.setAdapter(feedAdapter);
                 } else {
-
                 }
             }
             //
