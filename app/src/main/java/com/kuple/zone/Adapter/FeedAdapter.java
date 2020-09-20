@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.text.Layout;
 import android.util.Base64;
 import android.util.Log;
@@ -37,7 +38,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder>{
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder> {
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private ArrayList<BoardInfo> arrayList_feed;
     private Context mContext;
@@ -47,7 +48,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     private String mBoardName;
     private RequestManager glide;
 
-    public FeedAdapter(ArrayList<BoardInfo> arrayList_feed,Context mContext) {
+    public FeedAdapter(ArrayList<BoardInfo> arrayList_feed, Context mContext) {
         this.arrayList_feed = arrayList_feed;
         this.mContext = mContext;
     }
@@ -55,20 +56,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     public interface OnItemClickListener {
         void onitemClick(View v, int pos);
     }
+
     private FeedAdapter.OnItemClickListener mListener = null;
+
     public void setOnIemlClickListner(FeedAdapter.OnItemClickListener listner) {
         this.mListener = listner;
     }
 
     @Override
     public FeedViewHolder onCreateViewHolder(@Nonnull ViewGroup parent, int viewType) {
-        return new FeedViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_feed,parent,false));
+        return new FeedViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_feed, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final FeedViewHolder holder, int position) {
         final BoardInfo modelFeed = arrayList_feed.get(position);
         final String documentId = modelFeed.getDocumentId();
+        //제목 가져오기
         holder.tv_feedtitle.setText(modelFeed.getTitle());
         //작성자 닉네임 가져오기
         holder.tv_name.setText(modelFeed.getNickname());
@@ -96,15 +100,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         //n표시
         if (date.substring(4, 10).equals(dateMonthDay)) {
         }
-//        //이미지 불러오기
-//        SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
-//        if (modelFeed.getmDownloadURIList()!= null&&modelFeed.getmDownloadURIList().size()!=0){
-//            for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
-//                if(modelFeed.getmDownloadURIList() == null)
-//                    holder.img_post.setVisibility(View.GONE);
-//                sliderAdapterExample.addItem(new SliderItem(modelFeed.getmDownloadURIList().get(i)));
-//            }
-//        }
+        // SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
+        if (modelFeed.getmDownloadURIList() != null && modelFeed.getmDownloadURIList().size() != 0) {
+            for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
+                holder.img_post.setImageURI(Uri.parse(modelFeed.getmDownloadURIList().get(i)));
+            }
+        }
 
         //작성자
 //        String writer = modelFeed.getUid();
@@ -121,7 +122,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 //                }
 //            }
 //        });
-       // glide = Glide.with(mContext);
+        // glide = Glide.with(mContext);
         /* 이미지그려주기
         if (modelFeed.getmDownloadURIList().size() != 0) {
             Glide.with(holder.img_post).load(modelFeed.getmDownloadURIList().get(0)).into(holder.img_post);
@@ -160,8 +161,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
         public FeedViewHolder(View itemView) {
             super(itemView);
-            tv_time = (TextView)itemView.findViewById(R.id.tv_time);
-            tv_name = (TextView)itemView.findViewById(R.id.tv_name);
+            tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_boardtitle = (TextView) itemView.findViewById(R.id.tv_boardtitle);
             tv_feedtitle = (TextView) itemView.findViewById(R.id.tv_feed_title);
             tv_post = (TextView) itemView.findViewById(R.id.tv_post);

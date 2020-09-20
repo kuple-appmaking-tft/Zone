@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.Adapter.FeedAdapter;
@@ -25,11 +26,13 @@ import com.kuple.zone.board.DetailActivity;
 import com.kuple.zone.board.MealWebViewActivity;
 import com.kuple.zone.board.WebViewActivity;
 import com.kuple.zone.model.BoardInfo;
+import com.kuple.zone.model.RoundImageView;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView0;
+    private RoundImageView roundImageView;
     private ArrayList<BoardInfo> modelFeedArrayList;
     private FeedAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -42,7 +45,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mRecyclerView0 = (RecyclerView) view.findViewById(R.id.feedKuple0);
-
+        roundImageView = (RoundImageView)view.findViewById(R.id.img_profile);
+        roundImageView.setRectRadius(100f);
         String[] boardarray = {"쿠플광장", "고민상담", "쑥덕쑥덕", "졸업생 게시판", "쿠플툰", "먹쿠먹쿠", "강의평가", "합격수기", "취업광장", "스터디게시판", "꿀팁게시판"
                 , "부동산", "구인구직", "중고거래", "분실물신고", "총학생회"};
 
@@ -85,7 +89,8 @@ public class HomeFragment extends Fragment {
 
     private void RetrieveFireStore(final String collectionName, final RecyclerView recyclerView) {
 
-        mStore.collection(collectionName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        mStore.collection(collectionName).orderBy("viewCount", Query.Direction.DESCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull final Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
