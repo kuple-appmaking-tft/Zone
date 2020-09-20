@@ -33,4 +33,7 @@
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
+
+
+    <item name="photoView" type="id" />
 </resources>

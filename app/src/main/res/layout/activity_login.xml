@@ -1,79 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".login.LoginActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+    <ImageView
+        android:layout_width="360dp"
+        android:layout_height="56dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        android:background="#ffacac"
-        android:textColor="@color/colorAccent"
-        android:textSize="23dp" />
+        android:layout_marginTop="96dp"
+        android:src="@drawable/kuple"/>
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:hint="이메일"
-        android:inputType="textEmailAddress" />
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        app:passwordToggleEnabled="true"
+        style="@style/Widget.AppTheme.TextInputLayoutList"
+        android:layout_width="327dp"
+        android:layout_height="56dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="141dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:boxStrokeColor="@color/mainRed"
+        app:hintTextColor="@color/mainRed"
+        android:hint="Email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        app:passwordToggleEnabled="true"
+        style="@style/Widget.AppTheme.TextInputLayoutList"
+        android:layout_width="327dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_margin="10dp"
-        android:hint="비밀번호"
-        android:inputType="textPassword" />
+        app:boxStrokeColor="@color/mainRed"
+        app:hintTextColor="@color/mainRed"
+
+        android:hint="Password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/buttonSignup"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="327dp"
+        android:layout_height="33dp"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="15dp"
-        android:background="#fbbd5c"
+        android:layout_marginTop="39dp"
+        android:background="#862633"
+        android:textColor="#ffffff"
+        android:textSize="23sp"
         android:text="로그인" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewFindpassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="263dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="114dp"
+            android:gravity="center_horizontal"
             android:text="아이디/비밀번호찾기"
-            android:textSize="20dp" />
+            android:textColor="#9e9e9e"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textViewSignin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_width="263dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
             android:text="쿠플존 회원가입"
             android:textColor="#971c3c"
-            android:textSize="25dp" />
+            android:textSize="20sp" />
+        <TextView
+            android:layout_width="360dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="46dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="문의 kuplezone0918@gmail.com"/>
 
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/textviewMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="50dp"
-        android:textColor="@color/colorAccent" />
 
 </LinearLayout>

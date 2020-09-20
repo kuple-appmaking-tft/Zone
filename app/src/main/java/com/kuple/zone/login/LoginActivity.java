@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,10 +27,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //define view objects
     EditText editTextEmail;
-    EditText editTextPassword;
+    TextInputEditText editTextPassword;
     Button buttonSignin;
     TextView textviewSingin;
-    TextView textviewMessage;
     TextView textviewFindPassword;
     ProgressDialog progressDialog;
 
@@ -58,12 +59,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         //initializing views
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        textviewSingin = (TextView) findViewById(R.id.textViewSignin);
-        textviewMessage = (TextView) findViewById(R.id.textviewMessage);
-        textviewFindPassword = (TextView) findViewById(R.id.textViewFindpassword);
-        buttonSignin = (Button) findViewById(R.id.buttonSignup);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        textviewSingin = findViewById(R.id.textViewSignin);
+        textviewFindPassword = findViewById(R.id.textViewFindpassword);
+        buttonSignin = findViewById(R.id.buttonSignup);
         progressDialog = new ProgressDialog(this);
 
         //button click event
@@ -105,8 +105,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             finish();
 
                         } else {
-                            Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
-                            textviewMessage.setText("로그인 실패 유형\n - password가 맞지 않습니다.\n -서버에러");
+                            Toast.makeText(getApplicationContext(), "아이디나 패스워드가 맞지않습니다", Toast.LENGTH_LONG).show();
+
                         }
                     }
                 });
