@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="100dp"
+                    android:layout_marginStart="90dp"
                     android:fontFamily="sans-serif"
                     android:text="20.08.06 24:00"
                     android:textColor="@color/colorLightGray"
@@ -91,59 +91,58 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rv_profile"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:fontFamily="sans-serif"
-        android:gravity="left"
+        android:gravity="center_vertical"
         android:text="제목"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
         android:textStyle="bold"
         tools:ignore="RtlHardcoded" />
 
-    <TextView
-        android:id="@+id/tv_post"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_feed_title"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_weight="1"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="5"
-        android:text="Loading ---"
-        android:textColor="@color/colorBlack"
-        android:textSize="16sp"
-        tools:ignore="ObsoleteLayoutParam" />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_post"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/tv_feed_title"-->
+<!--        android:layout_marginLeft="15dp"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:layout_marginRight="15dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:ellipsize="end"-->
+<!--        android:gravity="center"-->
+<!--        android:maxLines="5"-->
+<!--        android:text="Loading -&#45;&#45;"-->
+<!--        android:textColor="@color/colorBlack"-->
+<!--        android:textSize="16sp"-->
+<!--        tools:ignore="ObsoleteLayoutParam" />-->
 
     <com.github.irshulx.Editor
         android:id="@+id/FeedRender"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingBottom="10dp"
+        android:gravity="center"
         app:render_type="Renderer"
-        android:layout_below="@+id/tv_post"/>
+        android:layout_below="@+id/tv_feed_title"/>
 
-    <ImageView
-        android:id="@+id/img_post"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@id/tv_post"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="TODO"
-        android:scaleType="fitCenter"
-        android:src="@drawable/document"
-        android:visibility="visible"
-        tools:ignore="ContentDescription,HardcodedText" />
+<!--    <ImageView-->
+<!--        android:id="@+id/img_post"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:layout_below="@id/tv_post"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:contentDescription="TODO"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        android:src="@drawable/document"-->
+<!--        android:visibility="visible"-->
+<!--        tools:ignore="ContentDescription,HardcodedText" />-->
 
     <View
-        android:layout_below="@id/img_post"
+        android:layout_below="@id/FeedRender"
         android:layout_width="match_parent"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -156,7 +155,7 @@
         android:id="@+id/rv_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/img_post"
+        android:layout_below="@+id/FeedRender"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp">
@@ -198,7 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="UseCompoundDrawables"
-            android:layout_marginLeft="240dp">
+            android:layout_marginLeft="260dp">
 
             <ImageView
                 android:layout_width="15dp"
@@ -222,7 +221,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="UseCompoundDrawables"
-            android:layout_marginLeft="280dp">
+            android:layout_marginLeft="300dp">
 
             <ImageView
                 android:layout_width="15dp"

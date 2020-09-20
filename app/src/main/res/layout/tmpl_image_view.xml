@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="20dp"
     android:paddingTop="20dp">
 
-    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@color/lightBackground" />
+        android:src="@color/lightBackground"
+        android:contentDescription="TODO"
+        tools:ignore="ContentDescription,HardcodedText" />
 
     <com.github.irshulx.Components.CustomEditText
         android:id="@+id/desc"
@@ -23,10 +26,10 @@
         android:layout_below="@+id/imageView"
         android:layout_marginTop="3dp"
         android:background="@android:color/transparent"
-        android:gravity="center_horizontal"
-        android:hint="Description here (optional)"
+        android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:visibility="gone"
         android:textColor="@color/darktext"
         android:textSize="12sp" />
 
@@ -67,14 +70,16 @@
         android:id="@+id/btn_remove"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:maxHeight="40dp"
         android:maxWidth="40dp"
         android:src="@drawable/ic_close_white_36dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:contentDescription="TODO"
+        tools:ignore="ContentDescription,HardcodedText" />
 
 
 </RelativeLayout>

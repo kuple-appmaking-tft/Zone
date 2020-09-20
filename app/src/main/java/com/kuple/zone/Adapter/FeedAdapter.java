@@ -125,11 +125,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         renderer.setEditorListener(new EditorListener() {
             @Override
             public void onTextChanged(EditText editText, Editable text) {
-
             }
             @Override
             public void onUpload(Bitmap image, String uuid) {
-
             }
             @Override
             public View onRenderMacro(String name, Map<String, Object> settings, int index) {
@@ -138,16 +136,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             }
         });
         renderer.render(Deserialized);
-        SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
-        glide = Glide.with(mContext);
-        if (modelFeed.getmDownloadURIList().size() != 0) {
-            for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
-                sliderAdapterExample.addItem(new SliderItem(modelFeed.getmDownloadURIList().get(i)));
-                Glide.with(holder.img_post).load(modelFeed.getmDownloadURIList().get(i)).into(holder.img_post);
-            }
-        } else {
-            holder.img_post.setVisibility(View.GONE);
-        }
+//        SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
+//        glide = Glide.with(mContext);
+//        if (modelFeed.getmDownloadURIList().size() != 0) {
+//            for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
+//                sliderAdapterExample.addItem(new SliderItem(modelFeed.getmDownloadURIList().get(i)));
+//                Glide.with(holder.img_post).load(modelFeed.getmDownloadURIList().get(i)).into(holder.img_post);
+//            }
+//        } else {
+//            holder.img_post.setVisibility(View.GONE);
+//        }
 
                 //작성자
 //        String writer = modelFeed.getUid();
@@ -219,9 +217,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_boardtitle = (TextView) itemView.findViewById(R.id.tv_boardtitle);
             tv_feedtitle = (TextView) itemView.findViewById(R.id.tv_feed_title);
-            tv_post = (TextView) itemView.findViewById(R.id.tv_post);
+            //tv_post = (TextView) itemView.findViewById(R.id.tv_post);
             tv_commentcount = (TextView) itemView.findViewById(R.id.tv_comment);
-            img_post = (ImageView) itemView.findViewById(R.id.img_post);
+            //img_post = (ImageView) itemView.findViewById(R.id.img_post);
             tv_like = (TextView) itemView.findViewById(R.id.tv_like);
             tv_view = (TextView) itemView.findViewById(R.id.tv_view);
 
