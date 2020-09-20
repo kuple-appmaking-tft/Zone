@@ -100,14 +100,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         //n표시
         if (date.substring(4, 10).equals(dateMonthDay)) {
         }
-        // SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
-        if (modelFeed.getmDownloadURIList() != null && modelFeed.getmDownloadURIList().size() != 0) {
+        SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
+        glide = Glide.with(mContext);
+        if (modelFeed.getmDownloadURIList().size() != 0) {
             for (int i = 0; i < modelFeed.getmDownloadURIList().size(); i++) {
-                holder.img_post.setImageURI(Uri.parse(modelFeed.getmDownloadURIList().get(i)));
+                sliderAdapterExample.addItem(new SliderItem(modelFeed.getmDownloadURIList().get(i)));
+                Glide.with(holder.img_post).load(modelFeed.getmDownloadURIList().get(i)).into(holder.img_post);
             }
+        } else {
+            holder.img_post.setVisibility(View.GONE);
         }
 
-        //작성자
+                //작성자
 //        String writer = modelFeed.getUid();
 //        mStore.collection("users").document(writer).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 //            @SuppressLint("SetTextI18n")
@@ -122,14 +126,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 //                }
 //            }
 //        });
-        // glide = Glide.with(mContext);
-        /* 이미지그려주기
-        if (modelFeed.getmDownloadURIList().size() != 0) {
-            Glide.with(holder.img_post).load(modelFeed.getmDownloadURIList().get(0)).into(holder.img_post);
-        } else {
-            holder.img_post.setVisibility(View.INVISIBLE);
-        }
-        */
     }
 
     public static Bitmap StringToBitmap(String encodedString) {

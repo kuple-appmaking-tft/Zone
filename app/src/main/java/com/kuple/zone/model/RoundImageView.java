@@ -5,12 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 public class RoundImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     // 라운드처리 강도 값을 크게하면 라운드 범위가 커짐
-    public static float radius = 20.0f;
+    private static float radius = 100f;
 
     public RoundImageView(Context context) {
         super(context);
@@ -24,7 +23,7 @@ public class RoundImageView extends androidx.appcompat.widget.AppCompatImageView
         super(context, attrs, defStyle);
     }
 
-    public void setRectRadius(Float radius){
+    public void setRadius(Float radius){
         this.radius = radius;
         invalidate();
     }

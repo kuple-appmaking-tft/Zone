@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     android:clickable="true"
     tools:context=".navigation.HomeFragment">
@@ -20,7 +20,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/feedLayout"
@@ -135,9 +135,9 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_gravity="center"
+                        android:contentDescription="TODO"
                         android:scaleType="fitXY"
                         android:src="@drawable/btn_map"
-                        android:contentDescription="TODO"
                         tools:ignore="ContentDescription,HardcodedText" />
 
                     <TextView
@@ -152,26 +152,16 @@
                         android:textSize="10dp"
                         android:visibility="visible" />
                 </LinearLayout>
-
             </LinearLayout>
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feedKuple"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/feedLayout"
+                android:layout_marginTop="7dp"
                 android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/feedKuple0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/feedLayout"
-                    android:layout_marginTop="10dp"
-                    android:scrollbars="vertical"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </RelativeLayout>
     </ScrollView>
@@ -182,4 +172,5 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="gone" />
+
 </RelativeLayout>
