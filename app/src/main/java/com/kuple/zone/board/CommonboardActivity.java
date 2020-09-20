@@ -69,7 +69,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
                 startActivity(intent);
             }
         });
-        mBoardTitleName=findViewById(R.id.normal_second_constraint);
+        mBoardTitleName=findViewById(R.id.normal_title_constraint1);
         mBoardTitleName.setText(mBoardName);
 
 
@@ -87,7 +87,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
 //            Log.d("양성열","실패");
 //        }
     }
-
+//
     public void retreive_Testing(String boardname) {
         loadingbar.setTitle("Set profile image");
         loadingbar.setMessage("pleas wait업로딩중");
