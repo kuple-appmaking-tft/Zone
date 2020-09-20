@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1000" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#29000000">
+
+        <Button
+            android:id="@+id/imageBtn"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/photo" />
+<!--
+        <Button
+            android:id="@+id/fileBtn"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_save" />
+-->
+
+        <EditText
+            android:id="@+id/msg_input"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginRight="16dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/imageBtn"
+            android:background="#ffffff"
+            android:singleLine="true"/>
+
+        <ImageButton
+            android:id="@+id/sendBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_alignTop="@+id/msg_input"
+            android:layout_alignBottom="@+id/msg_input"
+            android:layout_alignRight="@+id/msg_input"
+            android:background="@drawable/edit"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
