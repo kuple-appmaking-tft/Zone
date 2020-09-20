@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.text.Editable;
 import android.text.Layout;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.github.irshulx.Editor;
+import com.github.irshulx.EditorListener;
+import com.github.irshulx.models.EditorContent;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -35,6 +40,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -100,6 +106,32 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         //n표시
         if (date.substring(4, 10).equals(dateMonthDay)) {
         }
+//        Editor renderer= (Editor)findViewById(R.id.FeedRender);
+//        Map<Integer, String> headingTypeface = getHeadingTypeface();
+//        Map<Integer, String> contentTypeface = getContentface();
+//        renderer.setHeadingTypeface(headingTypeface);
+//        renderer.setContentTypeface(contentTypeface);
+//        renderer.setDividerLayout(R.layout.tmpl_divider_layout);
+//        renderer.setEditorImageLayout(R.layout.tmpl_image_view);
+//        renderer.setListItemLayout(R.layout.tmpl_list_item);
+//        //String content= mSerialized;
+//        EditorContent Deserialized= renderer.getContentDeserialized(boardInfo.getContent());
+//        renderer.setEditorListener(new EditorListener() {
+//            @Override
+//            public void onTextChanged(EditText editText, Editable text) {
+//
+//            }
+//            @Override
+//            public void onUpload(Bitmap image, String uuid) {
+//
+//            }
+//            @Override
+//            public View onRenderMacro(String name, Map<String, Object> settings, int index) {
+//                View view = getLayoutInflater().inflate(R.layout.layout_authored_by, null);
+//                return view;
+//            }
+//        });
+//        renderer.render(Deserialized);
         SliderAdapterExample sliderAdapterExample = new SliderAdapterExample(mContext);
         glide = Glide.with(mContext);
         if (modelFeed.getmDownloadURIList().size() != 0) {
@@ -148,6 +180,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         private TextView tv_name;
         private TextView tv_feedtitle;
         private TextView tv_post;
+        private Editor   FeedRender;
         private TextView tv_view;
         private TextView tv_time;
         private TextView tv_commentcount;
@@ -157,6 +190,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
         public FeedViewHolder(View itemView) {
             super(itemView);
+            FeedRender = (Editor) itemView.findViewById(R.id.FeedRender);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_boardtitle = (TextView) itemView.findViewById(R.id.tv_boardtitle);
