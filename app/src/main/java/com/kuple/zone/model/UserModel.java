@@ -2,6 +2,8 @@ package com.kuple.zone.model;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 public class UserModel {
 
     private String uid;
@@ -17,6 +19,26 @@ public class UserModel {
 
     private StudentModel studentModel;
 
+    private ArrayList<String> favoritList;
+    private ArrayList<BoardInfo> boardInfoList;
+    private ArrayList<ReplyActModel> replyList;
+
+    public ArrayList<ReplyActModel> getReplyList() {
+        return replyList;
+    }
+
+    public void setReplyList(ArrayList<ReplyActModel> replyList) {
+        this.replyList = replyList;
+    }
+
+    public ArrayList<BoardInfo> getBoardInfoList() {
+        return boardInfoList;
+    }
+
+    public void setBoardInfoList(ArrayList<BoardInfo> boardInfoList) {
+        this.boardInfoList = boardInfoList;
+    }
+
     public StudentModel getStudentModel() {
         return studentModel;
     }
@@ -24,8 +46,6 @@ public class UserModel {
     public void setStudentModel(StudentModel studentModel) {
         this.studentModel = studentModel;
     }
-
-    private ArrayList<String> favoritList;
 
     public ArrayList<String> getFavoritList() {
         return favoritList;
@@ -98,5 +118,6 @@ public class UserModel {
     public void setUsermsg(String usermsg) {
         this.usermsg = usermsg;
     }
+
 }
 

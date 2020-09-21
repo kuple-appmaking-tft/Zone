@@ -59,8 +59,6 @@ public class BoardFragment extends Fragment {
         HeaderAdapter headerAdapter=new HeaderAdapter(data,getContext(),getActivity());
         recyclerview.setAdapter(headerAdapter);
 
-
-
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         horizentalRecyclerView.setLayoutManager(layoutManager);
         final DocumentReference docRef = mStore.collection("users").document(firebaseUser.getUid());

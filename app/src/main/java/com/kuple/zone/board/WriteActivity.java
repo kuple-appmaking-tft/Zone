@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -82,8 +84,6 @@ public class WriteActivity extends AppCompatActivity {
     private final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     String mBoardName;
 
-
-
     private DocumentReference documentReference;
     Editor editor;
 
@@ -118,7 +118,6 @@ public class WriteActivity extends AppCompatActivity {
 
     private void uploadStore(final BoardInfo boardInfo) {
 
-
 //                final DocumentReference documentReference = db.collection("Board").document();
         documentReference.set(boardInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -137,6 +136,32 @@ public class WriteActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+    // upload any type of class, I hope to combine with method uploadStore
+    private void uploadStoreUserModel(final UserModel model, final BoardInfo boardInfo){
+        ArrayList<BoardInfo> boardInfoList = new ArrayList<>();
+
+        if(model.getBoardInfoList() != null){
+            boardInfoList = model.getBoardInfoList();
+        }
+        boardInfoList.add(boardInfo);
+        model.setBoardInfoList(boardInfoList);
+
+        db.collection("users").document(model.getUid()).set(model, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("WriteActivity", "UploadStoreUserModel update Success");
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("WriteActivity", "UploadStoreUserModel update fail");
+                finish();
+            }
+        });;
 
     }
 
@@ -315,6 +340,8 @@ public class WriteActivity extends AppCompatActivity {
                         UserModel fm = documentSnapshot.toObject(UserModel.class);
                         assert fm != null;
                         try {
+
+
 //                            holder.mSubinfo.setText(fm.nickname + " " + finaldate + " ");
                             nickname=fm.getNickname();
                             BoardInfo boardInfo = new BoardInfo(
@@ -331,6 +358,8 @@ public class WriteActivity extends AppCompatActivity {
                                     ,nickname
                                     ,mBoardName
                             );
+
+                            uploadStoreUserModel(fm, boardInfo);
                             uploadStore(boardInfo);
                             //holder.mSubinfo.setText("테스트");
                         } catch (Exception e) {

@@ -49,7 +49,6 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
 
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
-
     public CommonAdapter(List<BoardInfo> mBoardInfo, Context mContext, FirebaseUser mFirebaseUser, OnItemClick listener, String mBoardName) {
         this.mBoardInfo = mBoardInfo;
         this.mContext = mContext;

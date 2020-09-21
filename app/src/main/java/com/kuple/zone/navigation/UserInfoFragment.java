@@ -1,5 +1,6 @@
 package com.kuple.zone.navigation;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,14 +9,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Debug;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,24 +29,56 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.kuple.zone.Adapter.CommonAdapter;
+import com.kuple.zone.Adapter.ReplyActAdapter;
+import com.kuple.zone.Adapter.ReplyAdapter;
+import com.kuple.zone.Inteface.OnItemClick;
 import com.kuple.zone.R;
+import com.kuple.zone.board.CommonboardActivity;
+import com.kuple.zone.board.DetailActivity;
 import com.kuple.zone.login.LoginActivity;
+import com.kuple.zone.model.BoardInfo;
+import com.kuple.zone.model.ReplyActModel;
+import com.kuple.zone.model.ReplyInfo;
 import com.kuple.zone.model.UserModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserInfoFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "UserFragment";
+
+    private UserModel userModel;
+
+    // Recycler Adapter
+    private CommonAdapter mBoardAdapter;
+    private ReplyActAdapter mReplyAdapter;
 
     //firebase auth object
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore mFirestore;
 
+    // loading ui
+    private ProgressDialog loadingbar;
+
+
     // firebase database reference
     private DatabaseReference mDatabase;
+
+    // Views
+    private RecyclerView recyclerView;
+    private LinearLayout layoutReply;
+    private LinearLayout layoutBoard;
+    private LinearLayout layoutScrap;
 
     //view objects
     private Button buttonLogout;
@@ -60,14 +95,20 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
     private TextView textviewCode;
     private TextView textviewState;
     private TextView textviewUpdate;
+    private TextView textviewBoardCount;
+    private TextView textviewReplyCount;
+    private TextView textviewScrapCount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loadingbar = new ProgressDialog(getContext());//로딩바
         //initializing firebase authentication object
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+
     }
 
     public void takeUserInfo(final View v) {
@@ -76,15 +117,19 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                UserModel userModel = documentSnapshot.toObject(UserModel.class);
+                userModel = documentSnapshot.toObject(UserModel.class);
                 if (userModel == null) {
                     Toast.makeText(v.getContext(), "유저 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 } else {
+                    showMyActBoardList(userModel);
 
                     if(userModel.getNickname() == null){
-                        textviewNickname.setText(userModel.getNickname());
-                    }else{
                         textviewNickname.setText("닉네임");
+
+                    }else{
+                        textviewNickname.setText(userModel.getNickname());
+                        textviewBoardCount.setText("" + userModel.getBoardInfoList().size());
+                        textviewReplyCount.setText("" + userModel.getReplyList().size());
                     }
 
                     // Student Info
@@ -105,6 +150,9 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                         textviewMajor.setText(userModel.getStudentModel().getMajor());
                     }
                 }
+
+
+
             }
         });
     }
@@ -116,6 +164,12 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         textivewDelete = v.findViewById(R.id.textviewDelete);
         buttonUpdate = v.findViewById(R.id.update_button);
 
+        //views
+        recyclerView = v.findViewById(R.id.recyclerView);
+        layoutReply = v.findViewById(R.id.layout_reply);
+        layoutBoard = v.findViewById(R.id.layout_board);
+        layoutScrap = v.findViewById(R.id.layout_scrab);
+
         //textview
         textviewNickname = v.findViewById(R.id.textviewNickname);
         textviewCollege = v.findViewById(R.id.textviewCollege);
@@ -124,6 +178,9 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         textviewMajor = v.findViewById(R.id.textviewMajor);
         textviewState = v.findViewById(R.id.textviewState);
         textviewUpdate = v.findViewById(R.id.update_text);
+        textviewBoardCount = v.findViewById(R.id.textview_board_count);
+        textviewReplyCount = v.findViewById(R.id.textview_reply_count);
+        textviewScrapCount = v.findViewById(R.id.textview_scrap_count);
 
     }
 
@@ -195,6 +252,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                 }
             });
 
+
             cancel.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     portal_alert.dismiss();
@@ -265,7 +323,97 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         textivewDelete.setOnClickListener(this);
         buttonUpdate.setOnClickListener(this);
 
+        layoutBoard.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                showMyActBoardList(userModel);
+                return false;
+            }
+        });
+
+        layoutReply.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                showMyActReplyList(userModel);
+                return false;
+            }
+        });
+
+        layoutScrap.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+
+                return false;
+            }
+        });
+
+
         // Inflate the layout for this fragment
         return fragmentView;
+    }
+
+    private void showMyActBoardList(UserModel userModel){
+
+        loadingbar.setMessage("유저 정보를 불러옵니다.");
+        loadingbar.setCanceledOnTouchOutside(false);
+        loadingbar.show();
+
+        final ArrayList<BoardInfo> mBoardList = new ArrayList<>();
+
+        for (BoardInfo boardInfo : userModel.getBoardInfoList()) {
+            if (boardInfo.getDeleted_at().equals("0")) {
+                mBoardList.add(boardInfo);
+            } else {
+                Log.d(TAG, "삭제됬었음");
+            }
+        }
+        OnItemClick onItemClick = new OnItemClick() {
+            @Override
+            public void onClick(String value) {
+            }
+        };
+
+        mBoardAdapter = new CommonAdapter(userModel.getBoardInfoList(), getActivity(), firebaseUser, onItemClick, "");
+        mBoardAdapter.setOnIemlClickListner(new CommonAdapter.OnItemClickListener() {//Detail 액티비티로 이동
+            @Override
+            public void onitemClick(View v, int pos) {
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra("DocumentId", mBoardList.get(pos).getDocumentId());
+                intent.putExtra("BoardName", mBoardList.get(pos).getBoardName());
+                startActivity(intent);
+            }
+        });
+        recyclerView.setAdapter(mBoardAdapter);
+        loadingbar.dismiss();
+
+    }
+
+    private void showMyActReplyList(UserModel userModel) {
+
+        loadingbar.show();
+
+        List<ReplyActModel> replyInfoList = new ArrayList<>();
+
+        for (ReplyActModel replyActModel : userModel.getReplyList()) {
+
+            assert replyActModel != null;
+            if (replyActModel.getDeleted_at().equals("0")) {
+                replyInfoList.add(replyActModel);
+            }
+        }
+
+        OnItemClick onItemClick = new OnItemClick() {
+            @Override
+            public void onClick(String value) {
+            }
+        };
+
+        mReplyAdapter = new ReplyActAdapter(userModel, replyInfoList, getContext());
+        recyclerView.setAdapter(mReplyAdapter);
+
+        loadingbar.dismiss();
+
+
     }
 }
