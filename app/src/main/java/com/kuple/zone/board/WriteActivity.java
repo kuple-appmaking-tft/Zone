@@ -1,7 +1,11 @@
 package com.kuple.zone.board;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,12 +15,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.irshulx.Editor;
 import com.github.irshulx.EditorListener;
@@ -40,7 +42,11 @@ import com.google.firebase.storage.UploadTask;
 import com.kuple.zone.Adapter.SliderAdapterExample;
 import com.kuple.zone.R;
 import com.kuple.zone.model.BoardInfo;
+import com.kuple.zone.model.SliderItem;
 import com.kuple.zone.model.UserModel;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -375,8 +381,10 @@ public class WriteActivity extends AppCompatActivity {
                 mStorageRef = FirebaseStorage.getInstance().getReference("image");
                 final StorageReference imgref = mStorageRef.child(time.toString());
                 mDownloadURI = new ArrayList<>();
-                Uri imageUri=getImageUri(WriteActivity.this,image);
-                UploadTask uploadTask = imgref.putFile(imageUri);
+                //Uri imageUri=getImageUri(WriteActivity.this,image);
+                byte[] imageUri=getImageUri(WriteActivity.this,image);
+                //UploadTask uploadTask = imgref.putFile(imageUri);
+                UploadTask uploadTask = imgref.putBytes(imageUri);
                 Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -589,10 +597,17 @@ public class WriteActivity extends AppCompatActivity {
             // editor.RestoreState();
         }
     }
-    private Uri getImageUri(Context context, Bitmap inImage) {
+    private byte[] getImageUri(Context context, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        byte[] data = bytes.toByteArray();
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
+        //return Uri.parse(path);
+        return data;
     }
+
+
+
+
+
 }
