@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -136,6 +137,7 @@
             android:layout_marginTop="14dp">
 
             <LinearLayout
+                android:id="@+id/layout_board"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#29000000"
@@ -153,6 +155,7 @@
                     android:textColor="#404040"/>
 
                 <TextView
+                    android:id="@+id/textview_board_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -162,6 +165,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_reply"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#29000000"
@@ -179,15 +183,19 @@
                     android:textColor="#404040"/>
 
                 <TextView
+                    android:id="@+id/textview_reply_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="9,999,999"
                     android:textSize="10sp"
                     android:textColor="#404040"/>
+
+
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_scrab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#29000000"
@@ -205,10 +213,11 @@
                     android:textColor="#404040"/>
 
                 <TextView
+                    android:id="@+id/textview_scrap_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="9,999,999"
+                    android:text="0"
                     android:textSize="10sp"
                     android:textColor="#404040"/>
             </LinearLayout>
@@ -230,8 +239,7 @@
             android:textSize="9sp"
             android:textColor="#404040"
             android:lineSpacingExtra="1sp"
-            tools:text="학적사항 업데이트 관련 텍스트\n
-    학적사항 업데이트 관련 텍스트" />
+            tools:text="학적사항 업데이트 관련 텍스트\n학적사항 업데이트 관련 텍스트" />
 
         <Button
             android:id="@+id/update_button"
@@ -274,7 +282,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
     </androidx.recyclerview.widget.RecyclerView>
 

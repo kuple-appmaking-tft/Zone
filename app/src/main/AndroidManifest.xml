@@ -11,9 +11,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
+
+        <activity android:name=".login.AgreementActivity"></activity>
         <activity android:name=".board.MealWebViewActivity"> </activity>
         <activity android:name=".board.WebViewActivity"> </activity>
         <activity android:name=".chat.ChatRoomActivity"> </activity>
+        <activity android:name=".chat.ChatActivity" />
         <activity
             android:name=".board.CorpActivity"
             tools:ignore="MissingClass" />

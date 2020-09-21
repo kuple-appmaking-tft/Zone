@@ -31,13 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -46,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
-
 
         fragmentManager = getSupportFragmentManager();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -65,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
 
 //        Intent  intent=getIntent();
 //        String boardname=intent.getStringExtra("데이터삭제");

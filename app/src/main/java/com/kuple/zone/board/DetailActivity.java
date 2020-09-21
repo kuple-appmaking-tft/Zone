@@ -2,9 +2,7 @@ package com.kuple.zone.board;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,22 +52,20 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.kuple.zone.Adapter.ReplyAdapter;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import com.kuple.zone.Adapter.ReplytoreplyAdapter;
-import com.kuple.zone.Adapter.SliderAdapterExample;
 import com.kuple.zone.Inteface.OnItemClick;
-import com.kuple.zone.MainActivity;
 import com.kuple.zone.R;
 import com.kuple.zone.model.BoardInfo;
+import com.kuple.zone.model.ReplyActModel;
 import com.kuple.zone.model.ReplyInfo;
-import com.kuple.zone.model.SliderItem;
+import com.kuple.zone.model.UserModel;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.smarteist.autoimageslider.IndicatorAnimations;
-import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import org.json.JSONException;
@@ -230,7 +226,6 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                     String reply_string = mEditText.getText().toString();
                     assert firebaseUser != null;
 
-
                     final ReplyInfo replyInfo = new ReplyInfo(firebaseUser.getUid(), "0", reply_string, new Date(), replyDocumentreference.getId(), Arrays.asList(""));
 
                     //mReplyInfoList.add(replyInfo);
@@ -288,6 +283,10 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                             imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
                             retreiveReply(documentReference);
 
+
+                            // users 테이블의 user의 reply정보를 업데이트 해줘야 합니다.
+                            uploadStoreUserReplyModel(replyInfo);
+
                             loadingbar.dismiss();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -296,6 +295,8 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
                             loadingbar.dismiss();
                         }
                     });
+
+
                 } else {
                     Toast.makeText(getApplicationContext(), "댓글을 입력하시오", Toast.LENGTH_LONG).show();
                 }
@@ -628,6 +629,44 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         popup.show();
 
     }
+
+    private void uploadStoreUserReplyModel(final ReplyInfo replyInfo){
+
+        final String userUid = firebaseUser.getUid();
+        final String mDocumentId = getIntent().getStringExtra("DocumentId");//mDocumentId는 디테일 정보받아오기
+        final String mBoardName = getIntent().getStringExtra("BoardName");
+
+        final ReplyActModel replyActModel = new ReplyActModel(replyInfo.getDeleted_at(), replyInfo.getContent(), replyInfo.getDate(), replyInfo.getDocumentId(), replyInfo.getUidLikelist(), mDocumentId, mBoardName );
+
+        mStore.collection("users").document(userUid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                UserModel userModel = documentSnapshot.toObject(UserModel.class);
+                assert userModel != null;
+                try{
+                    userModel.getReplyList().add(replyActModel);
+                }catch (Exception e){
+                    ArrayList<ReplyActModel> replyList = new ArrayList<>();
+                    replyList.add(replyActModel);
+                    userModel.setReplyList(replyList);
+                }
+
+                mStore.collection("users").document(userUid).set(userModel, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("DetailActivity", "UploadStoreUserModel update Success");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("DetailActivity", "UploadStoreUserModel update fail");
+                    }
+                });;
+
+            }
+        });
+    }
+
 
 
 }
