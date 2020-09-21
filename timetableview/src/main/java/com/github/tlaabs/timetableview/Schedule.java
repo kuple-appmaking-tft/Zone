@@ -17,6 +17,17 @@ public class Schedule implements Serializable {
     private int day = 0;
     private Time startTime;
     private Time endTime;
+    private String documentId;
+    private int idx;
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public Schedule() {
         this.startTime = new Time();

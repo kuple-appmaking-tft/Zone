@@ -33,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.kuple.zone.R;
+import com.kuple.zone.model.Timetable;
+import com.kuple.zone.navigation.TimetableFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,10 +51,11 @@ public class TimeTablePlusActivity extends AppCompatActivity {
     public static final int RESULT_OK_ADD = 1;
     ArrayList<SeoulClass> arrayList = new ArrayList<>();
     //ArrayList<Schedule> item = new ArrayList<>();
-    private int isfull[][]=new int[5][11];
+    private int isfull[][] = new int[5][11];
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseAuth mAuth=FirebaseAuth.getInstance();
-    FirebaseUser user= mAuth.getCurrentUser();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
+    ArrayList<Schedule> ScheduleList = new ArrayList<>();
 
     Spinner searchcampusSpinner;
 
@@ -69,6 +72,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         final ClassRecyclerViewAdapter classRecyclerViewAdapter = new ClassRecyclerViewAdapter();
         recyclerView.setAdapter(classRecyclerViewAdapter);
         timetable = findViewById(R.id.timetable);
+
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration); //리사이클러뷰 구분선
@@ -88,8 +92,6 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                     String json = getJsonString();
 
                     try {
-
-
                         //major 추가
                         JSONObject jsonObject = new JSONObject(json);
                         JSONArray seoulArray = jsonObject.getJSONArray("seoul");
@@ -220,7 +222,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
     }
 
-    private void RetreiveFireStore() {
+    public void RetreiveFireStore() {
         db.collection("users")
                 .document(user.getUid())
                 .collection("TimeTable")
@@ -230,15 +232,152 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Schedule schedule=document.toObject(Schedule.class);
-                                ArrayList<Schedule> item = new ArrayList<>();
-                                item.add(schedule);
-                                timetable.add(item);
+                                final SeoulClass seoulClass = document.toObject(SeoulClass.class);
+                                String[] dayarray = seoulClass.getTime().split("\n");
+                                if (dayarray.length == 1) {//요일이 한개일때
+                                    //이름 , 시간 , 장소 //
+                                    Schedule schedule = new Schedule();
+                                    schedule.setClassPlace(seoulClass.classNum);
+                                    schedule.setClassTitle(seoulClass.name);
+                                    schedule.setClassPlace(seoulClass.time);
+                                    schedule.setTime(seoulClass.getTime());
+                                    //요일가져오기
+                                    SetDay(dayarray[0], schedule);
+
+                                    if (dayarray[0].charAt(3) == ')') {//한시간짜리 수업
+                                        SetTime_oneClass(dayarray[0], schedule);
+                                        int one_full = Character.getNumericValue(dayarray[0].charAt(2)) - 1;
+//                                        if (isfull[GetDay(dayarray[0])][one_full] == 1) {
+//                                            Log.d("중복", "중복입니다");
+//                                        } else {
+//                                            isfull[GetDay(dayarray[0])][one_full] = 1;
+//                                        }
+                                    } else {//두시간이상
+                                        SetTime_twoClass(dayarray[0], schedule);
+                                        int startnum = Character.getNumericValue(dayarray[0].charAt(2));
+                                        int endnum = Character.getNumericValue(dayarray[0].charAt(4));
+//                                        for (int i = startnum; i <= endnum; i++) {
+//                                            if (isfull[GetDay(dayarray[0])][i] == 1) {
+//                                                Log.d("중복", "중복입니다");
+//                                            } else {
+//                                                isfull[GetDay(dayarray[0])][i] = 1;
+//                                            }
+//                                        }
+                                    }
+                                    int placeStartIdx = seoulClass.getTime().indexOf(")");//장소지정
+                                    String place = dayarray[0].substring(placeStartIdx + 1);
+                                    schedule.setClassPlace(place); //string의 0 , 2 , 4 번째 가져와야함 example 수(7-9) 농심국제관 308호
+                                    ArrayList<Schedule> item = new ArrayList<>();
+                                    item.add(schedule);
+                                    ArrayList<Schedule> forstoreList = new ArrayList<>();
+                                    forstoreList.add(schedule);
+                                    timetable.add(item);
+                                    timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
+                                        @Override
+                                        public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
+                                            Log.d("스티커(인덱스)", String.valueOf(idx));
+                                            db.collection("users")
+                                                    .document(user.getUid())
+                                                    .collection("TimeTable")
+                                                    .document(seoulClass.getTime())
+                                                    .delete();
+                                            timetable.remove(idx);
+                                        }
+                                    });
+
+                                } else {//요일이 2개일때
+                                    //이름 , 시간 , 장소 //
+                                    Schedule schedule1 = new Schedule();
+                                    schedule1.setClassPlace(seoulClass.classNum);
+                                    schedule1.setClassTitle(seoulClass.name);
+                                    schedule1.setClassPlace(seoulClass.time);
+                                    schedule1.setTime(seoulClass.getTime());
+                                    //요일가져오기
+                                    SetDay(dayarray[0], schedule1);//날짜정하기
+                                    if (dayarray[0].charAt(3) == ')') {//한시간짜리 수업
+                                        SetTime_oneClass(dayarray[0], schedule1);//시간정하기
+                                        int one_full = Character.getNumericValue(dayarray[0].charAt(2)) - 1;
+//                                        if (isfull[GetDay(dayarray[0])][one_full] == 1) {
+//                                            Log.d("중복", "중복입니다");
+//                                            Intent intent = new Intent(TimeTablePlusActivity.this, TimeTablePlusActivity.class);
+//                                            startActivity(intent);
+//                                            Toast.makeText(TimeTablePlusActivity.this, "중복입니다", Toast.LENGTH_SHORT).show();
+//
+//                                        } else {
+//                                            isfull[GetDay(dayarray[0])][one_full] = 1;
+//                                        }
+                                    } else {//두시간이상
+                                        SetTime_twoClass(dayarray[0], schedule1);//시간정하기
+                                        int startnum = Character.getNumericValue(dayarray[0].charAt(2));
+                                        int endnum = Character.getNumericValue(dayarray[0].charAt(4));
+//                                        for (int i = startnum; i <= endnum; i++) {
+//                                            if (isfull[GetDay(dayarray[0])][i] == 1) {
+//                                                Log.d("중복", "중복입니다");
+//                                            } else {
+//                                                isfull[GetDay(dayarray[0])][i] = 1;
+//                                            }
+//                                        }
+                                    }
+                                    int placeStartIdx1 = seoulClass.getTime().indexOf(")");
+                                    String place = dayarray[0].substring(placeStartIdx1 + 1);
+                                    schedule1.setClassPlace(place); //string의 0 , 2 , 4 번째 가져와야함 example 수(7-9) 농심국제관 308호
+                                    ArrayList<Schedule> item1 = new ArrayList<>();
+                                    item1.add(schedule1);
+                                    //uploadFireStore(schedule1);
+                                    //스케쥴 1 끝
+                                    Schedule schedule2 = new Schedule();
+                                    schedule2.setClassPlace(seoulClass.classNum);
+                                    schedule2.setClassTitle(seoulClass.name);
+                                    schedule2.setClassPlace(seoulClass.time);
+                                    schedule2.setTime(seoulClass.getTime());
+                                    //요일가져오기
+                                    SetDay(dayarray[1], schedule2);
+
+                                    if (dayarray[0].charAt(3) == ')') {//한시간짜리 수업
+                                        SetTime_oneClass(dayarray[1], schedule2);//시간정하기
+                                        int one_full = Character.getNumericValue(dayarray[1].charAt(2)) - 1;
+//                                        if (isfull[GetDay(dayarray[1])][one_full] == 1) {
+//                                            Log.d("중복", "중복입니다");
+//                                        } else {
+//                                            isfull[GetDay(dayarray[1])][one_full] = 1;
+//                                        }
+                                    } else {//두시간이상
+                                        SetTime_twoClass(dayarray[1], schedule2);//시간정하기
+                                        int startnum = Character.getNumericValue(dayarray[1].charAt(2));
+                                        int endnum = Character.getNumericValue(dayarray[1].charAt(4));
+//                                        for (int i = startnum; i <= endnum; i++) {
+//                                            if (isfull[GetDay(dayarray[1])][i] == 1) {
+//                                                Log.d("중복", "중복입니다");
+//                                            } else {
+//                                                isfull[GetDay(dayarray[1])][i] = 1;
+//                                            }
+//                                        }
+                                    }
+                                    int placeStartIdx2 = seoulClass.getTime().indexOf(")");
+                                    String place2 = dayarray[0].substring(placeStartIdx2 + 1);
+                                    schedule1.setClassPlace(place2); //string의 0 , 2 , 4 번째 가져와야함 example 수(7-9) 농심국제관 308호
+                                    ArrayList<Schedule> item2 = new ArrayList<>();
+                                    item1.add(schedule2);
+                                    timetable.add(item1);
+                                    timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
+                                        @Override
+                                        public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
+                                            Log.d("스티커(인덱스)", String.valueOf(idx));
+                                            db.collection("users")
+                                                    .document(user.getUid())
+                                                    .collection("TimeTable")
+                                                    .document(seoulClass.getTime())
+                                                    .delete();
+                                            timetable.remove(idx);
+                                        }
+                                    });
+
+
+                                }
                             }
                         } else {
-
                         }
-                        ;
+
                     }
                 });
     }
@@ -258,6 +397,7 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+            final SeoulClass seoulClass = arrayList.get(position);
 
             ((CustomViewHolder) holder).classNum_seoul.setText(arrayList.get(position).getClassNum());
             ((CustomViewHolder) holder).code_seoul.setText(arrayList.get(position).getCode());
@@ -270,8 +410,6 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     String[] dayarray = arrayList.get(position).getTime().split("\n");
-
-
                     if (dayarray.length == 1) {//요일이 한개일때
                         //이름 , 시간 , 장소 //
                         Schedule schedule = new Schedule();
@@ -283,30 +421,32 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
                         if (dayarray[0].charAt(3) == ')') {//한시간짜리 수업
                             SetTime_oneClass(dayarray[0], schedule);
-                            int one_full=Character.getNumericValue(dayarray[0].charAt(2))-1;
-                            if(isfull[GetDay(dayarray[0])][one_full]==1){
-                                Log.d("중복","중복입니다");
-                            }else {
-                                isfull[GetDay(dayarray[0])][one_full]=1;
-                            }
+                            int one_full = Character.getNumericValue(dayarray[0].charAt(2)) - 1;
+//                            if (isfull[GetDay(dayarray[0])][one_full] == 1) {
+//                                Log.d("중복", "중복입니다");
+//                            } else {
+//                                isfull[GetDay(dayarray[0])][one_full] = 1;
+//                            }
                         } else {//두시간이상
                             SetTime_twoClass(dayarray[0], schedule);
-                            int startnum=Character.getNumericValue(dayarray[0].charAt(2));
-                            int endnum=Character.getNumericValue(dayarray[0].charAt(4));
-                            for(int i=startnum;i<=endnum;i++){
-                                if(isfull[GetDay(dayarray[0])][i]==1){
-                                    Log.d("중복","중복입니다");
-                                }else {
-                                    isfull[GetDay(dayarray[0])][i]=1;
-                                }
-                            }
+                            int startnum = Character.getNumericValue(dayarray[0].charAt(2));
+                            int endnum = Character.getNumericValue(dayarray[0].charAt(4));
+//                            for (int i = startnum; i <= endnum; i++) {
+//                                if (isfull[GetDay(dayarray[0])][i] == 1) {
+//                                    Log.d("중복", "중복입니다");
+//                                } else {
+//                                    isfull[GetDay(dayarray[0])][i] = 1;
+//                                }
+//                            }
                         }
-                        int placeStartIdx=arrayList.get(position).getTime().indexOf(")");//장소지정
-                        String place=dayarray[0].substring(placeStartIdx+1);
+                        int placeStartIdx = arrayList.get(position).getTime().indexOf(")");//장소지정
+                        String place = dayarray[0].substring(placeStartIdx + 1);
                         schedule.setClassPlace(place); //string의 0 , 2 , 4 번째 가져와야함 example 수(7-9) 농심국제관 308호
                         ArrayList<Schedule> item = new ArrayList<>();
                         item.add(schedule);
-                        uploadFireStore(schedule);
+                        ArrayList<Schedule> forstoreList = new ArrayList<>();
+                        forstoreList.add(schedule);
+                        uploadFireStore(seoulClass, position);
                         timetable.add(item);
 
 
@@ -320,36 +460,34 @@ public class TimeTablePlusActivity extends AppCompatActivity {
                         SetDay(dayarray[0], schedule1);//날짜정하기
                         if (dayarray[0].charAt(3) == ')') {//한시간짜리 수업
                             SetTime_oneClass(dayarray[0], schedule1);//시간정하기
-                            int one_full=Character.getNumericValue(dayarray[0].charAt(2))-1;
-                            if(isfull[GetDay(dayarray[0])][one_full]==1){
-                                Log.d("중복","중복입니다");
-                                Intent intent =new Intent(TimeTablePlusActivity.this,TimeTablePlusActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(getApplicationContext(),"중복입니다",Toast.LENGTH_SHORT).show();
-
-                            }else {
-                                isfull[GetDay(dayarray[0])][one_full]=1;
-                            }
+                            int one_full = Character.getNumericValue(dayarray[0].charAt(2)) - 1;
+//                            if (isfull[GetDay(dayarray[0])][one_full] == 1) {
+//                                Log.d("중복", "중복입니다");
+//                                Intent intent = new Intent(TimeTablePlusActivity.this, TimeTablePlusActivity.class);
+//                                startActivity(intent);
+//                                Toast.makeText(getApplicationContext(), "중복입니다", Toast.LENGTH_SHORT).show();
+//
+//                            } else {
+//                                isfull[GetDay(dayarray[0])][one_full] = 1;
+//                            }
                         } else {//두시간이상
                             SetTime_twoClass(dayarray[0], schedule1);//시간정하기
-                            int startnum=Character.getNumericValue(dayarray[0].charAt(2));
-                            int endnum=Character.getNumericValue(dayarray[0].charAt(4));
-                            for(int i=startnum;i<=endnum;i++){
-                                if(isfull[GetDay(dayarray[0])][i]==1){
-                                    Log.d("중복","중복입니다");
-                                }else {
-                                    isfull[GetDay(dayarray[0])][i]=1;
-                                }
-                            }
+                            int startnum = Character.getNumericValue(dayarray[0].charAt(2));
+                            int endnum = Character.getNumericValue(dayarray[0].charAt(4));
+//                            for (int i = startnum; i <= endnum; i++) {
+//                                if (isfull[GetDay(dayarray[0])][i] == 1) {
+//                                    Log.d("중복", "중복입니다");
+//                                } else {
+//                                    isfull[GetDay(dayarray[0])][i] = 1;
+//                                }
+//                            }
                         }
-                        int placeStartIdx1=arrayList.get(position).getTime().indexOf(")");
-                        String place=dayarray[0].substring(placeStartIdx1+1);
+                        int placeStartIdx1 = arrayList.get(position).getTime().indexOf(")");
+                        String place = dayarray[0].substring(placeStartIdx1 + 1);
                         schedule1.setClassPlace(place); //string의 0 , 2 , 4 번째 가져와야함 example 수(7-9) 농심국제관 308호
                         ArrayList<Schedule> item1 = new ArrayList<>();
                         item1.add(schedule1);
-                        //timetable.add(item1);
-
-                        uploadFireStore(schedule1);
+                        //uploadFireStore(schedule1);
                         //스케쥴 1 끝
                         Schedule schedule2 = new Schedule();
                         schedule2.setClassPlace(arrayList.get(position).classNum);
@@ -360,30 +498,33 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
                         if (dayarray[0].charAt(3) == ')') {//한시간짜리 수업
                             SetTime_oneClass(dayarray[1], schedule2);//시간정하기
-                            int one_full=Character.getNumericValue(dayarray[1].charAt(2))-1;
-                            if(isfull[GetDay(dayarray[1])][one_full]==1){
-                                Log.d("중복","중복입니다");
-                            }else {
-                                isfull[GetDay(dayarray[1])][one_full]=1;
-                            }
+                            int one_full = Character.getNumericValue(dayarray[1].charAt(2)) - 1;
+//                            if (isfull[GetDay(dayarray[1])][one_full] == 1) {
+//                                Log.d("중복", "중복입니다");
+//                            } else {
+//                                isfull[GetDay(dayarray[1])][one_full] = 1;
+//                            }
                         } else {//두시간이상
                             SetTime_twoClass(dayarray[1], schedule2);//시간정하기
-                            int startnum=Character.getNumericValue(dayarray[1].charAt(2));
-                            int endnum=Character.getNumericValue(dayarray[1].charAt(4));
-                            for(int i=startnum;i<=endnum;i++){
-                                if(isfull[GetDay(dayarray[1])][i]==1){
-                                    Log.d("중복","중복입니다");
-                                }else {
-                                    isfull[GetDay(dayarray[1])][i]=1;
-                                }
-                            }
+                            int startnum = Character.getNumericValue(dayarray[1].charAt(2));
+                            int endnum = Character.getNumericValue(dayarray[1].charAt(4));
+//                            for (int i = startnum; i <= endnum; i++) {
+//                                if (isfull[GetDay(dayarray[1])][i] == 1) {
+//                                    Log.d("중복", "중복입니다");
+//                                } else {
+//                                    isfull[GetDay(dayarray[1])][i] = 1;
+//                                }
+//                            }
                         }
-                        int placeStartIdx2=arrayList.get(position).getTime().indexOf(")");
-                        String place2=dayarray[0].substring(placeStartIdx2+1);
+                        int placeStartIdx2 = arrayList.get(position).getTime().indexOf(")");
+                        String place2 = dayarray[0].substring(placeStartIdx2 + 1);
                         schedule1.setClassPlace(place2); //string의 0 , 2 , 4 번째 가져와야함 example 수(7-9) 농심국제관 308호
                         ArrayList<Schedule> item2 = new ArrayList<>();
                         item1.add(schedule2);
-                        uploadFireStore(schedule2);
+//                        uploadFireStore(schedule2);
+                        uploadFireStore(seoulClass, position);
+
+
                         timetable.add(item1);
 
                     }
@@ -391,175 +532,23 @@ public class TimeTablePlusActivity extends AppCompatActivity {
 
                 }
 
-                private void uploadFireStore(Schedule schedule) {
+                private void uploadFireStore(SeoulClass schedule, int pos) {
 
                     assert user != null;
                     db.collection("users")
                             .document(user.getUid())
                             .collection("TimeTable")
-                            .document()
+                            .document(schedule.time)
                             .set(schedule)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(),"스토어 업로드성공",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "스토어 업로드성공", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
 
-                private void SetDay(String s, Schedule schedule1) {
-                    if (s.substring(0, 1).equals("월")) {
-                        schedule1.setDay(0);
-                    } else if (s.substring(0, 1).equals("화")) {
-                        schedule1.setDay(1);
-                    } else if (s.substring(0, 1).equals("수")) {
-                        schedule1.setDay(2);
-                    } else if (s.substring(0, 1).equals("목")) {
-                        schedule1.setDay(3);
-                    } else if (s.substring(0, 1).equals("금")) {
-                        schedule1.setDay(4);
-                    } else if (s.substring(0, 1).equals("토")) {
-                        schedule1.setDay(5);
-                    } else if (s.substring(0, 1).equals("일")) {
-                        schedule1.setDay(6);
-                    }
-                }
-                private int GetDay(String s){
-                    if (s.substring(0, 1).equals("월")) {
-                        return 0;
-                    } else if (s.substring(0, 1).equals("화")) {
-                        return 1;
-                    } else if (s.substring(0, 1).equals("수")) {
-                        return 2;
-                    } else if (s.substring(0, 1).equals("목")) {
-                        return 3;
-                    } else if (s.substring(0, 1).equals("금")) {
-                        return 4;
-                    } else if (s.substring(0, 1).equals("토")) {
-                        return 5;
-                    } else if (s.substring(0, 1).equals("일")) {
-                        return 6;
-                    }
-                    return 7;
-                }
 
-                private void SetTime_twoClass(String s, Schedule schedule1) {
-                    char period_start = s.charAt(2);
-                    char period_end = s.charAt(4);
-                    int start = Character.getNumericValue(period_start);
-                    int end = Character.getNumericValue(period_end);
-                    switch (start) {
-                        case 1:
-                            schedule1.setStartTime(new Time(9, 0));
-                            break;
-                        case 2:
-                            schedule1.setStartTime(new Time(10, 0));
-                            break;
-                        case 3:
-                            schedule1.setStartTime(new Time(11, 0));
-                            break;
-                        case 4:
-                            schedule1.setStartTime(new Time(12, 0));
-                            break;
-                        case 5:
-                            schedule1.setStartTime(new Time(13, 0));
-                            break;
-                        case 6:
-                            schedule1.setStartTime(new Time(14, 0));
-                            break;
-                        case 7:
-                            schedule1.setStartTime(new Time(15, 0));
-                            break;
-                        case 8:
-                            schedule1.setStartTime(new Time(16, 0));
-                            break;
-                        case 9:
-                            schedule1.setStartTime(new Time(17, 0));
-                            break;
-                        case 10:
-                            schedule1.setStartTime(new Time(18, 0));
-                            break;
-                    }
-                    switch (end) {
-                        case 1:
-                            schedule1.setEndTime(new Time(10, 0));
-                            break;
-                        case 2:
-                            schedule1.setEndTime(new Time(11, 0));
-                            break;
-                        case 3:
-                            schedule1.setEndTime(new Time(12, 0));
-                            break;
-                        case 4:
-                            schedule1.setEndTime(new Time(13, 0));
-                            break;
-                        case 5:
-                            schedule1.setEndTime(new Time(14, 0));
-                            break;
-                        case 6:
-                            schedule1.setEndTime(new Time(15, 0));
-                            break;
-                        case 7:
-                            schedule1.setEndTime(new Time(16, 0));
-                            break;
-                        case 8:
-                            schedule1.setEndTime(new Time(17, 0));
-                            break;
-                        case 9:
-                            schedule1.setEndTime(new Time(18, 0));
-                            break;
-                        case 10:
-                            schedule1.setEndTime(new Time(19, 0));
-                            break;
-                    }
-                }
-
-                private void SetTime_oneClass(String dayarray, Schedule schedule1) {
-                    char period = dayarray.charAt(2);
-                    int sum = Character.getNumericValue(period);
-                    Log.d("되나안되나", String.valueOf(sum));
-                    switch (sum) {
-                        case 1:
-                            schedule1.setStartTime(new Time(9, 0));
-                            schedule1.setEndTime(new Time(10, 0));
-                            break;
-                        case 2:
-                            schedule1.setStartTime(new Time(10, 0));
-                            schedule1.setEndTime(new Time(11, 0));
-                            break;
-                        case 3:
-                            schedule1.setStartTime(new Time(11, 0));
-                            schedule1.setEndTime(new Time(12, 0));
-                            break;
-                        case 4:
-                            schedule1.setStartTime(new Time(12, 0));
-                            schedule1.setEndTime(new Time(13, 0));
-                            break;
-                        case 5:
-                            schedule1.setStartTime(new Time(13, 0));
-                            schedule1.setEndTime(new Time(14, 0));
-                            break;
-                        case 6:
-                            schedule1.setStartTime(new Time(14, 0));
-                            schedule1.setEndTime(new Time(15, 0));
-                            break;
-                        case 7:
-                            schedule1.setStartTime(new Time(15, 0));
-                            schedule1.setEndTime(new Time(16, 0));
-                            break;
-                        case 8:
-                            schedule1.setStartTime(new Time(16, 0));
-                            schedule1.setEndTime(new Time(17, 0));
-                            break;
-                        case 9:
-                            schedule1.setStartTime(new Time(17, 0));
-                            schedule1.setEndTime(new Time(18, 0));
-                            break;
-                        case 10:
-                            schedule1.setStartTime(new Time(18, 0));
-                            schedule1.setEndTime(new Time(19, 0));
-                    }
-                }
             });
 
 
@@ -616,6 +605,161 @@ public class TimeTablePlusActivity extends AppCompatActivity {
         }
 
         return json;
+    }
+
+    private void SetDay(String s, Schedule schedule1) {
+        if (s.substring(0, 1).equals("월")) {
+            schedule1.setDay(0);
+        } else if (s.substring(0, 1).equals("화")) {
+            schedule1.setDay(1);
+        } else if (s.substring(0, 1).equals("수")) {
+            schedule1.setDay(2);
+        } else if (s.substring(0, 1).equals("목")) {
+            schedule1.setDay(3);
+        } else if (s.substring(0, 1).equals("금")) {
+            schedule1.setDay(4);
+        } else if (s.substring(0, 1).equals("토")) {
+            schedule1.setDay(5);
+        } else if (s.substring(0, 1).equals("일")) {
+            schedule1.setDay(6);
+        }
+    }
+
+    private int GetDay(String s) {
+        if (s.substring(0, 1).equals("월")) {
+            return 0;
+        } else if (s.substring(0, 1).equals("화")) {
+            return 1;
+        } else if (s.substring(0, 1).equals("수")) {
+            return 2;
+        } else if (s.substring(0, 1).equals("목")) {
+            return 3;
+        } else if (s.substring(0, 1).equals("금")) {
+            return 4;
+        } else if (s.substring(0, 1).equals("토")) {
+            return 5;
+        } else if (s.substring(0, 1).equals("일")) {
+            return 6;
+        }
+        return 7;
+    }
+
+    private void SetTime_twoClass(String s, Schedule schedule1) {
+        char period_start = s.charAt(2);
+        char period_end = s.charAt(4);
+        int start = Character.getNumericValue(period_start);
+        int end = Character.getNumericValue(period_end);
+        switch (start) {
+            case 1:
+                schedule1.setStartTime(new Time(9, 0));
+                break;
+            case 2:
+                schedule1.setStartTime(new Time(10, 0));
+                break;
+            case 3:
+                schedule1.setStartTime(new Time(11, 0));
+                break;
+            case 4:
+                schedule1.setStartTime(new Time(12, 0));
+                break;
+            case 5:
+                schedule1.setStartTime(new Time(13, 0));
+                break;
+            case 6:
+                schedule1.setStartTime(new Time(14, 0));
+                break;
+            case 7:
+                schedule1.setStartTime(new Time(15, 0));
+                break;
+            case 8:
+                schedule1.setStartTime(new Time(16, 0));
+                break;
+            case 9:
+                schedule1.setStartTime(new Time(17, 0));
+                break;
+            case 10:
+                schedule1.setStartTime(new Time(18, 0));
+                break;
+        }
+        switch (end) {
+            case 1:
+                schedule1.setEndTime(new Time(10, 0));
+                break;
+            case 2:
+                schedule1.setEndTime(new Time(11, 0));
+                break;
+            case 3:
+                schedule1.setEndTime(new Time(12, 0));
+                break;
+            case 4:
+                schedule1.setEndTime(new Time(13, 0));
+                break;
+            case 5:
+                schedule1.setEndTime(new Time(14, 0));
+                break;
+            case 6:
+                schedule1.setEndTime(new Time(15, 0));
+                break;
+            case 7:
+                schedule1.setEndTime(new Time(16, 0));
+                break;
+            case 8:
+                schedule1.setEndTime(new Time(17, 0));
+                break;
+            case 9:
+                schedule1.setEndTime(new Time(18, 0));
+                break;
+            case 10:
+                schedule1.setEndTime(new Time(19, 0));
+                break;
+        }
+    }
+
+    private void SetTime_oneClass(String dayarray, Schedule schedule1) {
+        char period = dayarray.charAt(2);
+        int sum = Character.getNumericValue(period);
+        Log.d("되나안되나", String.valueOf(sum));
+        switch (sum) {
+            case 1:
+                schedule1.setStartTime(new Time(9, 0));
+                schedule1.setEndTime(new Time(10, 0));
+                break;
+            case 2:
+                schedule1.setStartTime(new Time(10, 0));
+                schedule1.setEndTime(new Time(11, 0));
+                break;
+            case 3:
+                schedule1.setStartTime(new Time(11, 0));
+                schedule1.setEndTime(new Time(12, 0));
+                break;
+            case 4:
+                schedule1.setStartTime(new Time(12, 0));
+                schedule1.setEndTime(new Time(13, 0));
+                break;
+            case 5:
+                schedule1.setStartTime(new Time(13, 0));
+                schedule1.setEndTime(new Time(14, 0));
+                break;
+            case 6:
+                schedule1.setStartTime(new Time(14, 0));
+                schedule1.setEndTime(new Time(15, 0));
+                break;
+            case 7:
+                schedule1.setStartTime(new Time(15, 0));
+                schedule1.setEndTime(new Time(16, 0));
+                break;
+            case 8:
+                schedule1.setStartTime(new Time(16, 0));
+                schedule1.setEndTime(new Time(17, 0));
+                break;
+            case 9:
+                schedule1.setStartTime(new Time(17, 0));
+                schedule1.setEndTime(new Time(18, 0));
+                break;
+            case 10:
+                schedule1.setStartTime(new Time(18, 0));
+                schedule1.setEndTime(new Time(19, 0));
+        }
     }
 
 
