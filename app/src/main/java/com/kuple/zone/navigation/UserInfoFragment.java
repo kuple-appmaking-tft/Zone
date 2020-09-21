@@ -121,15 +121,19 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                 if (userModel == null) {
                     Toast.makeText(v.getContext(), "유저 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    showMyActBoardList(userModel);
+
 
                     if(userModel.getNickname() == null){
                         textviewNickname.setText("닉네임");
 
                     }else{
                         textviewNickname.setText(userModel.getNickname());
-                        textviewBoardCount.setText("" + userModel.getBoardInfoList().size());
-                        textviewReplyCount.setText("" + userModel.getReplyList().size());
+                        if(userModel.getBoardInfoList()!=null){
+                            textviewBoardCount.setText("" + userModel.getBoardInfoList().size());
+                            textviewReplyCount.setText("" + userModel.getReplyList().size());
+                            showMyActBoardList(userModel);
+                        }
+
                     }
 
                     // Student Info
@@ -360,14 +364,16 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         loadingbar.show();
 
         final ArrayList<BoardInfo> mBoardList = new ArrayList<>();
-
-        for (BoardInfo boardInfo : userModel.getBoardInfoList()) {
-            if (boardInfo.getDeleted_at().equals("0")) {
-                mBoardList.add(boardInfo);
-            } else {
-                Log.d(TAG, "삭제됬었음");
+        if(userModel.getBoardInfoList()!=null){
+            for (BoardInfo boardInfo : userModel.getBoardInfoList()) {
+                if (boardInfo.getDeleted_at().equals("0")) {
+                    mBoardList.add(boardInfo);
+                } else {
+                    Log.d(TAG, "삭제됬었음");
+                }
             }
         }
+
         OnItemClick onItemClick = new OnItemClick() {
             @Override
             public void onClick(String value) {

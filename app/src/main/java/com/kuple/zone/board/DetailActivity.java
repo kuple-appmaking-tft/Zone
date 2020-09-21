@@ -180,11 +180,11 @@ public class DetailActivity extends AppCompatActivity implements OnItemClick {
         plusarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mRecyclerView.getVisibility()==View.INVISIBLE){
+                if(mRecyclerView.getVisibility()==View.GONE){
                     mRecyclerView.setVisibility(View.VISIBLE);
                     plusarrow.setImageResource(R.drawable.minusarrow);
                 }else{
-                    mRecyclerView.setVisibility(View.INVISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
                     plusarrow.setImageResource(R.drawable.plusarrow);
                 }
             }
