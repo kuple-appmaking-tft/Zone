@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -101,25 +100,18 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
     private TextView textviewScrapCount;
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        takeUserInfo(null);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         loadingbar = new ProgressDialog(getContext());//로딩바
-
         //initializing firebase authentication object
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+
     }
 
-    public void takeUserInfo(@Nullable final View v) {
+    public void takeUserInfo(final View v) {
         mFirestore = FirebaseFirestore.getInstance();
         DocumentReference docRef = mFirestore.collection("users").document(firebaseUser.getUid());
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -129,18 +121,19 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                 if (userModel == null) {
                     Toast.makeText(v.getContext(), "유저 정보를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    if(userModel.getBoardInfoList() !=null){
-                        showMyActBoardList(userModel);
-                        textviewBoardCount.setText("" + userModel.getBoardInfoList().size());
-                    }else if(userModel.getReplyList() != null){
-                        showMyActReplyList(userModel);
-                        textviewReplyCount.setText("" + userModel.getReplyList().size());
-                    }
+
 
                     if(userModel.getNickname() == null){
                         textviewNickname.setText("닉네임");
+
                     }else{
                         textviewNickname.setText(userModel.getNickname());
+                        if(userModel.getBoardInfoList()!=null){
+                            textviewBoardCount.setText("" + userModel.getBoardInfoList().size());
+                            textviewReplyCount.setText("" + userModel.getReplyList().size());
+                            showMyActBoardList(userModel);
+                        }
+
                     }
 
                     // Student Info
@@ -320,7 +313,6 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                 });
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -338,10 +330,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         layoutBoard.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(userModel.getBoardInfoList() != null){
-                    showMyActBoardList(userModel);
-                    textviewBoardCount.setText("" + userModel.getBoardInfoList().size());
-                }
+                showMyActBoardList(userModel);
                 return false;
             }
         });
@@ -349,10 +338,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         layoutReply.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(userModel.getReplyList() != null){
-                    showMyActReplyList(userModel);
-                    textviewReplyCount.setText("" + userModel.getReplyList().size());
-                }
+                showMyActReplyList(userModel);
                 return false;
             }
         });
@@ -378,14 +364,16 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         loadingbar.show();
 
         final ArrayList<BoardInfo> mBoardList = new ArrayList<>();
-
-        for (BoardInfo boardInfo : userModel.getBoardInfoList()) {
-            if (boardInfo.getDeleted_at().equals("0")) {
-                mBoardList.add(boardInfo);
-            } else {
-                Log.d(TAG, "삭제됬었음");
+        if(userModel.getBoardInfoList()!=null){
+            for (BoardInfo boardInfo : userModel.getBoardInfoList()) {
+                if (boardInfo.getDeleted_at().equals("0")) {
+                    mBoardList.add(boardInfo);
+                } else {
+                    Log.d(TAG, "삭제됬었음");
+                }
             }
         }
+
         OnItemClick onItemClick = new OnItemClick() {
             @Override
             public void onClick(String value) {
@@ -408,6 +396,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showMyActReplyList(UserModel userModel) {
+
         loadingbar.show();
 
         List<ReplyActModel> replyInfoList = new ArrayList<>();

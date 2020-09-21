@@ -35,7 +35,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -89,6 +88,8 @@ public class WriteActivity extends AppCompatActivity {
     private final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     String mBoardName;
 
+
+
     private DocumentReference documentReference;
     Editor editor;
 
@@ -123,6 +124,7 @@ public class WriteActivity extends AppCompatActivity {
 
     private void uploadStore(final BoardInfo boardInfo) {
 
+
 //                final DocumentReference documentReference = db.collection("Board").document();
         documentReference.set(boardInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -141,32 +143,6 @@ public class WriteActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-    }
-
-    // upload any type of class, I hope to combine with method uploadStore
-    private void uploadStoreUserModel(final UserModel model, final BoardInfo boardInfo){
-        ArrayList<BoardInfo> boardInfoList = new ArrayList<>();
-
-        if(model.getBoardInfoList() != null){
-            boardInfoList = model.getBoardInfoList();
-        }
-        boardInfoList.add(boardInfo);
-        model.setBoardInfoList(boardInfoList);
-
-        db.collection("users").document(model.getUid()).set(model, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("WriteActivity", "UploadStoreUserModel update Success");
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("WriteActivity", "UploadStoreUserModel update fail");
-                finish();
-            }
-        });;
 
     }
 
@@ -345,8 +321,6 @@ public class WriteActivity extends AppCompatActivity {
                         UserModel fm = documentSnapshot.toObject(UserModel.class);
                         assert fm != null;
                         try {
-
-
 //                            holder.mSubinfo.setText(fm.nickname + " " + finaldate + " ");
                             nickname=fm.getNickname();
                             BoardInfo boardInfo = new BoardInfo(
@@ -363,8 +337,6 @@ public class WriteActivity extends AppCompatActivity {
                                     ,nickname
                                     ,mBoardName
                             );
-
-                            uploadStoreUserModel(fm, boardInfo);
                             uploadStore(boardInfo);
                             //holder.mSubinfo.setText("테스트");
                         } catch (Exception e) {
@@ -472,84 +444,7 @@ public class WriteActivity extends AppCompatActivity {
         typefaceMap.put(Typeface.BOLD_ITALIC, "fonts/Lato-BoldItalic.ttf");
         return typefaceMap;
     }
-//    private void uploadFile() {
-//        //업로드할 파일이 있으면 수행
-//        loadingbar.setTitle("Set profile image");
-//        loadingbar.setMessage("pleas wait업로딩중");
-//        loadingbar.setCanceledOnTouchOutside(false);
-//        loadingbar.show();
-//        mDownloadURI = new ArrayList<>();
-//        Date time = new Date();
-//        if (mTitle.getText().toString().length() == 0 || contents.length() == 0) {
-//            Toast.makeText(getApplicationContext(), "제목,내용을 입력하시오", Toast.LENGTH_LONG).show();
-//        } else {
-//            title = mTitle.getText().toString();
-//            //contents = mContents.getText().toString();
-//            mStorageRef = FirebaseStorage.getInstance().getReference("image");//loaction 설정
-//            if (imageUriList.size() != 0) {
-//                for (int i = 0; i < imageUriList.size(); i++) {
-//                    Uri imageUri = imageUriList.get(i);
-//                    final StorageReference imgref = mStorageRef.child(imageUri.getLastPathSegment() + time.toString() + uid.toString());//고유하게 저장하기위해서.
-//                    UploadTask uploadTask = imgref.putFile(imageUri);
-//                    Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//                        @Override
-//                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                            if (!task.isSuccessful()) {
-//                                throw task.getException();
-//                            }
-//                            // Continue with the task to get the download URL
-//                            return imgref.getDownloadUrl();
-//                        }
-//                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Uri> task) {
-//                            if (task.isSuccessful()) {
-//                                final Uri downloadUri = task.getResult();
-//                                //setListner사용
-//                                mDownloadURI.add(downloadUri.toString());
-//                                if (mDownloadURI.size() == imageUriList.size()) {
-//                                    String dynamiclink = "test";
-//                                    Date date = new Date();
-//                                    BoardInfo boardInfo = new BoardInfo(
-//                                            title
-//                                            , contents
-//                                            , uid
-//                                            , documentId
-//                                            , date
-//                                            , "0"
-//                                            , Arrays.asList("")
-//                                            , 0
-//                                            , 0
-//                                            , mDownloadURI
-//
-//                                    );
-//                                    Log.d("성공", "성공");
-//                                    uploadStore(boardInfo);
-//                                }
-//                            }
-//                        }
-//                    });
-//
-//                }//for문끝  스토리지에 저장만함
-//            } else {
-//                BoardInfo boardInfo = new BoardInfo(
-//                        title
-//                        , contents
-//                        , uid
-//                        , documentId
-//                        , new Date()
-//                        , "0"
-//                        , Arrays.asList("")
-//                        , 0
-//                        , 0
-//                        , mDownloadURI
-//                );
-//                uploadStore(boardInfo);
-//            }
-//        }
-//
-//
-//    }
+
 
 
     @Override
@@ -559,51 +454,7 @@ public class WriteActivity extends AppCompatActivity {
 
     }
 
-    /*
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
-        //Log.i("result", String.valueOf(resultCode));
-        if (resultCode == Activity.RESULT_OK) {
-            //ArrayList imageList = new ArrayList<>();
-            // 멀티 선택을 지원하지 않는 기기에서는 getClipdata()가 없음 => getData()로 접근해야 함
-            if (data.getClipData() == null) {
-                // Log.i("1. single choice", String.valueOf(data.getData()));
-                Bitmap bitmap = null;
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    editor.insertImage(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                // Log.d(TAG, String.valueOf(bitmap));
 
-                imageStringList.add(String.valueOf(data.getData()));
-                imageUriList.add(data.getData());
-            } else {
-                ClipData clipData = data.getClipData();
-                if (clipData.getItemCount() > 10) {
-                    Toast.makeText(WriteActivity.this, "사진은 10개까지 선택가능 합니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                // 멀티 선택에서 하나만 선택했을 경우
-                else if (clipData.getItemCount() == 1) {
-                    String dataStr = String.valueOf(clipData.getItemAt(0).getUri());
-                    imageStringList.add(dataStr);
-                    imageUriList.add(data.getData());
-                } else if (clipData.getItemCount() > 1 && clipData.getItemCount() < 10) {
-                    for (int i = 0; i < clipData.getItemCount(); i++) {
-                        //     Log.i("3. single choice", String.valueOf(clipData.getItemAt(i).getUri()));
-                        imageStringList.add(String.valueOf(clipData.getItemAt(i).getUri()));
-                        imageUriList.add(clipData.getItemAt(i).getUri());
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(WriteActivity.this, "사진 선택을 취소하였습니다.", Toast.LENGTH_SHORT).show();
-        }
-    }
-    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -633,7 +484,6 @@ public class WriteActivity extends AppCompatActivity {
         //return Uri.parse(path);
         return data;
     }
-    //
 
 
 
