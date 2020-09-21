@@ -138,6 +138,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.BoardViewH
 
     @Override
     public int getItemCount() {
+
         return mBoardInfo.size();
     }
 
