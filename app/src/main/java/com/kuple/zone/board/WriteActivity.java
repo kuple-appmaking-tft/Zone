@@ -158,13 +158,13 @@ public class WriteActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("WriteActivity", "UploadStoreUserModel update Success");
-                finish();
+                //finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("WriteActivity", "UploadStoreUserModel update fail");
-                finish();
+               // finish();
             }
         });;
 
