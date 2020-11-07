@@ -21,7 +21,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="20dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageviewImage"
                 android:src="@drawable/user"
                 android:layout_gravity="center"
@@ -279,13 +279,42 @@
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        >
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_Item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내가 올린 글" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_Item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내가 단 댓글" />
+
+    </com.google.android.material.tabs.TabLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
     </androidx.recyclerview.widget.RecyclerView>
+
 
 
 </LinearLayout>
