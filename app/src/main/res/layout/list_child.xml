@@ -20,9 +20,10 @@
     <ImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/ic_reply_24dp" />
+        android:src="#eaeaea" />
 
     <TextView
+        android:layout_marginStart="10dp"
         android:id="@+id/child_title"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -43,8 +44,8 @@
         app:icon_size="25dp"
         app:icon_type="heart"
         app:is_enabled="true"
-        app:like_drawable="@drawable/thumb_on"
+        app:like_drawable="@drawable/heart_on"
         app:liked="false"
-        app:unlike_drawable="@drawable/thumb_off" />
+        app:unlike_drawable="@drawable/heart_off" />
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detail_mainBoss_constraintLayout"
@@ -12,11 +11,11 @@
         android:id="@+id/detail_ScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="60dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detail_main_constraintLayout"
@@ -67,6 +66,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/top_linear">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#eaeaea"
@@ -77,7 +77,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
 
-                        android:src="@drawable/back"
+                        android:src="#aeaeae"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,13 +112,16 @@
                 android:id="@+id/middlecardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userinfo_layout">
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -128,7 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/detail_title_textview"
-                        android:padding="7dp"
+                        android:padding="17dp"
                         android:text="디자인에왜안나와"
 
                         android:textColor="@color/colorBlack"
@@ -139,9 +142,11 @@
                         android:id="@+id/renderer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="17dp"
+                        android:paddingRight="17dp"
+                        android:paddingBottom="17dp"
+
 
                         app:render_type="Renderer" />
                 </LinearLayout>
@@ -152,6 +157,7 @@
                 android:id="@+id/detail_LinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="35sp"
+                android:layout_marginTop="15dp"
                 android:gravity="end"
                 android:orientation="horizontal"
                 app:layout_constraintRight_toRightOf="parent"
@@ -162,6 +168,7 @@
                     android:id="@+id/item_likeButton_likeButton"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_margin="5dp"
                     app:anim_scale_factor="2"
                     app:circle_end_color="@color/colorAccent"
                     app:circle_start_color="@color/colorPrimary"
@@ -177,29 +184,34 @@
                 <TextView
                     android:id="@+id/item_detail_like_TextView"
                     android:layout_width="25dp"
-                    android:layout_height="25dp" />
+                    android:layout_height="25dp"
+                    android:layout_margin="5dp" />
 
                 <ImageView
                     android:id="@+id/item_detail_replycount_ImageView"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_margin="5dp"
                     android:src="@drawable/ic_reply_24dp" />
 
                 <TextView
                     android:id="@+id/item_detail_replycount_TextView"
                     android:layout_width="25dp"
-                    android:layout_height="25dp" />
+                    android:layout_height="25dp"
+                    android:layout_margin="5dp" />
 
                 <ImageView
                     android:id="@+id/item_detail_viewcount_ImageView"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_margin="5dp"
                     android:src="@drawable/ic_viewcount_24dp" />
 
                 <TextView
                     android:id="@+id/item_detail_viewcount_TextView"
                     android:layout_width="25dp"
-                    android:layout_height="25dp" />
+                    android:layout_height="25dp"
+                    android:layout_margin="5dp" />
             </LinearLayout>
 
 
@@ -219,13 +231,12 @@
                 android:id="@+id/detail_reply_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:elevation="10sp"
+                app:cardCornerRadius="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_LinearLayout"
-                android:elevation="10sp"
-                android:layout_margin="10sp"
-                app:cardCornerRadius="10sp">
-
+                app:layout_constraintTop_toBottomOf="@+id/detail_LinearLayout">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -247,19 +258,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
                         android:text="최신순"
                         android:textColor="@color/colorBlack"
                         app:layout_constraintStart_toEndOf="@id/plusarrow"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginStart="5dp"/>
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <ImageView
                         android:id="@+id/fresh"
-                        android:src="@drawable/loading"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_marginEnd="5sp"
+                        android:src="@drawable/loading"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginEnd="5sp"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -271,7 +283,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="40dp"
-                android:visibility="invisible"
 
 
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -284,30 +295,33 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#eaeaea"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="#eaeaea"
-        android:padding="10dp">
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/detail_TextIputLayout"
             style="style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             app:boxBackgroundColor="#262fff"
             app:endIconContentDescription="보내기기능"
             app:endIconDrawable="@drawable/edit"
             app:endIconMode="custom"
+
             app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintCircleRadius="20dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:startIconContentDescription="댓글이미지">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -326,7 +340,7 @@
             android:id="@+id/detail_TextIputLayout2"
             style="style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
 
             android:visibility="invisible"
             app:boxBackgroundColor="#262fff"
@@ -344,7 +358,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/detail_reply_EditText2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittext_login"
                 android:focusable="true"
                 android:focusableInTouchMode="true"

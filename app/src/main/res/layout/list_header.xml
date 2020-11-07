@@ -13,7 +13,7 @@
     android:background="@drawable/textlines">
 
     <TextView
-
+        android:textStyle="bold"
         android:id="@+id/header_title"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -34,7 +34,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
         android:layout_weight="0"
-        android:src="@drawable/plusarrow"
+        android:src="@drawable/ic_arrow_down"
         app:layout_constraintBottom_toBottomOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

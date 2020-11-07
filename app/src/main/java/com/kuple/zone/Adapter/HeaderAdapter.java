@@ -82,13 +82,13 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
 //                            });
                             holder.recyclerView.setAdapter(childAdapter0);
 
-                            holder.imageView.setImageResource(R.drawable.minusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_up);
                             holder.flag = 1;
                         } else {
                             list0.clear();
                             holder.recyclerView.setAdapter(new ChildAdapter(list0, mContext,position,mActivity));
                             ;
-                            holder.imageView.setImageResource(R.drawable.plusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_down);
                             holder.flag = 0;
                         }
 
@@ -117,13 +117,13 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
 //                                }
 //                            });
                             holder.recyclerView.setAdapter(childAdapter1);
-                            holder.imageView.setImageResource(R.drawable.minusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_up);
                             holder.flag = 1;
                         } else {
                             list1.clear();
                             holder.recyclerView.setAdapter(new ChildAdapter(list1, mContext,position,mActivity));
                             ;
-                            holder.imageView.setImageResource(R.drawable.plusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_down);
                             holder.flag = 0;
                         }
 
@@ -147,13 +147,13 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
 //                                }
 //                            });
                             holder.recyclerView.setAdapter(childAdapter2);
-                            holder.imageView.setImageResource(R.drawable.minusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_up);
                             holder.flag = 1;
                         } else {
                             list2.clear();
                             holder.recyclerView.setAdapter(new ChildAdapter(list2, mContext,position,mActivity));
                             ;
-                            holder.imageView.setImageResource(R.drawable.plusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_down);
                             holder.flag = 0;
                         }
                         break;
@@ -184,13 +184,13 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                             holder.recyclerView.setAdapter(childAdapter3);
                             ;
 
-                            holder.imageView.setImageResource(R.drawable.minusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_up);
                             holder.flag = 1;
                         } else {
                             list3.clear();
                             holder.recyclerView.setAdapter(new ChildAdapter(list3, mContext,position,mActivity));
                             ;
-                            holder.imageView.setImageResource(R.drawable.plusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_down);
                             holder.flag = 0;
                         }
                         break;
@@ -210,13 +210,13 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                             });
                            // holder.recyclerView.setAdapter(new InSchoolChildAdapter(list4, mContext));
                             holder.recyclerView.setAdapter(childAdapter4);
-                            holder.imageView.setImageResource(R.drawable.minusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_up);
                             holder.flag = 1;
                         } else {
                             list4.clear();
                             holder.recyclerView.setAdapter(new ChildAdapter(list4, mContext,position,mActivity));
                             ;
-                            holder.imageView.setImageResource(R.drawable.plusarrow);
+                            holder.imageView.setImageResource(R.drawable.ic_arrow_down);
                             holder.flag = 0;
                         }
                         break;

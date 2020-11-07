@@ -16,7 +16,7 @@
            android:id="@+id/circleImageView"
            android:layout_width="40dp"
            android:layout_height="40dp"
-           android:src="@drawable/ic_reply_24dp"
+           android:src="#9e9e9e"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toTopOf="parent"
            android:layout_margin="15sp"/>

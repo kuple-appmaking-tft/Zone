@@ -27,7 +27,7 @@
             android:layout_height="30dp"
             android:layout_margin="10sp"
             android:contentDescription="@string/profileimage"
-            android:src="@drawable/back"
+            android:src="#eaeaea"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
