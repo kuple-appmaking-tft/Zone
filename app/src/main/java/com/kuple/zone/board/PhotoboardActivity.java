@@ -59,7 +59,11 @@ public class PhotoboardActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mainAdapter.notifyDataSetChanged();
+                finish();
+                Intent intent=new Intent(getApplicationContext(),PhotoboardActivity.class);
+                intent.putExtra("BoardName",mBoardName);
+                startActivity(intent);
+
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

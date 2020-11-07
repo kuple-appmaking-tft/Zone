@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firestore.v1.StructuredQuery;
 import com.kuple.zone.Adapter.FeedAdapter;
+import com.kuple.zone.MainActivity;
 import com.kuple.zone.R;
 import com.kuple.zone.board.DetailActivity;
 import com.kuple.zone.board.MealWebViewActivity;
@@ -60,6 +61,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Toast.makeText(getContext(),"새로고침",Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+                getContext().startActivity(new Intent(getContext(), MainActivity.class));
+                refresh.setRefreshing(false);
 
             }
         });

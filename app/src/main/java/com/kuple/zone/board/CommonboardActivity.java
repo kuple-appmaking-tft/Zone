@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -42,6 +43,7 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
     private String mBoardName;
     private ImageView mSerch;
     private TextView mBoardTitleName;
+    private SwipeRefreshLayout refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,18 @@ public class CommonboardActivity extends AppCompatActivity implements OnItemClic
         });
         mBoardTitleName=findViewById(R.id.normal_title_constraint1);
         mBoardTitleName.setText(mBoardName);
+        refresh=findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                finish();
+                Intent intent=new Intent(getApplicationContext(),CommonboardActivity.class);
+                intent.putExtra("BoardName",mBoardName);
+                startActivity(intent);
+
+                refresh.setRefreshing(false);
+            }
+        });
 
 
         retreive_Testing(mBoardName);
