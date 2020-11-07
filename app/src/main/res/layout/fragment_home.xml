@@ -42,14 +42,22 @@
                     android:orientation="vertical"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
-
-                    <ImageView
-                        android:id="@+id/btnBus"
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="10dp"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/btn_bus" />
+                        app:cardCornerRadius="5dp"
+                        android:elevation="5dp">
+                        <ImageView
+                            android:id="@+id/btnBus"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/btn_bus" />
+
+                    </androidx.cardview.widget.CardView>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -59,7 +67,7 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="셔틀버스"
-                        android:textColor="@color/colorCrimson"
+                        android:textColor="@color/colorBlack"
                         android:textSize="12sp"
                         android:visibility="visible" />
                 </LinearLayout>
@@ -71,14 +79,23 @@
                     android:orientation="vertical"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:cardCornerRadius="5dp"
+                        android:elevation="5dp">
+
+
 
                     <ImageView
                         android:id="@+id/btnMeal"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
                         android:src="@drawable/btn_meal" />
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -88,7 +105,7 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="학식"
-                        android:textColor="@color/colorCrimson"
+                        android:textColor="@color/colorBlack"
                         android:textSize="10dp"
                         android:visibility="visible" />
                 </LinearLayout>
@@ -100,14 +117,22 @@
                     android:orientation="vertical"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:cardCornerRadius="5dp"
+                        android:elevation="5dp">
 
                     <ImageView
                         android:id="@+id/btnLib"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
                         android:src="@drawable/btn_book" />
+                    </androidx.cardview.widget.CardView>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -117,7 +142,7 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="열람실"
-                        android:textColor="@color/colorCrimson"
+                        android:textColor="@color/colorBlack"
                         android:textSize="10dp"
                         android:visibility="visible" />
                 </LinearLayout>
@@ -129,16 +154,24 @@
                     android:orientation="vertical"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:cardCornerRadius="5dp"
+                        android:elevation="5dp">
+
 
                     <ImageView
                         android:id="@+id/btn_map"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:contentDescription="TODO"
                         android:scaleType="fitXY"
                         android:src="@drawable/btn_map"
                         tools:ignore="ContentDescription,HardcodedText" />
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -148,11 +181,12 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="교내지도"
-                        android:textColor="@color/colorCrimson"
+                        android:textColor="@color/colorBlack"
                         android:textSize="10dp"
                         android:visibility="visible" />
                 </LinearLayout>
             </LinearLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/feedKuple"

@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    android:elevation="10dp"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    >
+
+
+<RelativeLayout
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
@@ -28,7 +40,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp">
 
-        <com.kuple.zone.model.RoundImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -247,3 +259,4 @@
 
 
 </RelativeLayout>
+</androidx.cardview.widget.CardView>

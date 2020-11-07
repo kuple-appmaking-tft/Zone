@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.irshulx.Editor;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,6 +44,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private SwipeRefreshLayout refresh;
+
     ArrayList<BoardInfo> feed_list = new ArrayList<>();
 
 
@@ -51,6 +55,14 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mRecyclerview = (RecyclerView) view.findViewById(R.id.feedKuple);
         mCircleview = (CircleImageView) view.findViewById(R.id.img_profile);
+        refresh=view.findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getContext(),"새로고침",Toast.LENGTH_SHORT).show();
+
+            }
+        });
         String[] boardarray = {"쿠플광장", "고민상담", "쑥덕쑥덕", "졸업생 게시판", "쿠플툰", "먹쿠먹쿠", "강의평가", "합격수기", "취업광장", "스터디게시판", "꿀팁게시판"
                 , "부동산", "구인구직", "중고거래", "분실물신고", "총학생회"};
 
