@@ -4,6 +4,7 @@ package com.kuple.zone.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,16 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
                 }
             }
         });
-
+        if(data.equals("쿠플광장")){
+            holder.image.setImageResource(R.drawable.kuplegwangjang);
+        }else if(data.equals("고민상담"))
+        {
+            holder.image.setImageResource(R.drawable.gominsnagdam);
+        }else if(data.equals("쑥덕쑥덕")){
+            holder.image.setImageResource(R.drawable.talk);
+        }else if(data.equals("졸업생 게시판")){
+            holder.image.setImageResource(R.drawable.graduate);
+        }
 
     }
 
@@ -107,13 +117,14 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
 
     public class ChildViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
-
+        ImageView image;
         LikeButton likeButton;
 
         public ChildViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.child_title);
             likeButton = itemView.findViewById(R.id.child_likeButton);
+            image=itemView.findViewById(R.id.image);
 
             itemView.setOnClickListener(new View.OnClickListener() {//클릭했을때
                 @Override
