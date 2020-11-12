@@ -44,6 +44,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
             android:text="다시 전송하기"
-            android:textColor="@color/colorAccent" />
+            android:textColor="#862633" />
     </LinearLayout>
 </LinearLayout>

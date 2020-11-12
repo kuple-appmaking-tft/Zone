@@ -81,6 +81,7 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textPassword"
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -99,6 +100,7 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textPassword"
                 android:id="@+id/editTextPasswordCheck"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -109,7 +111,7 @@
             android:id="@+id/signup_condition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="100dp"
             android:layout_marginBottom="14dp"
             android:gravity="center_horizontal"
             android:text="회원 가입 시 이용약관에 동의하게 됩니다."
